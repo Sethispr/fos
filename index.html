@@ -1,0 +1,195 @@
+<html><head><base href="https://cdn.jsdelivr.net/gh/text-extractor">
+
+imagePreview.style.display = 'none';
+
+output.textContent = '';
+
+cropButton.disabled = true;
+
+extractButton.disabled = true;
+
+copyButton.disabled = true;
+
+editButton.disabled = true;
+
+resetButton.disabled = true;
+
+editButton.innerHTML = '<i class="fas fa-edit"></i> Edit';
+
+editButton.classList.remove('editing');
+
+imageInput.value = '';
+
+loading.style.display = 'none';
+
+});
+
+
+function calculateXPSum(level) {
+
+let sum = 0;
+
+for(let n = 1; n <= level; n++) {
+
+sum += Math.floor((n-1) * (2.46 * Math.pow(1.02, n)) * 10) * 10;
+
+}
+
+return sum;
+
+}
+
+
+function calculateOP() {
+
+const l_va = parseFloat(document.getElementById('l_va').value) || 0;
+
+
+            const X_pa = parseFloat(document.getElementById('X_pa').value) || 0;
+            const l_vb = parseFloat(document.getElementById('l_vb').value) || 0;
+            const X_pb = parseFloat(document.getElementById('X_pb').value) || 0;
+            const S_di = parseFloat(document.getElementById('sdi').value) || 1;
+
+            // Ensure calculations remain valid regardless of input order
+            const X_Ta = X_pa + calculateXPSum(l_va);
+            const X_Tb = X_pb + calculateXPSum(l_vb);
+            const X_T = Math.abs(X_Tb - X_Ta); // Always handle positive differences
+
+            // Adjust other calculations
+            const S_ma = S_di < 1 ? 1 + ((2/3 * (S_di - 1) + 1)) - 1 : (2/3 * (S_di - 1) + 1);
+            const S_mb = S_di < 1 ? 1 + ((4/3 * (S_di - 1) + 1)) - 1 : (4/3 * (S_di - 1) + 1);
+
+            const statValues = {};
+            document.querySelectorAll('.stat-line').forEach(line => {
+                const label = line.querySelector('.stat-label').textContent;
+                const value = parseInt(line.querySelector('.stat-value').textContent) || 0;
+                statValues[label] = value;
+            });
+
+            const R = statValues['Rounds played'];
+            const E = statValues['Escapes'];
+            const t = statValues['Target survivals'];
+            const e_p = statValues['Epidemics'];
+            const s = statValues['Infection survivals'];
+            const w = statValues['Free for all wins'];
+
+            const R_ad = Math.round(R - E);
+            const R_g = Math.round(R_ad - E - t - e_p - s - w);
+
+            const S = statValues['Final shots'];
+            const P = statValues['Targets protected'];
+            const g_os = 46 * ((S_di * 5 * S + S_ma * 3 * P) / R_g);
+
+            const D = statValues['Damage dealt'];
+            const D_avg = D / (R_ad - (E + t + e_p));
+
+            const F = statValues['Free for all kills'];
+            const i = statValues['Infecteds killed'];
+            const I = statValues['Infections'];
+
+            // Correct SP Calculation
+            const z = (13 / R_ad) * 
+                (S_mb * (9 * F + 15 * i + 40 * w + 25 * I + 100 * e_p) + S_ma * 15 * s);
+
+            const x_pr = X_T / R_ad;
+            const t_p = ((2 * R_ad * (86 * g_os + S_mb * 32 * D_avg) + S_di * 59 * X_T) / (165 * R_ad));
+            const o_p = (529 / 20) * Math.sqrt(t_p + z);
+
+            document.getElementById('op_result').textContent = o_p.toFixed(3);
+            document.getElementById('tp_result').textContent = t_p.toFixed(3);
+            document.getElementById('sp_result').textContent = z.toFixed(3);
+            document.getElementById('rg_result').textContent = Math.round(R_g);
+            document.getElementById('gos_result').textContent = g_os.toFixed(3);
+            document.getElementById('ad_result').textContent = D_avg.toFixed(3);
+            document.getElementById('xpr_result').textContent = x_pr.toFixed(3);
+
+            // Always update formatted stats when OP recalculates
+            updateFormattedStats();
+        }
+
+        // Improved: Automatically update formatted stats when selecting a gaming device
+        document.querySelectorAll('input[name="device"]').forEach(radio => {
+            radio.addEventListener('change', function () {
+                // Trigger an update to the formatted stats directly on device change
+                calculateOP();
+            });
+        });
+
+        // Generate modern Roblox profile button
+        document.getElementById('confirmUsername').addEventListener('click', function() {
+            const username = document.getElementById('robloxUsername').value.trim();
+            const profileLink = document.getElementById('profileLink');
+            
+            if (username) {
+                profileLink.href = `https://www.roblox.com/users/profile?username=${encodeURIComponent(username)}`;
+                profileLink.style.display = 'flex';
+
+                this.innerHTML = '<i class="fas fa-check"></i> Confirmed!';
+                setTimeout(() => {
+                    this.innerHTML = '<i class="fas fa-check"></i> Confirm';
+                }, 2000);
+            } else {
+                alert('Please enter a username first');
+            }
+        });
+
+        // Improved: Update formatted stats to reflect the updated OP with boosts
+        function updateFormattedStats() {
+            const op = parseFloat(document.getElementById('op_result').textContent) || 0;
+            const tp = parseFloat(document.getElementById('tp_result').textContent) || 0;
+            const sp = parseFloat(document.getElementById('sp_result').textContent) || 0;
+            const go = parseFloat(document.getElementById('gos_result').textContent) || 0;
+            const ad = parseFloat(document.getElementById('ad_result').textContent) || 0;
+            const xpr = parseFloat(document.getElementById('xpr_result').textContent) || 0;
+            const sdi = parseFloat(document.getElementById('sdi').value) || 1;
+
+            const selectedDevice = document.querySelector('input[name="device"]:checked').value;
+            let boostedOP = op;
+
+            // Apply device boost
+            if (selectedDevice === 'mobile') boostedOP *= 1.075;
+            if (selectedDevice === 'tablet') boostedOP *= 1.05;
+            if (selectedDevice === 'console') boostedOP *= 1.10;
+
+            // Determine Division
+            let division = '';
+            if (boostedOP >= 975) division = "Kugelblitz (S)";
+            else if (boostedOP >= 935) division = "Radiance (A+)";
+            else if (boostedOP >= 870) division = "Firestorm (A)";
+            else if (boostedOP >= 820) division = "Flashover (A-)";
+            else if (boostedOP >= 765) division = "Magnesium (B+)";
+            else if (boostedOP >= 705) division = "Thermite (B)";
+            else if (boostedOP >= 635) division = "Propane (C)";
+            else if (boostedOP >= 560) division = "Wood (D)";
+            else division = "Ember (E)";
+
+            // Render formatted text
+            const formattedText = 
+`OP = ${Math.round(boostedOP)}
+TP = ${Math.round(tp)}, SP = ${Math.round(sp)}
+[GO = ${Math.round(go)}], [AD = ${Math.round(ad)}], [XPR = ${Math.round(xpr)}]
+SDI = ${sdi.toFixed(4)}
+
+Division: ${division}
+Source: website`;
+
+            document.getElementById('formattedStats').textContent = formattedText;
+        }
+
+        const existingCalculateOP = calculateOP;
+        calculateOP = function() {
+            existingCalculateOP();
+            updateFormattedStats();
+        };
+
+        document.getElementById('copyFormatted').addEventListener('click', function() {
+            const stats = document.getElementById('formattedStats').textContent;
+            navigator.clipboard.writeText(stats).then(() => {
+                this.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                setTimeout(() => {
+                    this.innerHTML = '<i class="fas fa-copy"></i> Copy Formatted Stats';
+                }, 2000);
+            });
+        });
+    </script>
+</body></html>
