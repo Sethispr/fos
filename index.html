@@ -1,12 +1,17 @@
 <html><head><base href="https://cdn.jsdelivr.net/gh/text-extractor">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Text Extractor</title>
+    <meta name="description" content="Silent Assassin Roblox Overall Performance Calculator for gaming statistics. Analyze your stats efficiently.">
+    <meta name="keywords" content="Silent Assassin Roblox">
+    <meta name="author" content="sethispr">
+    <link rel="canonical" href="https://sethispr.github.io/fos/">
+    <title>Silent Assassin Roblox Overall Performance FOS Calculator</title>
     <script src="https://unpkg.com/tesseract.js@v2.1.0/dist/tesseract.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js" integrity="sha512-d5HfIWg/KC6sbJKcvlVgKEfrtn2GrTgs6G90gREkaTByI7/df583illaDUPnGiyNhRsUBZ5DF3FknK0NFewYew==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <link rel="icon" href="https://sethispr.github.io/fos/favicon.ico"/>
     <style>
         body {
             font-family: 'Lexend Deca', sans-serif;
@@ -121,40 +126,47 @@
         }
         .button-group {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: clamp(8px, 2vw, 10px);
-            margin: clamp(15px, 3vw, 20px) 0;
+            grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+            gap: 8px;
+            margin: clamp(10px, 2vw, 15px) 0;
         }
         button {
             width: 100%;
-            padding: clamp(10px, 2vw, 12px) clamp(16px, 3vw, 24px);
-            font-size: clamp(12px, 2.5vw, 14px);
+            padding: clamp(8px, 1.5vw, 10px) clamp(12px, 2vw, 16px);
+            font-size: clamp(11px, 2vw, 13px);
             background-color: #7289da;
             color: white;
             border: none;
-            border-radius: 4px;
+            border-radius: 6px;
             cursor: pointer;
             transition: all 0.2s ease;
             font-family: 'Lexend Deca', sans-serif;
-            font-weight: bold;
+            font-weight: 700; /* Make text bold */
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 6px;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .button-group button {
+            font-weight: 700; /* Ensure button group buttons are bold */
         }
         button:hover {
             background-color: #677bc4;
             transform: translateY(-1px);
+            box-shadow: 0 3px 6px rgba(0,0,0,0.15);
         }
         button:disabled {
             background-color: #4f545c;
             cursor: not-allowed;
             transform: none;
+            opacity: 0.8;
         }
         button i {
-            font-size: 16px;
+            font-size: 14px;
         }
         #loading {
             font-family: 'Lexend Deca', sans-serif;
@@ -273,6 +285,10 @@
             padding: 4px;
             border-radius: 4px;
         }
+        .stat-value.error {
+            border: 1px solid #f04747;
+            background-color: rgba(240, 71, 71, 0.1);
+        }
         [contenteditable="true"]:hover {
             background-color: #36393f;
             outline: 1px solid #7289da;
@@ -282,10 +298,9 @@
             outline: 2px solid #7289da;
         }
         #editButton {
-            background-color: #40444b;
-            font-size: 12px;
-            width: auto;
-            padding: 5px 10px;
+            padding: 4px 8px;
+            font-size: 11px;
+            font-weight: 700; /* Ensure edit button text is bold */
         }
         #editButton:hover {
             background-color: #4f545c;
@@ -303,11 +318,13 @@
         .tooltip .tooltiptext {
             font-family: 'Lexend Deca', sans-serif;
             visibility: hidden;
+            font-size: 11px;
+            padding: 4px 8px;
             background-color: #18191c;
             color: #fff;
             text-align: center;
-            border-radius: 6px;
-            padding: 5px 10px;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
             position: absolute;
             z-index: 1;
             bottom: 125%;
@@ -315,7 +332,6 @@
             transform: translateX(-50%);
             opacity: 0;
             transition: opacity 0.3s;
-            font-size: 12px;
             white-space: nowrap;
         }
         .tooltip:hover .tooltiptext {
@@ -337,14 +353,15 @@
         }
         @media (max-width: 480px) {
             .button-group {
-                grid-template-columns: 1fr;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 6px;
             }
             button {
-                padding: 12px 20px;
-                font-size: 14px;
+                padding: 8px 12px;
+                font-size: 12px;
             }
             button i {
-                font-size: 16px;
+                font-size: 13px;
             }
         }
         @media (min-width: 1200px) {
@@ -448,39 +465,25 @@
         .device-option i {
             font-size: 1.2em;
         }
-        /* Updated Roblox Profile Button styling */
-        #profileLink {
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            padding: 8px 12px;
-            font-weight: bold;
-            font-size: 14px;
-            color: #ffffff;
-            background-color: #7289da;
-            border-radius: 6px;
-            transition: background-color 0.3s;
-            margin-left: 10px; /* Adjust as per placement */
+        .github-link {
+            display: block;
+            text-align: center;
+            color: #7289da;
+            margin-top: 20px;
         }
-
-        #profileLink:hover {
-            background-color: #677bc4;
-        }
-
-        #profileLink i {
-            font-size: 16px;
-        }
-
         .input-group.flex-row {
             flex-direction: row;
             align-items: center;
             justify-content: space-between;
         }
-
         .input-group.flex-row input {
             flex: 1;
+        }
+        #copyFormatted {
+            margin-top: 8px;
+            font-size: 11px;
+            padding: 6px 10px;
+            font-weight: 700; /* Make copy formatted stats button bold */
         }
     </style>
 </head>
@@ -588,20 +591,6 @@
         </div>
         <div id="additionalSection" class="calculator-section">
             <h3 style="color: #dcddde; margin-bottom: 15px;">Player Information</h3>
-            
-            <div class="input-group flex-row" style="margin-bottom: 20px;">
-                <label for="robloxUsername">Roblox Username</label>
-                <div style="display: flex; gap: 10px;">
-                    <input type="text" id="robloxUsername" placeholder="Enter your Roblox username">
-                    <button id="confirmUsername" class="tooltip" style="width: auto;">
-                        <i class="fas fa-check"></i> Confirm
-                        <span class="tooltiptext">Confirm username and generate profile link</span>
-                    </button>
-                </div>
-                <a id="profileLink" href="" target="_blank" style="display: none;">
-                    <i class="fas fa-external-link-alt"></i> View Profile
-                </a>
-            </div>
 
             <div class="device-selection" style="margin-bottom: 20px;">
                 <label style="display: block; margin-bottom: 10px;">Primary Gaming Device</label>
@@ -629,19 +618,19 @@
                 <h4 style="color: #dcddde; margin-bottom: 10px;">Stats Summary</h4>
                 <div id="formattedStats" style="background: #2f3136; padding: 15px; border-radius: 4px; font-family: monospace; white-space: pre-wrap;">
                 </div>
-                <button id="copyFormatted" class="tooltip" style="margin-top: 10px;">
+                <button id="copyFormatted" class="tooltip" style="margin-top: 8px;">
                     <i class="fas fa-copy"></i> Copy Formatted Stats
                     <span class="tooltiptext">Copy formatted stats to clipboard</span>
                 </button>
             </div>
         </div>
+        <div class="github-link" style="display: none;"></div>
     </div>
     <script>
         const FIXED_LABELS = [
             "Rounds played",
             "Targets assassinated", 
             "Escapes",
-            "Guards killed",
             "Targets protected",
             "Damage dealt",
             "Final shots",
@@ -702,18 +691,59 @@
             }).join('\n');
         }
 
+        function addExperienceInputListeners() {
+            // Listen for experience input changes
+            const expInputs = ['l_va', 'X_pa', 'l_vb', 'X_pb', 'sdi'];
+            expInputs.forEach(id => {
+                document.getElementById(id).addEventListener('input', () => {
+                    calculateOP();
+                });
+            });
+
+            // Listen for stat value changes
+            document.querySelectorAll('.stat-value').forEach(statValue => {
+                statValue.addEventListener('input', () => {
+                    calculateOP();
+                });
+            });
+        }
+
         window.addEventListener('load', () => {
             editButton.disabled = false;
             copyButton.disabled = false;
+            addExperienceInputListeners();
 
             if (!output.innerHTML) {
                 const emptyStats = FIXED_LABELS.map(label => `
                     <div class="stat-line">
                         <span class="stat-label">${label}</span>
-                        <span class="stat-value" contenteditable="true">0</span>
+                        <span class="stat-value" contenteditable="true"></span>
                     </div>
                 `).join('');
                 output.innerHTML = emptyStats;
+                
+                // Add input listeners to the newly created stat values
+                document.querySelectorAll('.stat-value').forEach(statValue => {
+                    statValue.addEventListener('input', () => {
+                        calculateOP();
+                    });
+                });
+            }
+        });
+
+        output.addEventListener('input', (e) => {
+            if (e.target.classList.contains('stat-value')) {
+                // Validate input is a number
+                const value = e.target.textContent;
+                if (value && !/^\d*$/.test(value)) {
+                    e.target.classList.add('error');
+                    e.target.setAttribute('title', 'Please enter only numbers');
+                } else {
+                    e.target.classList.remove('error');
+                    e.target.removeAttribute('title');
+                }
+                // Immediately calculate OP when any stat value changes
+                calculateOP();
             }
         });
 
@@ -980,67 +1010,112 @@
         }
 
         function calculateOP() {
-            const l_va = parseFloat(document.getElementById('l_va').value) || 0;
-            const X_pa = parseFloat(document.getElementById('X_pa').value) || 0;
-            const l_vb = parseFloat(document.getElementById('l_vb').value) || 0;
-            const X_pb = parseFloat(document.getElementById('X_pb').value) || 0;
-            const S_di = parseFloat(document.getElementById('sdi').value) || 1;
+            try {
+                const l_va = parseFloat(document.getElementById('l_va').value) || 0;
+                const X_pa = parseFloat(document.getElementById('X_pa').value) || 0;
+                const l_vb = parseFloat(document.getElementById('l_vb').value) || 0;
+                const X_pb = parseFloat(document.getElementById('X_pb').value) || 0;
+                const S_di = parseFloat(document.getElementById('sdi').value) || 1;
 
-            // Ensure calculations remain valid regardless of input order
-            const X_Ta = X_pa + calculateXPSum(l_va);
-            const X_Tb = X_pb + calculateXPSum(l_vb);
-            const X_T = Math.abs(X_Tb - X_Ta); // Always handle positive differences
+                // Get all stat values first
+                const statValues = {};
+                document.querySelectorAll('.stat-line').forEach(line => {
+                    const label = line.querySelector('.stat-label').textContent;
+                    const value = parseInt(line.querySelector('.stat-value').textContent) || 0;
+                    statValues[label] = value;
+                });
 
-            // Adjust other calculations
-            const S_ma = S_di < 1 ? 1 + ((2/3 * (S_di - 1) + 1)) - 1 : (2/3 * (S_di - 1) + 1);
-            const S_mb = S_di < 1 ? 1 + ((4/3 * (S_di - 1) + 1)) - 1 : (4/3 * (S_di - 1) + 1);
+                // Calculate basic stats even if XP/level data is missing
+                const R = statValues['Rounds played'] || 0;
+                const E = statValues['Escapes'] || 0;
+                const t = statValues['Target survivals'] || 0;
+                const e_p = statValues['Epidemics'] || 0;
+                const s = statValues['Infection survivals'] || 0;
+                const w = statValues['Free for all wins'] || 0;
+                
+                // Always calculate R_ad and R_g
+                const R_ad = Math.max(0, R - E);
+                const R_g = Math.max(0, R_ad - E - t - e_p - s - w);
 
-            const statValues = {};
-            document.querySelectorAll('.stat-line').forEach(line => {
-                const label = line.querySelector('.stat-label').textContent;
-                const value = parseInt(line.querySelector('.stat-value').textContent) || 0;
-                statValues[label] = value;
-            });
+                // Update these results even if incomplete data
+                document.getElementById('rg_result').textContent = R_g.toFixed(0);
 
-            const R = statValues['Rounds played'];
-            const E = statValues['Escapes'];
-            const t = statValues['Target survivals'];
-            const e_p = statValues['Epidemics'];
-            const s = statValues['Infection survivals'];
-            const w = statValues['Free for all wins'];
+                // Only proceed with full calculations if we have necessary base data
+                if (R_ad <= 0) {
+                    ['op_result', 'tp_result', 'sp_result', 'gos_result', 'ad_result', 'xpr_result'].forEach(id => {
+                        document.getElementById(id).textContent = '-';
+                    });
+                    return;
+                }
 
-            const R_ad = Math.round(R - E);
-            const R_g = Math.round(R_ad - E - t - e_p - s - w);
+                const S = statValues['Final shots'] || 0;
+                const P = statValues['Targets protected'] || 0;
+                const D = statValues['Damage dealt'] || 0;
+                const F = statValues['Free for all kills'] || 0;
+                const i = statValues['Infecteds killed'] || 0;
+                const I = statValues['Infections'] || 0;
 
-            const S = statValues['Final shots'];
-            const P = statValues['Targets protected'];
-            const g_os = 46 * ((S_di * 5 * S + S_ma * 3 * P) / R_g);
+                // Calculate S_ma and S_mb
+                const S_ma = S_di < 1 ? 1 + ((2/3 * (S_di - 1) + 1)) - 1 : (2/3 * (S_di - 1) + 1);
+                const S_mb = S_di < 1 ? 1 + ((4/3 * (S_di - 1) + 1)) - 1 : (4/3 * (S_di - 1) + 1);
 
-            const D = statValues['Damage dealt'];
-            const D_avg = D / (R_ad - (E + t + e_p));
+                // Calculate g_os and D_avg even with partial data
+                const g_os = 46 * ((S_di * 5 * S + S_ma * 3 * P) / Math.max(1, R_g));
+                const D_avg = D / Math.max(1, (R_ad - (E + t + e_p)));
 
-            const F = statValues['Free for all kills'];
-            const i = statValues['Infecteds killed'];
-            const I = statValues['Infections'];
+                // Calculate SP (z) with available data
+                const z = (13 / Math.max(1, R_ad)) * 
+                    (S_mb * (9 * F + 15 * i + 40 * w + 25 * I + 100 * e_p) + S_ma * 15 * s);
 
-            // Correct SP Calculation
-            const z = (13 / R_ad) * 
-                (S_mb * (9 * F + 15 * i + 40 * w + 25 * I + 100 * e_p) + S_ma * 15 * s);
+                // Calculate XP related stats if XP data is available
+                let x_pr = 0;
+                if (l_va || l_vb || X_pa || X_pb) {
+                    const X_Ta = X_pa + calculateXPSum(l_va);
+                    const X_Tb = X_pb + calculateXPSum(l_vb);
+                    const X_T = Math.abs(X_Tb - X_Ta);
+                    x_pr = X_T / Math.max(1, R_ad);
+                }
 
-            const x_pr = X_T / R_ad;
-            const t_p = ((2 * R_ad * (86 * g_os + S_mb * 32 * D_avg) + S_di * 59 * X_T) / (165 * R_ad));
-            const o_p = (529 / 20) * Math.sqrt(t_p + z);
+                // Calculate final stats
+                const t_p = ((2 * R_ad * (86 * g_os + S_mb * 32 * D_avg) + S_di * 59 * x_pr * R_ad) / (165 * R_ad));
+                const o_p = (529 / 20) * Math.sqrt(t_p + z);
 
-            document.getElementById('op_result').textContent = o_p.toFixed(3);
-            document.getElementById('tp_result').textContent = t_p.toFixed(3);
-            document.getElementById('sp_result').textContent = z.toFixed(3);
-            document.getElementById('rg_result').textContent = Math.round(R_g);
-            document.getElementById('gos_result').textContent = g_os.toFixed(3);
-            document.getElementById('ad_result').textContent = D_avg.toFixed(3);
-            document.getElementById('xpr_result').textContent = x_pr.toFixed(3);
+                // Update results with proper error handling
+                const updateResult = (id, value, decimals = 3) => {
+                    const element = document.getElementById(id);
+                    try {
+                        if (isNaN(value) || !isFinite(value)) {
+                            element.textContent = '-';
+                            return;
+                        }
+                        element.textContent = decimals === 0 ? Math.round(value) : value.toFixed(decimals);
+                        element.classList.remove('error');
+                        element.removeAttribute('title');
+                    } catch (err) {
+                        element.textContent = '-';
+                        element.classList.add('error');
+                        element.setAttribute('title', err.message);
+                    }
+                };
 
-            // Always update formatted stats when OP recalculates
-            updateFormattedStats();
+                updateResult('op_result', o_p);
+                updateResult('tp_result', t_p);
+                updateResult('sp_result', z);
+                updateResult('gos_result', g_os);
+                updateResult('ad_result', D_avg);
+                updateResult('xpr_result', x_pr);
+
+                updateFormattedStats();
+            } catch (error) {
+                console.error('Calculation error:', error);
+                ['op_result', 'tp_result', 'sp_result', 'rg_result', 'gos_result', 'ad_result', 'xpr_result'].forEach(id => {
+                    const element = document.getElementById(id);
+                    element.textContent = '-';
+                    element.classList.add('error');
+                    element.setAttribute('title', error.message || 'Invalid calculation');
+                });
+                document.getElementById('formattedStats').textContent = 'Calculating...';
+            }
         }
 
         // Improved: Automatically update formatted stats when selecting a gaming device
@@ -1049,24 +1124,6 @@
                 // Trigger an update to the formatted stats directly on device change
                 calculateOP();
             });
-        });
-
-        // Generate modern Roblox profile button
-        document.getElementById('confirmUsername').addEventListener('click', function() {
-            const username = document.getElementById('robloxUsername').value.trim();
-            const profileLink = document.getElementById('profileLink');
-            
-            if (username) {
-                profileLink.href = `https://www.roblox.com/users/profile?username=${encodeURIComponent(username)}`;
-                profileLink.style.display = 'flex';
-
-                this.innerHTML = '<i class="fas fa-check"></i> Confirmed!';
-                setTimeout(() => {
-                    this.innerHTML = '<i class="fas fa-check"></i> Confirm';
-                }, 2000);
-            } else {
-                alert('Please enter a username first');
-            }
         });
 
         // Improved: Update formatted stats to reflect the updated OP with boosts
