@@ -1,17 +1,15 @@
-<html><head><base href="https://cdn.jsdelivr.net/gh/text-extractor">
+<html><head><base href="https://sethispr.github.io/fos/">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Silent Assassin Roblox Overall Performance Calculator for gaming statistics. Analyze your stats efficiently.">
     <meta name="keywords" content="Silent Assassin Roblox">
     <meta name="author" content="sethispr">
     <link rel="canonical" href="https://sethispr.github.io/fos/">
-    <title>Silent Assassin Roblox Overall Performance FOS Calculator</title>
-    <script src="https://unpkg.com/tesseract.js@v2.1.0/dist/tesseract.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js" integrity="sha512-d5HfIWg/KC6sbJKcvlVgKEfrtn2GrTgs6G90gREkaTByI7/df583illaDUPnGiyNhRsUBZ5DF3FknK0NFewYew==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css">
+    <title>Silent Assassin Roblox Overall Performance Calculator</title>
     <link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
     <link rel="icon" href="https://sethispr.github.io/fos/favicon.ico"/>
+
     <style>
         body {
             font-family: 'Lexend Deca', sans-serif;
@@ -20,15 +18,16 @@
             background-color: #36393f;
             color: #fff;
             min-height: 100vh;
+            font-size: 18px; /* Increased from 16px */
         }
         .container {
             background-color: #2f3136;
-            border-radius: 8px;
-            padding: clamp(15px, 4vw, 30px);
-            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-            width: min(95%, 800px);
-            margin: 0 auto;
-            border: 1px solid #202225;
+            border-radius: 15px; /* Increased radius */
+            padding-top: 15px; /* Reduced from clamp(25px, 5vw, 35px) */
+            padding: clamp(25px, 5vw, 35px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3); /* Enhanced shadow */
+            width: min(92%, 800px);
+            margin: 20px auto;
             position: relative;
             overflow: hidden;
         }
@@ -51,89 +50,22 @@
                 background-position: 200% 0%;
             }
         }
-        .upload-area {
-            border: 2px dashed #7289da;
-            border-radius: 8px;
-            padding: clamp(20px, 5vw, 40px);
-            text-align: center;
-            margin-bottom: clamp(10px, 3vw, 20px);
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-        .upload-area:hover {
-            background-color: #40444b;
-            border-color: #677bc4;
-        }
-        .upload-area i {
-            font-size: clamp(32px, 6vw, 48px);
-            color: #7289da;
-            margin-bottom: 15px;
-        }
-        .upload-area p {
-            font-size: clamp(14px, 3vw, 16px);
-            margin: 0;
-            color: #b9bbbe;
-        }
-        #imageContainer {
-            margin: 20px auto;
-            text-align: center;
-            position: relative;
-            max-width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        #imagePreview {
-            max-width: 100%;
-            border-radius: 4px;
-            display: none;
-            transition: all 0.3s ease;
-            margin: 0 auto;
-        }
-        .loading-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.75);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            display: none;
-            border-radius: 8px;
-        }
-        .loading-overlay p {
-            color: #fff;
-            font-family: 'Lexend Deca', sans-serif;
-            margin: 10px 0;
-            text-align: center;
-            font-size: 16px;
-        }
-        .loading-spinner {
-            width: 40px;
-            height: 40px;
-            border: 3px solid #f3f3f3;
-            border-top: 3px solid #7289da;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
+        /* Update button group positioning */
         .button-group {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
-            gap: 8px;
-            margin: clamp(10px, 2vw, 15px) 0;
+            position: absolute;
+            top: 10px;  /* Reduced from 15px */
+            right: 15px;
+            display: flex;
+            gap: 8px; /* Reduced from 12px */
+            z-index: 1;
+        }
+        .button-group button {
+            width: auto;
+            min-width: 120px;
         }
         button {
-            width: 100%;
             padding: clamp(8px, 1.5vw, 10px) clamp(12px, 2vw, 16px);
-            font-size: clamp(11px, 2vw, 13px);
+            font-size: 0.95rem; /* Updated button text size */
             background-color: #7289da;
             color: white;
             border: none;
@@ -151,9 +83,6 @@
             backdrop-filter: blur(8px);
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
-        .button-group button {
-            font-weight: 700; /* Ensure button group buttons are bold */
-        }
         button:hover {
             background-color: #677bc4;
             transform: translateY(-1px);
@@ -165,108 +94,39 @@
             transform: none;
             opacity: 0.8;
         }
-        button i {
-            font-size: 14px;
-        }
-        #loading {
-            font-family: 'Lexend Deca', sans-serif;
-            display: none;
-            text-align: center;
-            margin: 20px 0;
-            color: #b9bbbe;
-            padding: 15px;
-            border-radius: 8px;
-        }
-        .progress-bar {
-            width: 100%;
-            height: 6px;
-            background-color: #2f3136;
-            border-radius: 8px;
-            margin-top: 15px;
-            overflow: hidden;
-            position: relative;
-        }
-        .progress {
-            width: 0%;
-            height: 100%;
-            background: linear-gradient(90deg, 
-                #7289da 0%,
-                #677bc4 50%,
-                #7289da 100%
-            );
-            background-size: 200% 100%;
-            animation: gradientMove 2s linear infinite;
-            border-radius: 8px;
-            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-        }
-        .progress::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(90deg, 
-                rgba(255,255,255,0) 0%,
-                rgba(255,255,255,0.15) 50%,
-                rgba(255,255,255,0) 100%
-            );
-            animation: shimmer 1.5s infinite;
-        }
-        @keyframes gradientMove {
-            0% {
-                background-position: 0% 0%;
-            }
-            100% {
-                background-position: 200% 0%;
-            }
-        }
-        @keyframes shimmer {
-            0% {
-                transform: translateX(-100%);
-            }
-            100% {
-                transform: translateX(100%);
-            }
-        }
-        #loading p {
-            font-size: 14px;
-            margin-bottom: 5px;
-            font-weight: 500;
-            color: #dcddde;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        .output-container {
-            background-color: #40444b;
-            border-radius: 4px;
-            padding: clamp(15px, 3vw, 20px);
-            margin-top: clamp(15px, 3vw, 20px);
-            transition: transform 0.2s ease;
-        }
         #output {
             display: flex;
             flex-direction: column;
             gap: 4px;
             background-color: #2f3136;
-            padding: clamp(10px, 2vw, 15px);
+            padding: 20px; /* Updated output padding */
             border-radius: 4px;
             color: #dcddde;
             min-height: 100px;
-            font-size: clamp(14px, 2.5vw, 16px);
+            font-size: 1.05rem; /* Updated font size */
             line-height: 1.5;
+            margin-top: 30px; /* Reduced from 45px */
         }
         .stat-line {
+            opacity: 1; /* Changed from 0.3 */
+            transition: none;
+            background: linear-gradient(145deg, #2f3136, #36393f);
+            border-radius: 8px;
+            padding: 14px 18px; /* More padding for better readability */
+            margin-bottom: 8px;
+            border: 1px solid rgba(114, 137, 218, 0.1);
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            padding: 8px;
-            border-bottom: 1px solid #40444b;
-            transition: background-color 0.2s ease;
+            justify-content: space-between;
+        }
+        .stat-line:hover,
+        .stat-line:focus-within,
+        .stat-line.has-value {
+            opacity: 1;
         }
         .stat-line:hover {
-            background-color: transparent;
+            transform: translateX(2px);
+            border-color: rgba(114, 137, 218, 0.3);
         }
         .stat-label {
             color: #b9bbbe;
@@ -278,154 +138,101 @@
             opacity: 0.9;
         }
         .stat-value {
-            color: #7289da;
-            font-weight: 500;
-            min-width: 100px;
-            text-align: right;
-            padding: 4px;
-            border-radius: 4px;
+            background-color: #40444b;
+            padding: 6px 12px;
+            border-radius: 6px;
+            min-width: 80px;
+            text-align: center;
+            transition: all 0.2s ease;
+        }
+        .stat-value:focus {
+            background-color: #454950;
+            box-shadow: 0 0 0 3px rgba(114, 137, 218, 0.25);
+            outline: none;
+            border-color: #7289da;
         }
         .stat-value.error {
             border: 1px solid #f04747;
             background-color: rgba(240, 71, 71, 0.1);
         }
-        [contenteditable="true"]:hover {
-            background-color: #36393f;
-            outline: 1px solid #7289da;
-        }
-        [contenteditable="true"]:focus {
-            background-color: #36393f;
-            outline: 2px solid #7289da;
-        }
-        #editButton {
-            padding: 4px 8px;
-            font-size: 11px;
-            font-weight: 700; /* Ensure edit button text is bold */
-        }
-        #editButton:hover {
-            background-color: #4f545c;
-        }
-        #editButton.editing {
-            background-color: #43b581;
-        }
-        #editButton.editing:hover {
-            background-color: #3ca374;
-        }
-        .tooltip {
-            position: relative;
-            display: inline-block;
-        }
-        .tooltip .tooltiptext {
-            font-family: 'Lexend Deca', sans-serif;
-            visibility: hidden;
-            font-size: 11px;
-            padding: 4px 8px;
-            background-color: #18191c;
-            color: #fff;
-            text-align: center;
-            border-radius: 4px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-            position: absolute;
-            z-index: 1;
-            bottom: 125%;
-            left: 50%;
-            transform: translateX(-50%);
-            opacity: 0;
-            transition: opacity 0.3s;
-            white-space: nowrap;
-        }
-        .tooltip:hover .tooltiptext {
-            visibility: visible;
-            opacity: 1;
-        }
-        .cropper-container {
-            max-width: 100% !important;
-            margin: 0 auto;
-        }
-        .cropper-wrap-box {
-            max-width: 100% !important;
-        }
-        .cropper-modal {
-            margin: 0 auto;
-        }
-        .cropper-view-box {
-            margin: 0 auto;
-        }
-        @media (max-width: 480px) {
-            .button-group {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 6px;
-            }
-            button {
-                padding: 8px 12px;
-                font-size: 12px;
-            }
-            button i {
-                font-size: 13px;
-            }
-        }
-        @media (min-width: 1200px) {
-            .container {
-                padding: 40px;
-            }
-            .button-group {
-                gap: 15px;
-            }
-        }
         .calculator-section {
-            background-color: #40444b;
-            border-radius: 4px;
-            padding: clamp(15px, 3vw, 20px);
-            margin-top: clamp(15px, 3vw, 20px);
+            background: linear-gradient(145deg, #2f3136, #40444b);
+            border-radius: 12px;
+            padding: 20px; /* Reduced from clamp(20px, 4vw, 30px) */
+            margin-top: 25px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            position: relative;
         }
         .calculator-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 10px;
-            margin-bottom: 15px;
+            display: flex;
+            justify-content: center; /* Change from flex-start to center */
+            gap: 14px;
+            margin-bottom: 20px;
+            flex-wrap: nowrap;
+            align-items: flex-start; /* Align items to top so labels line up */
+            width: 100%;
         }
         .input-group {
             display: flex;
             flex-direction: column;
             gap: 5px;
+            margin-bottom: 15px;
+            flex: 1;
+            min-width: 0; /* Allow fields to shrink */
         }
         .input-group label {
-            color: #b9bbbe;
-            font-size: 14px;
+            text-align: left; /* Change from center to left */ 
+            white-space: nowrap; /* Prevent label wrapping */
+            font-size: 0.9rem; /* Slightly larger font */
+            color: #b9bbbe; /* Maintain consistent theme colors */
         }
         .input-group input {
-            background-color: #2f3136;
-            border: 1px solid #202225;
-            border-radius: 4px;
-            padding: 8px;
-            color: #dcddde;
-            font-family: 'Lexend Deca', sans-serif;
+            width: 100px; /* Increased from 80px */
+            font-size: 0.95rem; /* Larger font size */
+            padding: 8px 10px; /* Increased padding */
+            background-color: #40444b;
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            text-align: center; /* Center the text input */
+            margin: 0 auto; /* Center the input field itself */
+            display: block; /* Helps with centering */
         }
         .input-group input:focus {
-            outline: 2px solid #7289da;
-            border-color: transparent;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(114, 137, 218, 0.5), 0 2px 8px rgba(0,0,0,0.1);
+            background-color: #454950;
         }
         .results-section {
-            background-color: #2f3136;
-            padding: 15px;
-            border-radius: 4px;
-            margin-top: 15px;
+            background: linear-gradient(145deg, #36393f, #40444b);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
         }
         .result-item {
             display: flex;
             justify-content: space-between;
-            padding: 8px;
-            border-bottom: 1px solid #40444b;
+            padding: 12px;
+            border-bottom: 1px solid rgba(114, 137, 218, 0.1);
+            transition: all 0.2s ease;
+        }
+        .result-item:hover {
+            background: rgba(114, 137, 218, 0.05);
         }
         .result-item:last-child {
             border-bottom: none;
         }
         .result-label {
-            color: #b9bbbe;
+            color: #dcddde;
+            font-weight: 500;
         }
         .result-value {
             color: #7289da;
-            font-weight: 500;
+            font-weight: 600;
+            font-size: 1.1em;
         }
         .differences-container {
             margin-top: 20px;
@@ -479,85 +286,104 @@
         .input-group.flex-row input {
             flex: 1;
         }
+        /* Tooltip styles */
+        .tooltip {
+            position: relative;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            background-color: #36393f;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 10px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            white-space: nowrap;
+            font-size: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* Stats summary styles */
+        #formattedStats {
+            white-space: pre-line;
+            font-family: 'Lexend Deca', monospace;
+            padding: 15px;
+            background: #36393f;
+            border-radius: 8px;
+            line-height: 1.8; /* Updated line height */
+            font-size: 1.1rem; /* Updated font size */
+        }
+
+        /* Stats header layout */
+        .stats-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .stats-header h4 {
+            margin: 0;
+            flex: 1;
+        }
         #copyFormatted {
-            margin-top: 8px;
-            font-size: 11px;
-            padding: 6px 10px;
-            font-weight: 700; /* Make copy formatted stats button bold */
+            margin-left: auto;
+            white-space: nowrap;
+        }
+        h3 {
+            display: none; /* Titles removed */
+            font-size: 1.4rem !important; /* Make headings larger */
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="upload-area" id="dropZone">
-            <i class="fas fa-cloud-upload-alt"></i>
-            <p>Drag and drop an image here or click to select</p>
-            <input type="file" id="imageInput" accept="image/*" style="display: none">
-        </div>
-        <div id="imageContainer">
-            <img id="imagePreview" alt="Image preview">
-        </div>
         <div class="button-group">
-            <button id="cropButton" disabled class="tooltip">
-                <i class="fas fa-crop"></i> Crop
-                <span class="tooltiptext">Crop selected area of image</span>
-            </button>
-            <button id="extractButton" disabled class="tooltip">
-                <i class="fas fa-text-width"></i> Extract Text
-                <span class="tooltiptext">Extract text from image</span>
-            </button>
-            <button id="copyButton" disabled class="tooltip">
+            <button id="copyButton" class="tooltip">
                 <i class="fas fa-copy"></i> Copy
                 <span class="tooltiptext">Copy to clipboard</span>
             </button>
-            <button id="resetButton" disabled class="tooltip">
+            <button id="resetButton" class="tooltip">
                 <i class="fas fa-redo"></i> Reset
                 <span class="tooltiptext">Reset all changes</span>
             </button>
-            <button id="switchButton" disabled class="tooltip">
-                <i class="fas fa-exchange-alt"></i> Switch Screenshot
-                <span class="tooltiptext">Switch between screenshot A and B</span>
-            </button>
         </div>
-        <div id="loading">
-            <p>Processing image...</p>
-            <div class="progress-bar">
-                <div class="progress" id="progressBar"></div>
-            </div>
-        </div>
-        <div class="output-container">
-            <div class="output-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                <button id="editButton" disabled style="width: auto; padding: 5px 10px;">
-                    <i class="fas fa-edit"></i> Edit
-                </button>
-            </div>
-            <div id="output" contenteditable="false"></div>
-        </div>
+        <div id="output" contenteditable="false"></div>
         <div class="calculator-section">
-            <h3 style="color: #dcddde; margin-bottom: 15px;">Overall Performance Calculator</h3>
             <div class="calculator-grid">
                 <div class="input-group">
-                    <label for="l_va">Level A (l_va)</label>
-                    <input type="number" id="l_va" placeholder="Enter level A">
+                    <label for="l_va">Level A</label>
+                    <input type="number" id="l_va" placeholder="Lvl A">
                 </div>
                 <div class="input-group">
-                    <label for="X_pa">XP within level A (X_pa)</label>
-                    <input type="number" id="X_pa" placeholder="Enter XP A">
+                    <label for="X_pa">XP A</label>
+                    <input type="number" id="X_pa" placeholder="XP A">
                 </div>
                 <div class="input-group">
-                    <label for="l_vb">Level B (l_vb)</label>
-                    <input type="number" id="l_vb" placeholder="Enter level B">
+                    <label for="l_vb">Level B</label>
+                    <input type="number" id="l_vb" placeholder="Lvl B">
                 </div>
                 <div class="input-group">
-                    <label for="X_pb">XP within level B (X_pb)</label>
-                    <input type="number" id="X_pb" placeholder="Enter XP B">
+                    <label for="X_pb">XP B</label>
+                    <input type="number" id="X_pb" placeholder="XP B">
                 </div>
                 <div class="input-group">
-                    <label for="sdi">Server Difficulty Index (SDI)</label>
+                    <label for="sdi">SDI</label>
                     <input type="number" id="sdi" value="1" step="0.1" min="0">
                 </div>
             </div>
-            
+
             <div class="results-section">
                 <div class="result-item">
                     <span class="result-label">Overall Performance (OP)</span>
@@ -590,8 +416,6 @@
             </div>
         </div>
         <div id="additionalSection" class="calculator-section">
-            <h3 style="color: #dcddde; margin-bottom: 15px;">Player Information</h3>
-
             <div class="device-selection" style="margin-bottom: 20px;">
                 <label style="display: block; margin-bottom: 10px;">Primary Gaming Device</label>
                 <div class="device-options" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px;">
@@ -615,13 +439,14 @@
             </div>
 
             <div class="formatted-output">
-                <h4 style="color: #dcddde; margin-bottom: 10px;">Stats Summary</h4>
-                <div id="formattedStats" style="background: #2f3136; padding: 15px; border-radius: 4px; font-family: monospace; white-space: pre-wrap;">
+                <div class="stats-header">
+                    <h4>Stats Summary</h4>
+                    <button id="copyFormatted" class="tooltip">
+                        <i class="fas fa-copy"></i> Copy
+                        <span class="tooltiptext">Copy stats to clipboard</span>
+                    </button>
                 </div>
-                <button id="copyFormatted" class="tooltip" style="margin-top: 8px;">
-                    <i class="fas fa-copy"></i> Copy Formatted Stats
-                    <span class="tooltiptext">Copy formatted stats to clipboard</span>
-                </button>
+                <div id="formattedStats"></div>
             </div>
         </div>
         <div class="github-link" style="display: none;"></div>
@@ -643,23 +468,100 @@
             "Epidemics"
         ];
 
-        let cropper;
         let currentScreenshot = 'A';
         let screenshotAData = {};
         let screenshotBData = {};
 
-        const dropZone = document.getElementById('dropZone');
-        const imageInput = document.getElementById('imageInput');
-        const imagePreview = document.getElementById('imagePreview');
-        const cropButton = document.getElementById('cropButton');
-        const extractButton = document.getElementById('extractButton');
         const copyButton = document.getElementById('copyButton');
         const resetButton = document.getElementById('resetButton');
-        const switchButton = document.getElementById('switchButton');
         const output = document.getElementById('output');
-        const loading = document.getElementById('loading');
-        const progressBar = document.getElementById('progressBar');
-        const editButton = document.getElementById('editButton');
+
+        window.addEventListener('load', () => {
+            // Focus on first stat value (rounds played)
+            const firstStatValue = document.querySelector('.stat-value');
+            if (firstStatValue) {
+                firstStatValue.focus();
+            }
+            
+            const savedDevice = localStorage.getItem('selectedDevice') || 'pc';
+            document.querySelector(`input[name="device"][value="${savedDevice}"]`).checked = true;
+            
+            // Set default rounds played to 224
+            const roundsPlayedValue = document.querySelector('.stat-line:first-child .stat-value');
+            if (roundsPlayedValue) {
+                roundsPlayedValue.textContent = '224';
+                calculateOP(); // Trigger initial calculation
+            }
+        });
+
+        // Add event listener for Level A input
+        document.getElementById('l_va').addEventListener('input', function() {
+            const levelA = parseFloat(this.value) || 0;
+            if (levelA > 0) {
+                // Set Level B to Level A + 1
+                document.getElementById('l_vb').value = (levelA + 1).toString();
+            }
+            // Trigger OP calculation
+            calculateOP();
+        });
+
+        output.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                const currentLine = e.target.closest('.stat-line');
+                const nextLine = currentLine.nextElementSibling;
+                
+                if (nextLine) {
+                    const nextInput = nextLine.querySelector('.stat-value');
+                    if (nextInput) {
+                        nextInput.focus();
+                    }
+                } else {
+                    // If it's the last stat field (epidemics), move to l_va input
+                    document.getElementById('l_va').focus();
+                }
+            }
+            // Add backspace navigation
+            if (e.key === 'Backspace' && e.target.textContent === '') {
+                e.preventDefault();
+                const currentLine = e.target.closest('.stat-line');
+                const previousLine = currentLine.previousElementSibling;
+                
+                if (previousLine) {
+                    const previousInput = previousLine.querySelector('.stat-value');
+                    if (previousInput) {
+                        previousInput.focus();
+                    }
+                }
+            }
+        });
+
+        // Add backspace navigation for experience inputs
+        ['X_pb', 'l_vb', 'X_pa', 'l_va'].forEach((id, index, arr) => {
+            document.getElementById(id).addEventListener('keydown', (e) => {
+                if (e.key === 'Backspace' && e.target.value === '') {
+                    e.preventDefault();
+                    if (index < arr.length - 1) {
+                        document.getElementById(arr[index + 1]).focus();
+                    }
+                }
+            });
+        });
+
+        // Add enter key navigation for experience inputs
+        ['l_va', 'X_pa', 'l_vb', 'X_pb'].forEach((id, index, arr) => {
+            document.getElementById(id).addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    if (index < arr.length - 1) {
+                        document.getElementById(arr[index + 1]).focus();
+                    } else {
+                        // Move to SDI if it's the last XP field
+                        document.getElementById('sdi').focus();
+                    }
+                }
+            });
+        });
 
         function cleanText(text) {
             const valueMap = new Map();
@@ -699,17 +601,9 @@
                     calculateOP();
                 });
             });
-
-            // Listen for stat value changes
-            document.querySelectorAll('.stat-value').forEach(statValue => {
-                statValue.addEventListener('input', () => {
-                    calculateOP();
-                });
-            });
         }
 
         window.addEventListener('load', () => {
-            editButton.disabled = false;
             copyButton.disabled = false;
             addExperienceInputListeners();
 
@@ -733,6 +627,7 @@
 
         output.addEventListener('input', (e) => {
             if (e.target.classList.contains('stat-value')) {
+                updateStatVisibility();
                 // Validate input is a number
                 const value = e.target.textContent;
                 if (value && !/^\d*$/.test(value)) {
@@ -747,204 +642,25 @@
             }
         });
 
-        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-            dropZone.addEventListener(eventName, preventDefaults, false);
-        });
-
-        function preventDefaults(e) {
-            e.preventDefault();
-            e.stopPropagation();
-        }
-
-        dropZone.addEventListener('drop', handleDrop, false);
-        dropZone.addEventListener('click', () => imageInput.click());
-
-        function handleDrop(e) {
-            const dt = e.dataTransfer;
-            const file = dt.files[0];
-            handleFile(file);
-        }
-
-        imageInput.addEventListener('change', (event) => {
-            const file = event.target.files[0];
-            if (file) handleFile(file);
-        });
-
-        function handleFile(file) {
-            if (file && file.type.startsWith('image/')) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    imagePreview.src = e.target.result;
-                    imagePreview.style.display = 'block';
-                    cropButton.disabled = false;
-                    resetButton.disabled = false;
-
-                    if (cropper) {
-                        cropper.destroy();
-                    }
-
-                    cropper = new Cropper(imagePreview, {
-                        aspectRatio: NaN,
-                        viewMode: 1,
-                        guides: true,
-                        cropBoxMovable: true,
-                        cropBoxResizable: true,
-                        toggleDragModeOnDblclick: true
-                    });
-                }
-                reader.readAsDataURL(file);
-            }
-        }
-
-        cropButton.addEventListener('click', () => {
-            if (cropper) {
-                const croppedCanvas = cropper.getCroppedCanvas();
-                imagePreview.src = croppedCanvas.toDataURL();
-                cropper.destroy();
-                cropper = null;
-                extractButton.disabled = false;
-                cropButton.disabled = true;
-            }
-        });
-
-        extractButton.addEventListener('click', async () => {
-            loading.style.display = 'block';
-            output.textContent = '';
-            copyButton.disabled = true;
-            editButton.disabled = true;
-            progressBar.style.width = '0%';
-            loading.querySelector('p').textContent = 'Processing image...';
-
-            try {
-                const canvas = document.createElement('canvas');
-                const ctx = canvas.getContext('2d');
-                canvas.width = imagePreview.naturalWidth;
-                canvas.height = imagePreview.naturalHeight;
-                ctx.drawImage(imagePreview, 0, 0);
-
-                Tesseract.recognize(canvas.toDataURL(), 'eng', {
-                    tessedit_char_whitelist: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789,. ',
-                    tessedit_pageseg_mode: '6',
-                    logger: m => {
-                        if (m.status === 'recognizing text') {
-                            const progress = Math.round(m.progress * 100);
-                            loading.querySelector('p').textContent = `Processing: ${progress}%`;
-                            progressBar.style.width = `${progress}%`;
-                        }
-                    }
-                })
-                .then(({ data: { text } }) => {
-                    loading.style.display = 'none';
-                    const cleanedText = cleanText(text);
-                    const formattedText = cleanedText.split('\n')
-                        .map(line => {
-                            const [label, value] = line.split(':').map(part => part.trim());
-                            return `<div class="stat-line">
-                                <span class="stat-label">${label}</span>
-                                <span class="stat-value" contenteditable="true">${value}</span>
-                            </div>`;
-                        }).join('');
-                    output.innerHTML = formattedText || 'No text could be extracted from the image.';
-                    copyButton.disabled = false;
-                    editButton.disabled = false;
-
-                    const stats = {};
-                    output.querySelectorAll('.stat-line').forEach(line => {
-                        const label = line.querySelector('.stat-label').textContent;
-                        const value = line.querySelector('.stat-value').textContent;
-                        stats[label] = value;
-                    });
-                    
-                    if (currentScreenshot === 'A') {
-                        screenshotAData = stats;
-                    } else {
-                        screenshotBData = stats;
-                    }
-                    
-                    switchButton.disabled = false;
-                    editButton.innerHTML = '<i class="fas fa-save"></i> Save';
-                    editButton.classList.add('editing');
-                    calculateOP();
-                });
-            } catch (error) {
-                loading.style.display = 'none';
-                output.textContent = 'Error processing image: ' + error.message;
-                console.error('Error:', error);
-            }
-        });
-
-        function calculateDifferences() {
-            const existingDiff = document.querySelector('.differences-container');
-            if (existingDiff) {
-                existingDiff.remove();
-            }
-
-            const diffOutput = document.createElement('div');
-            diffOutput.className = 'differences-container';
-            diffOutput.innerHTML = `
-                <div class="output-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                    <h3 style="color: #dcddde; margin: 0;">Screenshot Differences (B - A)</h3>
-                </div>
-                <div id="differences" contenteditable="false">
-                    ${FIXED_LABELS.map(label => {
-                        const valueA = parseInt(screenshotAData[label] || '0');
-                        const valueB = parseInt(screenshotBData[label] || '0');
-                        const diff = Math.abs(valueB - valueA);
-                        return `<div class="stat-line">
-                            <span class="stat-label">${label}</span>
-                            <span class="stat-value" contenteditable="true">${diff}</span>
-                        </div>`;
-                    }).join('')}
-                </div>
-            `;
-
-            const calculatorSection = document.querySelector('.calculator-section');
-            calculatorSection.parentNode.insertBefore(diffOutput, calculatorSection);
-        }
-
-        switchButton.addEventListener('click', () => {
-            const currentStats = {};
-            output.querySelectorAll('.stat-line').forEach(line => {
-                const label = line.querySelector('.stat-label').textContent;
-                const value = line.querySelector('.stat-value').textContent;
-                currentStats[label] = value;
+        resetButton.addEventListener('click', () => {
+            // Reset all stat values
+            document.querySelectorAll('.stat-value').forEach(value => {
+                value.textContent = value.closest('.stat-line').querySelector('.stat-label').textContent === 'Rounds played' ? '224' : '';
             });
             
-            if (currentScreenshot === 'A') {
-                screenshotAData = currentStats;
-            } else {
-                screenshotBData = currentStats;
-            }
-
-            currentScreenshot = currentScreenshot === 'A' ? 'B' : 'A';
-            switchButton.innerHTML = `
-                <i class="fas fa-exchange-alt"></i> Screenshot ${currentScreenshot}
-                <span class="tooltiptext">Currently viewing screenshot ${currentScreenshot}</span>
-            `;
+            // Reset level and XP inputs including lvB
+            ['l_va', 'X_pa', 'l_vb', 'X_pb'].forEach(id => {
+                document.getElementById(id).value = '';
+            });
             
-            const dataToShow = currentScreenshot === 'A' ? screenshotAData : screenshotBData;
-            if (Object.keys(dataToShow).length > 0) {
-                const formattedText = FIXED_LABELS.map(label => {
-                    const value = dataToShow[label] || '0';
-                    return `<div class="stat-line">
-                        <span class="stat-label">${label}</span>
-                        <span class="stat-value" contenteditable="true">${value}</span>
-                    </div>`;
-                }).join('');
-                output.innerHTML = formattedText;
-                editButton.innerHTML = '<i class="fas fa-save"></i> Save';
-                editButton.classList.add('editing');
-                copyButton.disabled = false;
-                editButton.disabled = false;
-            } else {
-                if (cropper) cropper.destroy();
-                imagePreview.style.display = 'none';
-                output.textContent = '';
-                cropButton.disabled = true;
-                extractButton.disabled = true;
-                imageInput.value = '';
-            }
+            // Reset SDI to default
+            document.getElementById('sdi').value = '1';
             
+            // Reset device to PC/Laptop or last saved
+            const savedDevice = localStorage.getItem('selectedDevice') || 'pc';
+            document.querySelector(`input[name="device"][value="${savedDevice}"]`).checked = true;
+            
+            // Recalculate
             calculateOP();
         });
 
@@ -965,40 +681,6 @@
             }, (err) => {
                 console.error('Error copying text: ', err);
             });
-        });
-
-        editButton.addEventListener('click', () => {
-            const statValues = output.querySelectorAll('.stat-value');
-            const isEditing = editButton.classList.contains('editing');
-
-            if (isEditing) {
-                statValues.forEach(value => {
-                    value.contentEditable = 'false';
-                });
-                editButton.innerHTML = '<i class="fas fa-edit"></i> Edit';
-                editButton.classList.remove('editing');
-            } else {
-                statValues.forEach(value => {
-                    value.contentEditable = 'true';
-                });
-                editButton.innerHTML = '<i class="fas fa-save"></i> Save';
-                editButton.classList.add('editing');
-            }
-        });
-
-        resetButton.addEventListener('click', () => {
-            if (cropper) cropper.destroy();
-            imagePreview.style.display = 'none';
-            output.textContent = '';
-            cropButton.disabled = true;
-            extractButton.disabled = true;
-            copyButton.disabled = true;
-            editButton.disabled = true;
-            resetButton.disabled = true;
-            editButton.innerHTML = '<i class="fas fa-edit"></i> Edit';
-            editButton.classList.remove('editing');
-            imageInput.value = '';
-            loading.style.display = 'none';
         });
 
         function calculateXPSum(level) {
@@ -1156,7 +838,7 @@
             else if (boostedOP >= 560) division = "Wood (D)";
             else division = "Ember (E)";
 
-            // Render formatted text
+            // Render formatted text with proper line breaks
             const formattedText = 
 `OP = ${Math.round(boostedOP)}
 TP = ${Math.round(tp)}, SP = ${Math.round(sp)}
@@ -1180,9 +862,20 @@ Source: website`;
             navigator.clipboard.writeText(stats).then(() => {
                 this.innerHTML = '<i class="fas fa-check"></i> Copied!';
                 setTimeout(() => {
-                    this.innerHTML = '<i class="fas fa-copy"></i> Copy Formatted Stats';
+                    this.innerHTML = '<i class="fas fa-copy"></i> Copy Stats';
                 }, 2000);
             });
         });
+
+        function updateStatVisibility() {
+            document.querySelectorAll('.stat-line').forEach(line => {
+                const value = line.querySelector('.stat-value').textContent;
+                if (value && value.trim() !== '') {
+                    line.classList.add('has-value');
+                } else {
+                    line.classList.remove('has-value');
+                }
+            });
+        }
     </script>
 </body></html>
