@@ -1,416 +1,715 @@
-<html><head><base href="https://sethispr.github.io/fos/">
+<html><head><base href="https://cdn.jsdelivr.net/gh/text-extractor">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Silent Assassin Roblox Overall Performance Calculator for gaming statistics. Analyze your stats efficiently.">
-    <meta name="keywords" content="Silent Assassin Roblox">
+    <meta name="description" content="Advanced Performance Calculator for gaming statistics and OP stats. Analyze and track your stats efficiently. Developed with precision and user-friendly design.">
+    <meta name="keywords" content="performance calculator, stats tool, text extraction, real-time calculations, OP stats, FOS, gaming tools">
     <meta name="author" content="sethispr">
     <link rel="canonical" href="https://sethispr.github.io/fos/">
-    <title>Silent Assassin Roblox Overall Performance Calculator</title>
-    <link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@300;400;700&display=swap" rel="stylesheet">
+    <title>Neuromorphic Gaming Stats Calculator</title>
+    <script src="https://unpkg.com/tesseract.js@v2.1.0/dist/tesseract.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
     <link rel="icon" href="https://sethispr.github.io/fos/favicon.ico"/>
-
     <style>
+        /* General modern neuromorphic styles */
         body {
             font-family: 'Lexend Deca', sans-serif;
             margin: 0;
-            padding: clamp(10px, 3vw, 20px);
-            background-color: #36393f;
-            color: #fff;
+            padding: 20px;
+            background: #000000; /* AMOLED black background */
+            color: #dcddde; /* Light text color */
+            font-size: 19px;
             min-height: 100vh;
-            font-size: 18px; /* Increased from 16px */
-        }
-        .container {
-            background-color: #2f3136;
-            border-radius: 15px; /* Increased radius */
-            padding-top: 15px; /* Reduced from clamp(25px, 5vw, 35px) */
-            padding: clamp(25px, 5vw, 35px);
-            box-shadow: 0 8px 24px rgba(0,0,0,0.3); /* Enhanced shadow */
-            width: min(92%, 800px);
-            margin: 20px auto;
-            position: relative;
-            overflow: hidden;
-        }
-        .container::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, #7289da, #677bc4, #7289da);
-            background-size: 200% 100%;
-            animation: gradient 3s linear infinite;
-        }
-        @keyframes gradient {
-            0% {
-                background-position: 0% 0%;
-            }
-            100% {
-                background-position: 200% 0%;
-            }
-        }
-        /* Update button group positioning */
-        .button-group {
-            position: absolute;
-            top: 10px;  /* Reduced from 15px */
-            right: 15px;
-            display: flex;
-            gap: 8px; /* Reduced from 12px */
-            z-index: 1;
-        }
-        .button-group button {
-            width: auto;
-            min-width: 120px;
-        }
-        button {
-            padding: clamp(8px, 1.5vw, 10px) clamp(12px, 2vw, 16px);
-            font-size: 0.95rem; /* Updated button text size */
-            background-color: #7289da;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            font-family: 'Lexend Deca', sans-serif;
-            font-weight: 700; /* Make text bold */
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 6px;
-            backdrop-filter: blur(8px);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            overflow-y: auto; /* Change from hidden to auto */
+            cursor: none; /* Hide default cursor */
         }
-        button:hover {
-            background-color: #677bc4;
-            transform: translateY(-1px);
-            box-shadow: 0 3px 6px rgba(0,0,0,0.15);
-        }
-        button:disabled {
-            background-color: #4f545c;
-            cursor: not-allowed;
-            transform: none;
-            opacity: 0.8;
-        }
-        #output {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-            background-color: #2f3136;
-            padding: 20px; /* Updated output padding */
-            border-radius: 4px;
-            color: #dcddde;
-            min-height: 100px;
-            font-size: 1.05rem; /* Updated font size */
-            line-height: 1.5;
-            margin-top: 30px; /* Reduced from 45px */
-        }
-        .stat-line {
-            opacity: 1; /* Changed from 0.3 */
-            transition: none;
-            background: linear-gradient(145deg, #2f3136, #36393f);
-            border-radius: 8px;
-            padding: 14px 18px; /* More padding for better readability */
-            margin-bottom: 8px;
-            border: 1px solid rgba(114, 137, 218, 0.1);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        .stat-line:hover,
-        .stat-line:focus-within,
-        .stat-line.has-value {
-            opacity: 1;
-        }
-        .stat-line:hover {
-            transform: translateX(2px);
-            border-color: rgba(114, 137, 218, 0.3);
-        }
-        .stat-label {
-            color: #b9bbbe;
-            flex: 1;
-            padding: 4px;
-            border-radius: 4px;
-            user-select: none;
-            pointer-events: none;
-            opacity: 0.9;
-        }
-        .stat-value {
-            background-color: #40444b;
-            padding: 6px 12px;
-            border-radius: 6px;
-            min-width: 80px;
-            text-align: center;
-            transition: all 0.2s ease;
-        }
-        .stat-value:focus {
-            background-color: #454950;
-            box-shadow: 0 0 0 3px rgba(114, 137, 218, 0.25);
-            outline: none;
-            border-color: #7289da;
-        }
-        .stat-value.error {
-            border: 1px solid #f04747;
-            background-color: rgba(240, 71, 71, 0.1);
-        }
-        .calculator-section {
-            background: linear-gradient(145deg, #2f3136, #40444b);
-            border-radius: 12px;
-            padding: 20px; /* Reduced from clamp(20px, 4vw, 30px) */
-            margin-top: 25px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+
+        .container {
+            resize: both; /* Keep main container resizable */
+            overflow: visible; /* Change from auto to visible */
+            min-width: 300px;
+            min-height: 400px;
+            max-width: 95vw;
+            max-height: 95vh;
+            transition: all 0.3s ease;
+            position: relative;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(26, 26, 26, 0.2);
+            background: #000000; /* Changed from #0c0c0c to #000000 to match website background */
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 8px 8px 15px rgba(0, 0, 0, 0.6), -8px -8px 15px rgba(12, 12, 12, 0.1);
+            width: min(95%, 850px);
+            margin: auto;
             position: relative;
         }
-        .calculator-grid {
-            display: flex;
-            justify-content: center; /* Change from flex-start to center */
-            gap: 14px;
-            margin-bottom: 20px;
-            flex-wrap: nowrap;
-            align-items: flex-start; /* Align items to top so labels line up */
-            width: 100%;
+
+        /* Remove container scrollbar-specific styles */
+        .container::-webkit-scrollbar,
+        .container::-webkit-scrollbar-track,
+        .container::-webkit-scrollbar-thumb {
+            display: none;
         }
+
+        /* Update body scrollbar styles */
+        body::-webkit-scrollbar {
+            width: 12px;
+            height: 12px;
+            display: block; /* Make scrollbar visible */
+        }
+
+        body::-webkit-scrollbar-track {
+            background: #000000;
+            border-radius: 8px;
+        }
+
+        body::-webkit-scrollbar-thumb {
+            background: #0c0c0c;
+            border-radius: 8px;
+            border: 2px solid #000000;
+            transition: background 0.3s ease;
+        }
+
+        body::-webkit-scrollbar-thumb:hover {
+            background: #1a1a1a;
+        }
+
+        /* For Firefox */
+        body {
+            scrollbar-width: thin;
+            scrollbar-color: #0c0c0c #000000;
+        }
+
+        /* Button styles */
+        button {
+            padding: 10px 18px;
+            font-size: 0.95rem;
+            background: #000000;
+            color: #dcddde;
+            border: 1px solid #1a1a1a; /* Updated border color to match theme */
+            cursor: pointer;
+            font-family: 'Lexend Deca', sans-serif;
+            font-weight: 600;
+            text-transform: uppercase;
+            transition: all 0.2s ease-in-out;
+            border-radius: 8px;
+        }
+
+        button:hover {
+            background: #0c0c0c;
+            box-shadow: none;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: flex-end;
+            margin-bottom: 15px;
+        }
+
+        /* Input-group styles */
+        .calculator-section {
+            resize: none; /* Remove resizing */
+            overflow: visible; /* Change to visible since we don't need resize overflow */
+            min-height: 200px;
+            margin: 20px 0;
+            transition: all 0.3s ease;
+        }
+
+        .calculator-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+
         .input-group {
             display: flex;
             flex-direction: column;
             gap: 5px;
-            margin-bottom: 15px;
-            flex: 1;
-            min-width: 0; /* Allow fields to shrink */
         }
+
         .input-group label {
-            text-align: left; /* Change from center to left */ 
-            white-space: nowrap; /* Prevent label wrapping */
-            font-size: 0.9rem; /* Slightly larger font */
-            color: #b9bbbe; /* Maintain consistent theme colors */
+            color: #72767d; /* Muted text color */
+            font-size: 0.92rem;
+            font-weight: 600; /* Added line */
         }
+
         .input-group input {
-            width: 100px; /* Increased from 80px */
-            font-size: 0.95rem; /* Larger font size */
-            padding: 8px 10px; /* Increased padding */
-            background-color: #40444b;
-            border: none;
+            font-size: 1rem;
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.3);
+            color: #dcddde;
+            border: 1px solid rgba(26, 26, 26, 0.4);
+            opacity: 0.7;
+            transition: all 0.3s ease;
             border-radius: 8px;
-            color: #fff;
-            transition: all 0.2s ease;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            text-align: center; /* Center the text input */
-            margin: 0 auto; /* Center the input field itself */
-            display: block; /* Helps with centering */
+            text-align: center;
+            font-weight: bold; /* Changed from 600 to bold */
+            backdrop-filter: blur(4px);
         }
+
+        .input-group input:hover,
         .input-group input:focus {
-            outline: none;
-            box-shadow: 0 0 0 2px rgba(114, 137, 218, 0.5), 0 2px 8px rgba(0,0,0,0.1);
-            background-color: #454950;
+            opacity: 1;
+            background: rgba(12, 12, 12, 0.5);
+            border-color: rgba(38, 38, 38, 0.6);
+            outline: none; /* Remove default outline */
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            font-weight: bold; /* Ensure bold styling remains while focused */
         }
+
+        /* Results section */
         .results-section {
-            background: linear-gradient(145deg, #36393f, #40444b);
-            border-radius: 10px;
+            resize: none; /* Remove resizing */
+            overflow: visible; /* Change to visible since we don't need resize overflow */
+            min-width: 250px;
+            min-height: 200px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(8px);
+            background: #000000; /* Changed from #0c0c0c to #000000 */
             padding: 20px;
+            border: 1px solid #1a1a1a; /* Updated border color to match theme */
+            border-radius: 16px;
             margin-top: 20px;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
         }
+
         .result-item {
             display: flex;
             justify-content: space-between;
-            padding: 12px;
-            border-bottom: 1px solid rgba(114, 137, 218, 0.1);
-            transition: all 0.2s ease;
+            padding: 15px;
+            margin: 5px 0;
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
         }
+
         .result-item:hover {
-            background: rgba(114, 137, 218, 0.05);
+            background: rgba(12, 12, 12, 0.4);
+            transform: translateX(5px);
         }
+
         .result-item:last-child {
             border-bottom: none;
         }
+
         .result-label {
-            color: #dcddde;
-            font-weight: 500;
-        }
-        .result-value {
-            color: #7289da;
-            font-weight: 600;
-            font-size: 1.1em;
-        }
-        .differences-container {
-            margin-top: 20px;
-            background-color: #40444b;
-            border-radius: 4px;
-            padding: 15px;
-        }
-        .differences-container h3 {
-            color: #dcddde;
-            margin-bottom: 15px;
-        }
-        .device-option {
-            display: flex;
-            align-items: center;
-            padding: 10px;
-            background: #2f3136;
-            border-radius: 6px;
+            color: #72767d; /* Muted text color */
+            position: relative; /* For tooltip */
             cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        .device-option:hover {
-            background: #40444b;
-        }
-        .device-option input[type="radio"] {
-            display: none;
-        }
-        .device-option .device-label {
-            color: #b9bbbe;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            width: 100%;
-        }
-        .device-option input[type="radio"]:checked + .device-label {
-            color: #7289da;
-        }
-        .device-option i {
-            font-size: 1.2em;
-        }
-        .github-link {
-            display: block;
-            text-align: center;
-            color: #7289da;
-            margin-top: 20px;
-        }
-        .input-group.flex-row {
-            flex-direction: row;
-            align-items: center;
-            justify-content: space-between;
-        }
-        .input-group.flex-row input {
-            flex: 1;
-        }
-        /* Tooltip styles */
-        .tooltip {
-            position: relative;
         }
 
-        .tooltip .tooltiptext {
-            visibility: hidden;
-            background-color: #36393f;
-            color: #fff;
-            text-align: center;
-            border-radius: 6px;
-            padding: 5px 10px;
+        .result-label[data-tooltip]::after {
+            content: attr(data-tooltip);
             position: absolute;
-            z-index: 1;
-            bottom: 125%;
+            background-color: rgba(0, 0, 0, 0.85);
+            color: #dcddde;
+            padding: 5px 10px;
+            border-radius: 5px;
+            white-space: nowrap;
+            font-size: 14px;
+            top: 100%;
             left: 50%;
             transform: translateX(-50%);
             opacity: 0;
-            transition: opacity 0.3s;
-            white-space: nowrap;
-            font-size: 12px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 100;
+            margin-top: 5px;
         }
 
-        .tooltip:hover .tooltiptext {
-            visibility: visible;
+        .result-label:hover::after {
             opacity: 1;
         }
 
-        /* Stats summary styles */
-        #formattedStats {
-            white-space: pre-line;
-            font-family: 'Lexend Deca', monospace;
-            padding: 15px;
-            background: #36393f;
-            border-radius: 8px;
-            line-height: 1.8; /* Updated line height */
-            font-size: 1.1rem; /* Updated font size */
+        /* Updated the result-value color to match the grey theme */
+        .result-value {
+            color: #72767d; /* Same grey color used for labels */
+            font-weight: 600;
         }
 
-        /* Stats header layout */
-        .stats-header {
+        /* Round statistics */
+        .stat-line {
+            margin-bottom: 12px;
+            padding: 12px;
+            border-radius: 12px;
+            background: #000000;
+            opacity: 0.7;
+            transition: all 0.3s ease;
+            border: 1px solid #1a1a1a; /* Updated border color to match theme */
+            position: relative; /* Add for proper hover effects */
+            overflow: visible; /* Ensure stat lines don't get cut off when selected */
+        }
+
+        .stat-line:hover {
+            opacity: 1;
+            background: #0c0c0c;
+            border-color: #262626;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2), 0 0 0 1px #262626;
+        }
+
+        .stat-value {
+            font-weight: 600; /* Keep existing font weight */
+            outline: none; /* Remove default outline */
+            border: none; /* Remove any borders */
+            background: transparent; /* Make background transparent */
+            transition: all 0.3s ease;
+            color: #dcddde; /* Add this line to make the input values white */
+            cursor: text;
+            min-width: 20px;
+            display: inline-block;
+        }
+
+        .stat-value:focus {
+            outline: none; /* Remove default outline on focus */
+            box-shadow: none; /* Remove any box shadows */
+        }
+
+        /* Update stat-line:focus-within to handle focus state of the entire line */
+        .stat-line:focus-within {
+            opacity: 1;
+            background: #0c0c0c;
+            border-color: #262626;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2), 0 0 0 1px #262626;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+
+            .container {
+                resize: vertical; /* Only allow vertical resize on mobile */
+                width: 95%;
+            }
+            
+            .results-section,
+            .calculator-section {
+                resize: none; /* Remove resizing */
+                overflow: visible; /* Change to visible since we don't need resize overflow */
+            }
+
+            .calculator-grid {
+                gap: 15px;
+                padding: 15px;
+            }
+
+            .input-group input {
+                padding: 8px;
+                font-size: 0.9rem;
+            }
+
+            .results-section {
+                padding: 15px;
+            }
+
+            .container {
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                font-size: 16px;
+            }
+
+            .input-group input {
+                font-size: 0.85rem;
+            }
+
+            .calculator-grid {
+                gap: 8px;
+            }
+        }
+
+        /* Styled modern neuromorphic checkboxes */
+        .device-selection {
+            margin-top: 30px; /* Add top margin */
+            margin-bottom: 20px;
+        }
+
+        .device-options {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .device-option {
+            flex: 1;
+            min-width: 100px;
+            background: #000000;
+            padding: 12px;
+            border: 1px solid #1a1a1a; /* Updated border color to match theme */
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            opacity: 0.7;
+            backdrop-filter: blur(4px);
+        }
+
+        .device-option:hover,
+        .device-option.selected {
+            background: #0c0c0c;
+            border-color: #262626;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Add selected state styling */
+        .device-option.selected {
+            opacity: 1;
+            background: #0c0c0c;
+            border: 1px solid #262626;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+            transform: translateY(1px);
+        }
+
+        .device-label {
             display: flex;
             align-items: center;
-            gap: 10px;
+            justify-content: center;
+            gap: 8px;
+            color: #72767d; /* Muted text color */
+        }
+
+        .device-label i {
+            font-size: 1.2em;
+            color: #888;
+        }
+
+        /* Ensure the stats summary has proper line breaks */
+        #formattedStats {
+            white-space: pre-line;
+            word-wrap: break-word;
+            color: #72767d; /* Match the grey color used elsewhere */
+        }
+
+        /* Update stats summary header */
+        .stats-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 15px;
         }
+
         .stats-header h4 {
             margin: 0;
+            color: #72767d; /* Changed to match Primary Gaming Device label color */
+            font-weight: normal; /* Remove bold */
+        }
+
+        /* Update the device label styling to add more spacing */
+        .device-selection label {
+            display: block;
+            margin-bottom: 10px;
+            color: #72767d; /* Match the label color with other form labels */
+        }
+
+        /* Custom text selection style */
+        ::selection {
+            background: #0c0c0c;
+            color: #dcddde;
+        }
+
+        ::-moz-selection {
+            background: #0c0c0c;
+            color: #dcddde;
+        }
+
+        /* Custom scrollbar styling */
+        /* For Webkit browsers (Chrome, Safari) */
+        ::-webkit-scrollbar {
+            width: 12px;
+            height: 12px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #000000;
+            border-radius: 8px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #0c0c0c;
+            border-radius: 8px;
+            border: 2px solid #000000;
+            transition: background 0.3s ease;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #1a1a1a;
+        }
+
+        /* For Firefox */
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: #0c0c0c #000000;
+        }
+
+        /* Custom text input selection color */
+        input::selection {
+            background: #0c0c0c;
+            color: #dcddde;
+        }
+
+        input::-moz-selection {
+            background: #0c0c0c;
+            color: #dcddde;
+        }
+
+        /* Add smooth scrolling to the page */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Add smooth animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .container {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        /* Tutorial Overlay Styles */
+        .tutorial-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            display: none;
+        }
+
+        .tutorial-box {
+            position: fixed;
+            background: #000000;
+            border: 1px solid #1a1a1a;
+            border-radius: 0; /* Reset border radius */
+            border-top-left-radius: 12px; /* Only curve top-left */
+            border-bottom-right-radius: 12px; /* Only curve bottom-right */
+            padding: 20px;
+            color: #dcddde;
+            max-width: 300px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            z-index: 1001;
+            animation: tutorialFadeIn 0.3s ease-out;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* Smoother easing curve */
+        }
+
+        /* Add an animation for the tutorial box appearance */
+        @keyframes tutorialFadeIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.95) translateY(10px);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        /* Remove all pointing-related styles */
+        .tutorial-box.pointing-right::after,
+        .tutorial-box.pointing-left::after,
+        .tutorial-box.pointing-down::after,
+        .tutorial-box.pointing-up::after {
+            display: none;
+        }
+
+        .highlight-element {
+            position: relative;
+            z-index: 1002;
+            box-shadow: 0 0 0 2px #dcddde;
+            border-radius: 8px;
+        }
+
+        .tutorial-box button {
+            padding: 8px 12px;
+            border: none;
+            background: #0c0c0c;
+            color: #dcddde;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 14px;
+        }
+
+        .tutorial-box button:hover {
+            background: #1a1a1a;
+        }
+
+        .tutorial-box .tutorial-prev,
+        .tutorial-box .tutorial-next,
+        .tutorial-box .tutorial-complete {
+            width: 36px;
+            height: 36px;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .tutorial-box .tutorial-skip {
+            font-size: 14px;
+            padding: 0 12px;
+        }
+
+        .tutorial-box i {
+            font-size: 16px;
+        }
+
+        /* Error Popup Styles */
+        .error-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            background: #1a1a1a;
+            color: #dcddde;
+            padding: 20px 30px;
+            border: 1px solid #262626;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+            min-width: 300px;
+            max-width: 90vw;
+        }
+
+        .error-popup.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .error-popup .error-content {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .error-popup .error-icon {
+            font-size: 24px;
+            color: #ff4d4d;
+        }
+
+        .error-popup .error-message {
             flex: 1;
         }
-        #copyFormatted {
-            margin-left: auto;
-            white-space: nowrap;
+
+        .error-popup .close-error {
+            background: #0c0c0c;
+            border: none;
+            color: #dcddde;
+            font-size: 16px;
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background 0.2s ease;
         }
-        h3 {
-            display: none; /* Titles removed */
-            font-size: 1.4rem !important; /* Make headings larger */
+
+        .error-popup .close-error:hover {
+            background: #1a1a1a;
+        }
+
+        .error-popup .close-error i {
+            font-size: 14px;
+        }
+
+        /* Custom Cursor Styles */
+        .custom-cursor {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 20px;
+            height: 20px;
+            pointer-events: none;
+            border-radius: 50%;
+            background-color: rgba(220, 221, 222, 0.8);
+            transform: translate(-50%, -50%);
+            transition: transform 0.05s ease-out, background-color 0.2s ease;
+            z-index: 10000;
+        }
+
+        .custom-cursor.hovering {
+            transform: translate(-50%, -50%) scale(1.5);
+            background-color: rgba(220, 221, 222, 1);
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="button-group">
-            <button id="copyButton" class="tooltip">
-                <i class="fas fa-copy"></i> Copy
-                <span class="tooltiptext">Copy to clipboard</span>
-            </button>
-            <button id="resetButton" class="tooltip">
-                <i class="fas fa-redo"></i> Reset
-                <span class="tooltiptext">Reset all changes</span>
-            </button>
+            <button id="resetButton"><i class="fas fa-redo"></i> Reset</button>
+            <button id="showTutorial"><i class="fas fa-question-circle"></i> Tutorial</button>
+            <button id="copyButton"><i class="fas fa-copy"></i> Copy</button>
         </div>
         <div id="output" contenteditable="false"></div>
         <div class="calculator-section">
             <div class="calculator-grid">
                 <div class="input-group">
                     <label for="l_va">Level A</label>
-                    <input type="number" id="l_va" placeholder="Lvl A">
+                    <input type="number" id="l_va" placeholder="Lvl A" min="0" step="1">
                 </div>
                 <div class="input-group">
                     <label for="X_pa">XP A</label>
-                    <input type="number" id="X_pa" placeholder="XP A">
+                    <input type="number" id="X_pa" placeholder="XP A" min="0" step="1">
                 </div>
                 <div class="input-group">
                     <label for="l_vb">Level B</label>
-                    <input type="number" id="l_vb" placeholder="Lvl B">
+                    <input type="number" id="l_vb" placeholder="Lvl B" min="0" step="1">
                 </div>
                 <div class="input-group">
                     <label for="X_pb">XP B</label>
-                    <input type="number" id="X_pb" placeholder="XP B">
+                    <input type="number" id="X_pb" placeholder="XP B" min="0" step="1">
                 </div>
                 <div class="input-group">
                     <label for="sdi">SDI</label>
                     <input type="number" id="sdi" value="1" step="0.1" min="0">
                 </div>
             </div>
-
             <div class="results-section">
                 <div class="result-item">
-                    <span class="result-label">Overall Performance (OP)</span>
+                    <span class="result-label" data-tooltip="OP = 529 / 20 * √(TP + SP)">Overall Performance (OP)</span>
                     <span class="result-value" id="op_result">-</span>
                 </div>
                 <div class="result-item">
-                    <span class="result-label">Tactical Performance (TP)</span>
+                    <span class="result-label" data-tooltip="TP = (2 * R_ad * (86 * GO + S_mb * 32 * AD) + S_di * 59 * XPR * R_ad) / (165 * R_ad)">Tactical Performance (TP)</span>
                     <span class="result-value" id="tp_result">-</span>
                 </div>
                 <div class="result-item">
-                    <span class="result-label">Special Performance (SP)</span>
+                    <span class="result-label" data-tooltip="SP = (13 / R_ad) * (S_mb * (9 * F + 15 * i + 40 * w + 25 * I + 100 * e_p) + S_ma * 15 * s)">Special Performance (SP)</span>
                     <span class="result-value" id="sp_result">-</span>
                 </div>
                 <div class="result-item">
-                    <span class="result-label">Guard Rounds (R_g)</span>
+                    <span class="result-label" data-tooltip="R_g = max(0, R_ad - E - t - e_p - s - w)">Guard Rounds (R_g)</span>
                     <span class="result-value" id="rg_result">-</span>
                 </div>
                 <div class="result-item">
-                    <span class="result-label">Guard Objective Score (GO)</span>
+                    <span class="result-label" data-tooltip="GO = 46 * ((S_di * 5 * S + S_ma * 3 * P) / max(1, R_g))">Guard Objective Score (GO)</span>
                     <span class="result-value" id="gos_result">-</span>
                 </div>
                 <div class="result-item">
-                    <span class="result-label">Average Damage (AD)</span>
+                    <span class="result-label" data-tooltip="AD = D / max(1, (R_ad - (E + t + e_p)))">Average Damage (AD)</span>
                     <span class="result-value" id="ad_result">-</span>
                 </div>
                 <div class="result-item">
-                    <span class="result-label">XP per Round (XPR)</span>
+                    <span class="result-label" data-tooltip="XPR = X_T / max(1, R_ad)">XP per Round (XPR)</span>
                     <span class="result-value" id="xpr_result">-</span>
                 </div>
             </div>
@@ -418,39 +717,41 @@
         <div id="additionalSection" class="calculator-section">
             <div class="device-selection" style="margin-bottom: 20px;">
                 <label style="display: block; margin-bottom: 10px;">Primary Gaming Device</label>
-                <div class="device-options" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px;">
-                    <label class="device-option">
-                        <input type="radio" name="device" value="pc" checked>
-                        <span class="device-label"><i class="fas fa-desktop"></i> PC/Laptop</span>
-                    </label>
-                    <label class="device-option">
-                        <input type="radio" name="device" value="mobile">
-                        <span class="device-label"><i class="fas fa-mobile-alt"></i> Mobile</span>
-                    </label>
-                    <label class="device-option">
-                        <input type="radio" name="device" value="tablet">
-                        <span class="device-label"><i class="fas fa-tablet-alt"></i> Tablet</span>
-                    </label>
-                    <label class="device-option">
-                        <input type="radio" name="device" value="console">
-                        <span class="device-label"><i class="fas fa-gamepad"></i> Console</span>
-                    </label>
+                <div class="device-options">
+                    <button class="device-option" data-value="pc">
+                        <i class="fas fa-desktop"></i> PC/Laptop
+                    </button>
+                    <button class="device-option" data-value="mobile">
+                        <i class="fas fa-mobile-alt"></i> Mobile
+                    </button>
+                    <button class="device-option" data-value="tablet">
+                        <i class="fas fa-tablet-alt"></i> Tablet
+                    </button>
+                    <button class="device-option" data-value="console">
+                        <i class="fas fa-gamepad"></i> Console
+                    </button>
                 </div>
             </div>
-
             <div class="formatted-output">
                 <div class="stats-header">
                     <h4>Stats Summary</h4>
-                    <button id="copyFormatted" class="tooltip">
-                        <i class="fas fa-copy"></i> Copy
-                        <span class="tooltiptext">Copy stats to clipboard</span>
-                    </button>
+                    <button id="copyFormatted"><i class="fas fa-copy"></i> Copy</button>
                 </div>
                 <div id="formattedStats"></div>
             </div>
         </div>
         <div class="github-link" style="display: none;"></div>
     </div>
+    <!-- Error Popup -->
+    <div class="error-popup" id="errorPopup">
+        <div class="error-content">
+            <i class="fas fa-exclamation-triangle error-icon"></i>
+            <div class="error-message" id="errorMessage">An error has occurred.</div>
+            <button class="close-error" id="closeError"><i class="fas fa-keyboard"></i> ESC</button>
+        </div>
+    </div>
+    <!-- Custom Cursor -->
+    <div class="custom-cursor" id="customCursor"></div>
     <script>
         const FIXED_LABELS = [
             "Rounds played",
@@ -475,16 +776,24 @@
         const copyButton = document.getElementById('copyButton');
         const resetButton = document.getElementById('resetButton');
         const output = document.getElementById('output');
+        const errorPopup = document.getElementById('errorPopup');
+        const errorMessage = document.getElementById('errorMessage');
+        const closeError = document.getElementById('closeError');
+        const customCursor = document.getElementById('customCursor');
 
         window.addEventListener('load', () => {
             // Focus on first stat value (rounds played)
             const firstStatValue = document.querySelector('.stat-value');
             if (firstStatValue) {
                 firstStatValue.focus();
+                setCaretAtEnd(firstStatValue);
             }
             
             const savedDevice = localStorage.getItem('selectedDevice') || 'pc';
-            document.querySelector(`input[name="device"][value="${savedDevice}"]`).checked = true;
+            const savedDeviceButton = document.querySelector(`button[data-value="${savedDevice}"]`);
+            if (savedDeviceButton) {
+                savedDeviceButton.classList.add('selected');
+            }
             
             // Set default rounds played to 224
             const roundsPlayedValue = document.querySelector('.stat-line:first-child .stat-value');
@@ -492,14 +801,55 @@
                 roundsPlayedValue.textContent = '224';
                 calculateOP(); // Trigger initial calculation
             }
+
+            document.getElementById('showTutorial').addEventListener('click', () => {
+                localStorage.removeItem('tutorialComplete');
+                new Tutorial(tutorialSteps);
+            });
+
+            // Close error popup when close button is clicked
+            closeError.addEventListener('click', () => {
+                hideErrorPopup();
+            });
+
+            // Hide error popup when clicking outside the error content
+            errorPopup.addEventListener('click', (e) => {
+                if (e.target === errorPopup) {
+                    hideErrorPopup();
+                }
+            });
+
+            // Hide error popup when pressing ESC key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && errorPopup.classList.contains('active')) {
+                    hideErrorPopup();
+                }
+            });
+
+            // Update custom cursor position
+            document.addEventListener('mousemove', (e) => {
+                customCursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px) translate(-50%, -50%)`;
+            });
+
+            // Change cursor style on hover over interactive elements
+            const interactiveElements = document.querySelectorAll('button, a, .device-option, input');
+            interactiveElements.forEach(elem => {
+                elem.addEventListener('mouseenter', () => {
+                    customCursor.classList.add('hovering');
+                });
+                elem.addEventListener('mouseleave', () => {
+                    customCursor.classList.remove('hovering');
+                });
+            });
         });
 
         // Add event listener for Level A input
         document.getElementById('l_va').addEventListener('input', function() {
             const levelA = parseFloat(this.value) || 0;
+            const levelBInput = document.getElementById('l_vb');
             if (levelA > 0) {
                 // Set Level B to Level A + 1
-                document.getElementById('l_vb').value = (levelA + 1).toString();
+                levelBInput.value = (levelA + 1).toString();
             }
             // Trigger OP calculation
             calculateOP();
@@ -515,10 +865,12 @@
                     const nextInput = nextLine.querySelector('.stat-value');
                     if (nextInput) {
                         nextInput.focus();
+                        setCaretAtEnd(nextInput);
                     }
                 } else {
                     // If it's the last stat field (epidemics), move to l_va input
                     document.getElementById('l_va').focus();
+                    setCaretAtEnd(document.getElementById('l_va'));
                 }
             }
             // Add backspace navigation
@@ -531,6 +883,7 @@
                     const previousInput = previousLine.querySelector('.stat-value');
                     if (previousInput) {
                         previousInput.focus();
+                        setCaretAtEnd(previousInput);
                     }
                 }
             }
@@ -598,7 +951,18 @@
             const expInputs = ['l_va', 'X_pa', 'l_vb', 'X_pb', 'sdi'];
             expInputs.forEach(id => {
                 document.getElementById(id).addEventListener('input', () => {
+                    validateExperienceInputs();
+                    validateNumericInputs(id);
                     calculateOP();
+                });
+
+                // Prevent non-numeric input
+                document.getElementById(id).addEventListener('keypress', (e) => {
+                    const char = String.fromCharCode(e.which);
+                    if (!/[0-9.\-]/.test(char)) {
+                        e.preventDefault();
+                        showErrorPopup('Please enter only numeric values.');
+                    }
                 });
             });
         }
@@ -619,7 +983,18 @@
                 // Add input listeners to the newly created stat values
                 document.querySelectorAll('.stat-value').forEach(statValue => {
                     statValue.addEventListener('input', () => {
+                        validateStatInputs();
+                        validateNumericStatInputs(statValue);
                         calculateOP();
+                    });
+
+                    // Prevent non-numeric input
+                    statValue.addEventListener('keypress', (e) => {
+                        const char = String.fromCharCode(e.which);
+                        if (!/[0-9]/.test(char)) {
+                            e.preventDefault();
+                            showErrorPopup('Please enter only numeric values.');
+                        }
                     });
                 });
             }
@@ -627,12 +1002,13 @@
 
         output.addEventListener('input', (e) => {
             if (e.target.classList.contains('stat-value')) {
-                updateStatVisibility();
+                validateStatInputs();
                 // Validate input is a number
                 const value = e.target.textContent;
-                if (value && !/^\d*$/.test(value)) {
+                if (value && !/^\d+$/.test(value)) {
                     e.target.classList.add('error');
                     e.target.setAttribute('title', 'Please enter only numbers');
+                    showErrorPopup('Please enter only numeric values.');
                 } else {
                     e.target.classList.remove('error');
                     e.target.removeAttribute('title');
@@ -646,19 +1022,29 @@
             // Reset all stat values
             document.querySelectorAll('.stat-value').forEach(value => {
                 value.textContent = value.closest('.stat-line').querySelector('.stat-label').textContent === 'Rounds played' ? '224' : '';
+                value.classList.remove('error');
+                value.removeAttribute('title');
             });
             
             // Reset level and XP inputs including lvB
             ['l_va', 'X_pa', 'l_vb', 'X_pb'].forEach(id => {
                 document.getElementById(id).value = '';
+                document.getElementById(id).classList.remove('error');
+                document.getElementById(id).removeAttribute('title');
             });
             
             // Reset SDI to default
             document.getElementById('sdi').value = '1';
+            document.getElementById('sdi').classList.remove('error');
+            document.getElementById('sdi').removeAttribute('title');
             
             // Reset device to PC/Laptop or last saved
             const savedDevice = localStorage.getItem('selectedDevice') || 'pc';
-            document.querySelector(`input[name="device"][value="${savedDevice}"]`).checked = true;
+            document.querySelectorAll('.device-option').forEach(btn => btn.classList.remove('selected'));
+            const savedDeviceButton = document.querySelector(`button[data-value="${savedDevice}"]`);
+            if (savedDeviceButton) {
+                savedDeviceButton.classList.add('selected');
+            }
             
             // Recalculate
             calculateOP();
@@ -680,6 +1066,7 @@
                 }, 2000);
             }, (err) => {
                 console.error('Error copying text: ', err);
+                showErrorPopup('Failed to copy to clipboard.');
             });
         });
 
@@ -689,6 +1076,77 @@
                 sum += Math.floor((n-1) * (2.46 * Math.pow(1.02, n)) * 10) * 10;
             }
             return sum;
+        }
+
+        function validateExperienceInputs() {
+            const l_va = parseFloat(document.getElementById('l_va').value);
+            const l_vb = parseFloat(document.getElementById('l_vb').value);
+
+            if (!isNaN(l_vb) && !isNaN(l_va) && l_vb < l_va) {
+                showErrorPopup('Level B cannot be smaller than Level A.');
+                document.getElementById('l_vb').classList.add('error');
+                document.getElementById('l_vb').setAttribute('title', 'Level B must be greater than or equal to Level A');
+            } else {
+                document.getElementById('l_vb').classList.remove('error');
+                document.getElementById('l_vb').removeAttribute('title');
+            }
+        }
+
+        function validateNumericInputs(id) {
+            const input = document.getElementById(id);
+            const value = parseFloat(input.value);
+            if (isNaN(value)) {
+                input.classList.add('error');
+                input.setAttribute('title', 'Please enter only numeric values.');
+            } else {
+                input.classList.remove('error');
+                input.removeAttribute('title');
+            }
+        }
+
+        function validateNumericStatInputs(statValue) {
+            const value = parseInt(statValue.textContent);
+            if (isNaN(value)) {
+                statValue.classList.add('error');
+                statValue.setAttribute('title', 'Please enter only numeric values.');
+            } else {
+                statValue.classList.remove('error');
+                statValue.removeAttribute('title');
+            }
+        }
+
+        function validateStatInputs() {
+            const statLabel2 = document.querySelector('#output .stat-label:nth-of-type(2)');
+            const statLabel3 = document.querySelector('#output .stat-label:nth-of-type(3)');
+
+            const targetsAssassinated = statLabel2 ? parseInt(statLabel2.parentElement.querySelector('.stat-value').textContent) || 0 : 0;
+            const escapes = statLabel3 ? parseInt(statLabel3.parentElement.querySelector('.stat-value').textContent) || 0 : 0;
+
+            const allStatValues = {};
+            document.querySelectorAll('#output .stat-line').forEach(line => {
+                const label = line.querySelector('.stat-label').textContent;
+                const value = parseInt(line.querySelector('.stat-value').textContent) || 0;
+                allStatValues[label] = value;
+            });
+
+            if (allStatValues['Targets assassinated'] < allStatValues['Escapes']) {
+                showErrorPopup('Targets assassinated cannot be lower than Escapes.');
+                document.querySelectorAll('#output .stat-line').forEach(line => {
+                    const label = line.querySelector('.stat-label').textContent;
+                    if (label === 'Targets assassinated' || label === 'Escapes') {
+                        line.querySelector('.stat-value').classList.add('error');
+                        line.querySelector('.stat-value').setAttribute('title', 'Cannot be lower than Escapes.');
+                    }
+                });
+            } else {
+                document.querySelectorAll('#output .stat-line').forEach(line => {
+                    const label = line.querySelector('.stat-label').textContent;
+                    if (label === 'Targets assassinated' || label === 'Escapes') {
+                        line.querySelector('.stat-value').classList.remove('error');
+                        line.querySelector('.stat-value').removeAttribute('title');
+                    }
+                });
+            }
         }
 
         function calculateOP() {
@@ -701,7 +1159,7 @@
 
                 // Get all stat values first
                 const statValues = {};
-                document.querySelectorAll('.stat-line').forEach(line => {
+                document.querySelectorAll('#output .stat-line').forEach(line => {
                     const label = line.querySelector('.stat-label').textContent;
                     const value = parseInt(line.querySelector('.stat-value').textContent) || 0;
                     statValues[label] = value;
@@ -714,7 +1172,32 @@
                 const e_p = statValues['Epidemics'] || 0;
                 const s = statValues['Infection survivals'] || 0;
                 const w = statValues['Free for all wins'] || 0;
-                
+                const A = statValues['Targets assassinated'] || 0;
+
+                // Validate Targets assassinated >= Escapes
+                if (A < E) {
+                    showErrorPopup('Targets assassinated cannot be lower than Escapes.');
+                    document.querySelectorAll('#output .stat-line').forEach(line => {
+                        const label = line.querySelector('.stat-label').textContent;
+                        if (label === 'Targets assassinated' || label === 'Escapes') {
+                            line.querySelector('.stat-value').classList.add('error');
+                            line.querySelector('.stat-value').setAttribute('title', 'Cannot be lower than Escapes.');
+                        }
+                    });
+                    ['op_result', 'tp_result', 'sp_result', 'gos_result', 'ad_result', 'xpr_result'].forEach(id => {
+                        document.getElementById(id).textContent = '-';
+                    });
+                    return;
+                } else {
+                    document.querySelectorAll('#output .stat-line').forEach(line => {
+                        const label = line.querySelector('.stat-label').textContent;
+                        if (label === 'Targets assassinated' || label === 'Escapes') {
+                            line.querySelector('.stat-value').classList.remove('error');
+                            line.querySelector('.stat-value').removeAttribute('title');
+                        }
+                    });
+                }
+
                 // Always calculate R_ad and R_g
                 const R_ad = Math.max(0, R - E);
                 const R_g = Math.max(0, R_ad - E - t - e_p - s - w);
@@ -777,6 +1260,7 @@
                         element.textContent = '-';
                         element.classList.add('error');
                         element.setAttribute('title', err.message);
+                        showErrorPopup('Calculation error: ' + err.message);
                     }
                 };
 
@@ -797,13 +1281,17 @@
                     element.setAttribute('title', error.message || 'Invalid calculation');
                 });
                 document.getElementById('formattedStats').textContent = 'Calculating...';
+                showErrorPopup('Calculation error: ' + (error.message || 'Invalid calculation'));
             }
         }
 
         // Improved: Automatically update formatted stats when selecting a gaming device
-        document.querySelectorAll('input[name="device"]').forEach(radio => {
-            radio.addEventListener('change', function () {
-                // Trigger an update to the formatted stats directly on device change
+        document.querySelectorAll('.device-option').forEach(button => {
+            button.addEventListener('click', function () {
+                document.querySelectorAll('.device-option').forEach(btn => btn.classList.remove('selected'));
+                this.classList.add('selected');
+                const selectedDevice = this.getAttribute('data-value');
+                localStorage.setItem('selectedDevice', selectedDevice);
                 calculateOP();
             });
         });
@@ -818,7 +1306,7 @@
             const xpr = parseFloat(document.getElementById('xpr_result').textContent) || 0;
             const sdi = parseFloat(document.getElementById('sdi').value) || 1;
 
-            const selectedDevice = document.querySelector('input[name="device"]:checked').value;
+            const selectedDevice = document.querySelector('.device-option.selected') ? document.querySelector('.device-option.selected').getAttribute('data-value') : 'pc';
             let boostedOP = op;
 
             // Apply device boost
@@ -838,7 +1326,7 @@
             else if (boostedOP >= 560) division = "Wood (D)";
             else division = "Ember (E)";
 
-            // Render formatted text with proper line breaks
+            // Render formatted text with proper line breaks and no "verified"
             const formattedText = 
 `OP = ${Math.round(boostedOP)}
 TP = ${Math.round(tp)}, SP = ${Math.round(sp)}
@@ -862,8 +1350,10 @@ Source: website`;
             navigator.clipboard.writeText(stats).then(() => {
                 this.innerHTML = '<i class="fas fa-check"></i> Copied!';
                 setTimeout(() => {
-                    this.innerHTML = '<i class="fas fa-copy"></i> Copy Stats';
+                    this.innerHTML = '<i class="fas fa-copy"></i> Copy';
                 }, 2000);
+            }).catch(() => {
+                showErrorPopup('Failed to copy formatted stats.');
             });
         });
 
@@ -876,6 +1366,263 @@ Source: website`;
                     line.classList.remove('has-value');
                 }
             });
+        }
+
+        // Tutorial Implementation
+        const tutorialSteps = [
+            {
+                target: '.stat-line:first-child',
+                content: 'Start by entering your game statistics. The first field is for Rounds played.',
+                position: 'right'
+            },
+            {
+                target: '#l_va',
+                content: 'Enter your starting level (Level A) here.',
+                position: 'right'
+            },
+            {
+                target: '#X_pa',
+                content: 'Input your starting XP (XP A) here.',
+                position: 'right'
+            },
+            {
+                target: '.device-options',
+                content: 'Select your gaming device to get accurate performance calculations with platform bonuses.',
+                position: 'right'
+            },
+            {
+                target: '.results-section',
+                content: 'Your performance stats will appear here. The Overall Performance (OP) determines your division ranking.',
+                position: 'left'
+            },
+            {
+                target: '#formattedStats',
+                content: 'Find your complete stats summary here, ready to copy and share.',
+                position: 'right'
+            }
+        ];
+
+        class Tutorial {
+            constructor(steps) {
+                this.steps = steps;
+                this.currentStep = 0;
+                this.overlay = null;
+                this.box = null;
+                this.init();
+            }
+
+            init() {
+                if (localStorage.getItem('tutorialComplete') === 'true') {
+                    return;
+                }
+
+                this.createOverlay();
+                this.showStep(0);
+
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape') {
+                        this.complete();
+                    }
+                });
+            }
+
+            createOverlay() {
+                this.overlay = document.createElement('div');
+                this.overlay.className = 'tutorial-overlay';
+                document.body.appendChild(this.overlay);
+                this.overlay.style.display = 'block';
+            }
+
+            showStep(index) {
+                const step = this.steps[index];
+                const target = document.querySelector(step.target);
+                
+                if (!target) {
+                    console.error(`Tutorial target not found: ${step.target}`);
+                    this.complete();
+                    return;
+                }
+
+                if (this.box) {
+                    this.box.style.opacity = '0';
+                    setTimeout(() => {
+                        this.box.remove();
+                        this.createNewBox(step, target);
+                    }, 300); // Match transition duration
+                } else {
+                    this.createNewBox(step, target);
+                }
+
+                // Remove previous highlights
+                document.querySelectorAll('.highlight-element').forEach(el => {
+                    el.classList.remove('highlight-element');
+                });
+
+                target.classList.add('highlight-element');
+                
+                // Scroll target into view smoothly with offset
+                const offset = window.innerHeight / 3;
+                const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - offset;
+                
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
+            }
+
+            createNewBox(step, target) {
+                this.box = document.createElement('div');
+                this.box.className = 'tutorial-box';
+                this.box.style.opacity = '0'; // Start invisible
+                this.box.innerHTML = `
+                    <div>${step.content}</div>
+                    <div class="tutorial-buttons" style="margin-top: 15px; display: flex; gap: 10px; justify-content: flex-end;">
+                        ${this.currentStep > 0 ? '<button class="tutorial-prev" title="Previous"><i class="fas fa-arrow-left"></i></button>' : ''}
+                        ${this.currentStep < this.steps.length - 1 ? 
+                            '<button class="tutorial-next" title="Next"><i class="fas fa-arrow-right"></i></button>' : 
+                            '<button class="tutorial-complete" title="Complete"><i class="fas fa-check"></i></button>'}
+                        <button class="tutorial-skip" title="Skip Tutorial">Skip</button>
+                    </div>
+                `;
+
+                document.body.appendChild(this.box);
+                
+                // Position box then fade in
+                this.positionBox(target, step.position);
+                requestAnimationFrame(() => {
+                    this.box.style.opacity = '1';
+                });
+                
+                this.addButtonListeners();
+            }
+
+            positionBox(target, position) {
+                const targetRect = target.getBoundingClientRect();
+                const boxRect = this.box.getBoundingClientRect();
+                const margin = 15;
+                
+                let left, top;
+                
+                switch(position) {
+                    case 'right':
+                        left = targetRect.right + margin;
+                        top = targetRect.top;
+                        if (left + boxRect.width > window.innerWidth - margin) {
+                            left = window.innerWidth - boxRect.width - margin;
+                        }
+                        break;
+                    case 'left':
+                        left = targetRect.left - boxRect.width - margin;
+                        top = targetRect.top;
+                        break;
+                    case 'up':
+                        left = targetRect.left;
+                        top = targetRect.top - boxRect.height - margin;
+                        break;
+                    case 'down':
+                        left = targetRect.left;
+                        top = targetRect.bottom + margin;
+                        break;
+                }
+
+                // Viewport boundaries
+                const viewport = {
+                    left: 20,
+                    right: window.innerWidth - 20,
+                    top: 20,
+                    bottom: window.innerHeight - 20
+                };
+
+                // Adjust positions
+                if (left < viewport.left) left = viewport.left;
+                if (left + boxRect.width > viewport.right) left = viewport.right - boxRect.width;
+                if (top < viewport.top) top = viewport.top;
+                if (top + boxRect.height > viewport.bottom) top = viewport.bottom - boxRect.height;
+
+                // Apply position with smooth transition
+                this.box.style.transform = 'translate3d(0, 0, 0)'; // Enable hardware acceleration
+                this.box.style.left = `${left}px`;
+                this.box.style.top = `${top}px`;
+            }
+
+            addButtonListeners() {
+                const prevBtn = this.box.querySelector('.tutorial-prev');
+                const nextBtn = this.box.querySelector('.tutorial-next');
+                const completeBtn = this.box.querySelector('.tutorial-complete');
+                const skipBtn = this.box.querySelector('.tutorial-skip');
+
+                if (prevBtn) {
+                    prevBtn.addEventListener('click', () => this.previousStep());
+                }
+                if (nextBtn) {
+                    nextBtn.addEventListener('click', () => this.nextStep());
+                }
+                if (completeBtn) {
+                    completeBtn.addEventListener('click', () => this.complete());
+                }
+                if (skipBtn) {
+                    skipBtn.addEventListener('click', () => this.complete());
+                }
+            }
+
+            previousStep() {
+                if (this.currentStep > 0) {
+                    document.querySelector(this.steps[this.currentStep].target)
+                        .classList.remove('highlight-element');
+                    this.currentStep--;
+                    this.showStep(this.currentStep);
+                }
+            }
+
+            nextStep() {
+                if (this.currentStep < this.steps.length - 1) {
+                    document.querySelector(this.steps[this.currentStep].target)
+                        .classList.remove('highlight-element');
+                    this.currentStep++;
+                    this.showStep(this.currentStep);
+                }
+            }
+
+            complete() {
+                localStorage.setItem('tutorialComplete', 'true');
+                if (this.box) {
+                    this.box.remove();
+                }
+                if (this.overlay) {
+                    this.overlay.remove();
+                }
+                document.querySelectorAll('.highlight-element')
+                    .forEach(el => el.classList.remove('highlight-element'));
+            }
+        }
+
+        // Initialize tutorial when page loads
+        window.addEventListener('load', () => {
+            new Tutorial(tutorialSteps);
+        });
+
+        // Error Popup Functions
+        function showErrorPopup(message) {
+            errorMessage.textContent = message;
+            errorPopup.classList.add('active');
+        }
+
+        function hideErrorPopup() {
+            errorPopup.classList.remove('active');
+        }
+
+        // Helper function to set caret at end of contenteditable element
+        function setCaretAtEnd(el) {
+            el.focus();
+            if (typeof window.getSelection != "undefined"
+                && typeof document.createRange != "undefined") {
+                const range = document.createRange();
+                range.selectNodeContents(el);
+                range.collapse(false);
+                const sel = window.getSelection();
+                sel.removeAllRanges();
+                sel.addRange(range);
+            }
         }
     </script>
 </body></html>
