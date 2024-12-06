@@ -1,19 +1,15 @@
-<html><head><base href="https://cdn.jsdelivr.net/gh/text-extractor">
+<html><head><base href="https://sethispr.github.io/fos">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Advanced Performance Calculator for gaming statistics and OP stats. Analyze and track your stats efficiently. Developed with precision and user-friendly design.">
-    <meta name="keywords" content="performance calculator, stats tool, text extraction, real-time calculations, OP stats, FOS, gaming tools">
+    <meta name="description" content="Overall SA performance calculator, analyze your stats efficiently.">
+    <meta name="keywords" content="performance calculator, stats tool, real-time calculations, OP stats, FOS, silent assassin roblox">
     <meta name="author" content="sethispr">
     <link rel="canonical" href="https://sethispr.github.io/fos/">
-    <title>Neuromorphic Gaming Stats Calculator</title>
-    <script src="https://unpkg.com/tesseract.js@v2.1.0/dist/tesseract.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css">
+    <title>fos</title>
     <link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
     <link rel="icon" href="https://sethispr.github.io/fos/favicon.ico"/>
     <style>
-        /* General modern neuromorphic styles */
         body {
             font-family: 'Lexend Deca', sans-serif;
             margin: 0;
@@ -180,6 +176,38 @@
             margin-top: 20px;
         }
 
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .results-section .result-header h4 {
+            margin: 0;
+            color: #72767d; /* Match the grey color used elsewhere */
+            font-weight: normal;
+        }
+
+        .result-header button {
+            padding: 8px 12px;
+            font-size: 0.85rem;
+            background: #000000;
+            color: #dcddde;
+            border: 1px solid #1a1a1a;
+            cursor: pointer;
+            font-family: 'Lexend Deca', sans-serif;
+            font-weight: 600;
+            text-transform: uppercase;
+            transition: all 0.2s ease-in-out;
+            border-radius: 8px;
+        }
+
+        .result-header button:hover {
+            background: #0c0c0c;
+            box-shadow: none;
+        }
+
         .result-item {
             display: flex;
             justify-content: space-between;
@@ -312,6 +340,11 @@
 
             .container {
                 padding: 20px;
+            }
+
+            .graphs-section canvas {
+                width: 100%;
+                height: auto;
             }
         }
 
@@ -650,7 +683,98 @@
             transform: translate(-50%, -50%) scale(1.5);
             background-color: rgba(220, 221, 222, 1);
         }
+
+        /* Scroll Up Button Styles */
+        #scrollUpButton {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: #000000;
+            border: 1px solid #1a1a1a;
+            border-radius: 50%;
+            box-shadow: 8px 8px 15px rgba(0, 0, 0, 0.6), -8px -8px 15px rgba(12, 12, 12, 0.1);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+            z-index: 9999; /* Above other elements */
+            backdrop-filter: blur(4px);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #scrollUpButton.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        #scrollUpButton.hide {
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+        }
+
+        #scrollUpButton:hover {
+            background: #0c0c0c;
+            transform: translateY(0) scale(1.1);
+            box-shadow: 10px 10px 20px rgba(0,0,0,0.6), -10px -10px 20px rgba(12,12,12,0.1);
+        }
+
+        /* SVG Icon for Scroll Up Button */
+        #scrollUpButton svg {
+            width: 20px;
+            height: 20px;
+            fill: none;
+            stroke: #dcddde;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        /* Graphs Section Styles */
+        .graphs-section {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 16px;
+            background: transparent;
+        }
+
+        .graphs-section.show {
+            display: block;
+            opacity: 1;
+        }
+
+        .graphs-section canvas {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            display: block;
+        }
+
+        /* Tooltip Styles */
+        #tooltip {
+            position: absolute;
+            background-color: rgba(0, 0, 0, 0.85);
+            color: #dcddde;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 10000;
+            white-space: nowrap;
+        }
     </style>
+    <!-- Chart.js for Graphs -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <div class="container">
@@ -684,6 +808,10 @@
                 </div>
             </div>
             <div class="results-section">
+                <div class="result-header">
+                    <h4>Performance Stats</h4>
+                    <button id="toggleGraphButton"><i class="fas fa-chart-bar"></i> Show Graph</button>
+                </div>
                 <div class="result-item">
                     <span class="result-label" data-tooltip="OP = 529 / 20 * √(TP + SP)">Overall Performance (OP)</span>
                     <span class="result-value" id="op_result">-</span>
@@ -712,6 +840,10 @@
                     <span class="result-label" data-tooltip="XPR = X_T / max(1, R_ad)">XP per Round (XPR)</span>
                     <span class="result-value" id="xpr_result">-</span>
                 </div>
+            </div>
+            <!-- Graphs Section -->
+            <div class="graphs-section">
+                <canvas id="performanceChart"></canvas>
             </div>
         </div>
         <div id="additionalSection" class="calculator-section">
@@ -742,6 +874,13 @@
         </div>
         <div class="github-link" style="display: none;"></div>
     </div>
+    <!-- Scroll Up Button -->
+    <button id="scrollUpButton" aria-label="Scroll to top">
+        <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <polyline points="5 12 10 7 15 12" />
+            <line x1="10" y1="7" x2="10" y2="17" />
+        </svg>
+    </button>
     <!-- Error Popup -->
     <div class="error-popup" id="errorPopup">
         <div class="error-content">
@@ -752,6 +891,8 @@
     </div>
     <!-- Custom Cursor -->
     <div class="custom-cursor" id="customCursor"></div>
+    <!-- Tooltip -->
+    <div id="tooltip"></div>
     <script>
         const FIXED_LABELS = [
             "Rounds played",
@@ -780,6 +921,12 @@
         const errorMessage = document.getElementById('errorMessage');
         const closeError = document.getElementById('closeError');
         const customCursor = document.getElementById('customCursor');
+        const scrollUpButton = document.getElementById('scrollUpButton');
+        const tooltip = document.getElementById('tooltip');
+        const toggleGraphButton = document.getElementById('toggleGraphButton');
+
+        let performanceChart; // Global Chart.js instance
+        let graphVisible = false; // Track graph visibility
 
         window.addEventListener('load', () => {
             // Focus on first stat value (rounds played)
@@ -800,6 +947,37 @@
             if (roundsPlayedValue) {
                 roundsPlayedValue.textContent = '224';
                 calculateOP(); // Trigger initial calculation
+            }
+
+            copyButton.disabled = false;
+            addExperienceInputListeners();
+
+            if (!output.innerHTML) {
+                const emptyStats = FIXED_LABELS.map(label => `
+                    <div class="stat-line">
+                        <span class="stat-label">${label}</span>
+                        <span class="stat-value" contenteditable="true"></span>
+                    </div>
+                `).join('');
+                output.innerHTML = emptyStats;
+                
+                // Add input listeners to the newly created stat values
+                document.querySelectorAll('.stat-value').forEach(statValue => {
+                    statValue.addEventListener('input', () => {
+                        validateStatInputs();
+                        validateNumericStatInputs(statValue);
+                        calculateOP();
+                    });
+
+                    // Prevent non-numeric input
+                    statValue.addEventListener('keypress', (e) => {
+                        const char = String.fromCharCode(e.which);
+                        if (!/[0-9]/.test(char)) {
+                            e.preventDefault();
+                            showErrorPopup('Please enter only numeric values.');
+                        }
+                    });
+                });
             }
 
             document.getElementById('showTutorial').addEventListener('click', () => {
@@ -840,6 +1018,42 @@
                 elem.addEventListener('mouseleave', () => {
                     customCursor.classList.remove('hovering');
                 });
+            });
+
+            // Scroll Up Button Logic
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 300) {
+                    scrollUpButton.classList.add('show');
+                    scrollUpButton.classList.remove('hide');
+                } else {
+                    scrollUpButton.classList.add('hide');
+                    scrollUpButton.classList.remove('show');
+                }
+            });
+
+            scrollUpButton.addEventListener('click', () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+
+            // Toggle Graph Button Logic
+            toggleGraphButton.addEventListener('click', () => {
+                const graphSection = document.querySelector('.graphs-section');
+                if (!graphVisible) {
+                    graphSection.classList.add('show');
+                    toggleGraphButton.innerHTML = '<i class="fas fa-chart-bar"></i> Hide Graph';
+                    graphVisible = true;
+                    // Force a redraw of the chart
+                    setTimeout(() => {
+                        updateGraphs();
+                    }, 100);
+                } else {
+                    graphSection.classList.remove('show');
+                    toggleGraphButton.innerHTML = '<i class="fas fa-chart-bar"></i> Show Graph';
+                    graphVisible = false;
+                }
             });
         });
 
@@ -896,6 +1110,7 @@
                     e.preventDefault();
                     if (index < arr.length - 1) {
                         document.getElementById(arr[index + 1]).focus();
+                        setCaretAtEnd(document.getElementById(arr[index + 1]));
                     }
                 }
             });
@@ -908,9 +1123,11 @@
                     e.preventDefault();
                     if (index < arr.length - 1) {
                         document.getElementById(arr[index + 1]).focus();
+                        setCaretAtEnd(document.getElementById(arr[index + 1]));
                     } else {
                         // Move to SDI if it's the last XP field
                         document.getElementById('sdi').focus();
+                        setCaretAtEnd(document.getElementById('sdi'));
                     }
                 }
             });
@@ -968,36 +1185,7 @@
         }
 
         window.addEventListener('load', () => {
-            copyButton.disabled = false;
-            addExperienceInputListeners();
-
-            if (!output.innerHTML) {
-                const emptyStats = FIXED_LABELS.map(label => `
-                    <div class="stat-line">
-                        <span class="stat-label">${label}</span>
-                        <span class="stat-value" contenteditable="true"></span>
-                    </div>
-                `).join('');
-                output.innerHTML = emptyStats;
-                
-                // Add input listeners to the newly created stat values
-                document.querySelectorAll('.stat-value').forEach(statValue => {
-                    statValue.addEventListener('input', () => {
-                        validateStatInputs();
-                        validateNumericStatInputs(statValue);
-                        calculateOP();
-                    });
-
-                    // Prevent non-numeric input
-                    statValue.addEventListener('keypress', (e) => {
-                        const char = String.fromCharCode(e.which);
-                        if (!/[0-9]/.test(char)) {
-                            e.preventDefault();
-                            showErrorPopup('Please enter only numeric values.');
-                        }
-                    });
-                });
-            }
+            // Already handled above
         });
 
         output.addEventListener('input', (e) => {
@@ -1044,6 +1232,13 @@
             const savedDeviceButton = document.querySelector(`button[data-value="${savedDevice}"]`);
             if (savedDeviceButton) {
                 savedDeviceButton.classList.add('selected');
+            }
+            
+            // Reset toggleGraphButton text if graph is visible
+            if (graphVisible) {
+                toggleGraphButton.innerHTML = '<i class="fas fa-chart-bar"></i> Show Graph';
+                graphVisible = false;
+                document.querySelector('.graphs-section').classList.remove('show');
             }
             
             // Recalculate
@@ -1187,6 +1382,8 @@
                     ['op_result', 'tp_result', 'sp_result', 'gos_result', 'ad_result', 'xpr_result'].forEach(id => {
                         document.getElementById(id).textContent = '-';
                     });
+                    updateFormattedStats();
+                    updateGraphs(); // Update graphs with reset values
                     return;
                 } else {
                     document.querySelectorAll('#output .stat-line').forEach(line => {
@@ -1202,7 +1399,7 @@
                 const R_ad = Math.max(0, R - E);
                 const R_g = Math.max(0, R_ad - E - t - e_p - s - w);
 
-                // Update these results even if incomplete data
+                // Update R_g result
                 document.getElementById('rg_result').textContent = R_g.toFixed(0);
 
                 // Only proceed with full calculations if we have necessary base data
@@ -1210,6 +1407,8 @@
                     ['op_result', 'tp_result', 'sp_result', 'gos_result', 'ad_result', 'xpr_result'].forEach(id => {
                         document.getElementById(id).textContent = '-';
                     });
+                    updateFormattedStats();
+                    updateGraphs(); // Update graphs with reset values
                     return;
                 }
 
@@ -1228,10 +1427,6 @@
                 const g_os = 46 * ((S_di * 5 * S + S_ma * 3 * P) / Math.max(1, R_g));
                 const D_avg = D / Math.max(1, (R_ad - (E + t + e_p)));
 
-                // Calculate SP (z) with available data
-                const z = (13 / Math.max(1, R_ad)) * 
-                    (S_mb * (9 * F + 15 * i + 40 * w + 25 * I + 100 * e_p) + S_ma * 15 * s);
-
                 // Calculate XP related stats if XP data is available
                 let x_pr = 0;
                 if (l_va || l_vb || X_pa || X_pb) {
@@ -1242,6 +1437,9 @@
                 }
 
                 // Calculate final stats
+                const z = (13 / Math.max(1, R_ad)) * 
+                    (S_mb * (9 * F + 15 * i + 40 * w + 25 * I + 100 * e_p) + S_ma * 15 * s);
+
                 const t_p = ((2 * R_ad * (86 * g_os + S_mb * 32 * D_avg) + S_di * 59 * x_pr * R_ad) / (165 * R_ad));
                 const o_p = (529 / 20) * Math.sqrt(t_p + z);
 
@@ -1272,6 +1470,7 @@
                 updateResult('xpr_result', x_pr);
 
                 updateFormattedStats();
+                updateGraphs();
             } catch (error) {
                 console.error('Calculation error:', error);
                 ['op_result', 'tp_result', 'sp_result', 'rg_result', 'gos_result', 'ad_result', 'xpr_result'].forEach(id => {
@@ -1282,6 +1481,7 @@
                 });
                 document.getElementById('formattedStats').textContent = 'Calculating...';
                 showErrorPopup('Calculation error: ' + (error.message || 'Invalid calculation'));
+                updateGraphs(); // Update graphs with reset values
             }
         }
 
@@ -1399,6 +1599,11 @@ Source: website`;
                 target: '#formattedStats',
                 content: 'Find your complete stats summary here, ready to copy and share.',
                 position: 'right'
+            },
+            {
+                target: '.graphs-section',
+                content: 'View your performance through an interactive graph to better understand your stats.',
+                position: 'bottom'
             }
         ];
 
@@ -1488,7 +1693,7 @@ Source: website`;
                 document.body.appendChild(this.box);
                 
                 // Position box then fade in
-                this.positionBox(target, step.position);
+                this.positionBox(step, target);
                 requestAnimationFrame(() => {
                     this.box.style.opacity = '1';
                 });
@@ -1496,14 +1701,14 @@ Source: website`;
                 this.addButtonListeners();
             }
 
-            positionBox(target, position) {
+            positionBox(step, target) {
                 const targetRect = target.getBoundingClientRect();
                 const boxRect = this.box.getBoundingClientRect();
                 const margin = 15;
                 
                 let left, top;
                 
-                switch(position) {
+                switch(step.position) {
                     case 'right':
                         left = targetRect.right + margin;
                         top = targetRect.top;
@@ -1523,6 +1728,9 @@ Source: website`;
                         left = targetRect.left;
                         top = targetRect.bottom + margin;
                         break;
+                    default:
+                        left = targetRect.right + margin;
+                        top = targetRect.top;
                 }
 
                 // Viewport boundaries
@@ -1623,6 +1831,110 @@ Source: website`;
                 sel.removeAllRanges();
                 sel.addRange(range);
             }
+        }
+
+        // Graphs Implementation using Chart.js
+        function updateGraphs() {
+            // Get performance stats
+            const tp = parseFloat(document.getElementById('tp_result').textContent) || 0;
+            const sp = parseFloat(document.getElementById('sp_result').textContent) || 0;
+            const go = parseFloat(document.getElementById('gos_result').textContent) || 0;
+            const ad = parseFloat(document.getElementById('ad_result').textContent) || 0;
+            const xpr = parseFloat(document.getElementById('xpr_result').textContent) || 0;
+
+            // Get the canvas context
+            const ctx = document.getElementById('performanceChart').getContext('2d');
+
+            const data = {
+                labels: ['TP', 'SP', 'GO', 'AD', 'XPR'],
+                datasets: [{
+                    label: 'Performance Metrics',
+                    data: [tp, sp, go, ad, xpr],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.6)',
+                        'rgba(54, 162, 235, 0.6)',
+                        'rgba(255, 206, 86, 0.6)',
+                        'rgba(75, 192, 192, 0.6)',
+                        'rgba(153, 102, 255, 0.6)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)'
+                    ],
+                    borderWidth: 1,
+                    fill: true
+                }]
+            };
+
+            const options = {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: true,
+                        labels: {
+                            color: '#72767d'
+                        }
+                    },
+                    tooltip: {
+                        enabled: true,
+                        callbacks: {
+                            label: function(context) {
+                                return `${context.label}: ${context.parsed.toFixed(2)}`;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    r: {
+                        grid: {
+                            color: '#262626'
+                        },
+                        angleLines: {
+                            color: '#262626'
+                        },
+                        ticks: {
+                            color: '#72767d',
+                            backdropColor: 'transparent',
+                            beginAtZero: true
+                        },
+                        pointLabels: {
+                            color: '#72767d'
+                        }
+                    }
+                }
+            };
+
+            // If chart exists, destroy it before creating a new one
+            if (performanceChart) {
+                performanceChart.destroy();
+            }
+
+            // Create new chart
+            performanceChart = new Chart(ctx, {
+                type: 'polarArea',
+                data: data,
+                options: options
+            });
+        }
+
+        // Tooltip Functions (for custom tooltips if needed)
+        function showTooltip(event, text) {
+            tooltip.textContent = text;
+            tooltip.style.left = (event.pageX + 10) + 'px';
+            tooltip.style.top = (event.pageY + 10) + 'px';
+            tooltip.style.opacity = '1';
+        }
+
+        function moveTooltip(event) {
+            tooltip.style.left = (event.pageX + 10) + 'px';
+            tooltip.style.top = (event.pageY + 10) + 'px';
+        }
+
+        function hideTooltip() {
+            tooltip.style.opacity = '0';
         }
     </script>
 </body></html>
