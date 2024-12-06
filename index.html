@@ -306,6 +306,10 @@
             transform: translateX(5px);
         }
 
+        .result-item:last-child {
+            border-bottom: none;
+        }
+
         .result-label {
             color: #72767d;
             position: relative;
@@ -341,6 +345,48 @@
         }
 
         /* Round statistics */
+        .stat-line {
+            margin-bottom: 12px;
+            padding: 12px;
+            border-radius: 12px;
+            background: #000000;
+            opacity: 0.7;
+            transition: all 0.3s ease;
+            border: 1px solid #1a1a1a;
+            position: relative;
+            overflow: visible;
+        }
+
+        .stat-line:hover {
+            opacity: 1;
+            background: #0c0c0c;
+            border-color: #262626;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2), 0 0 0 1px #262626;
+        }
+
+        .stat-value {
+            font-weight: 600;
+            outline: none;
+            border: none;
+            background: transparent;
+            transition: all 0.3s ease;
+            color: #dcddde;
+            cursor: text;
+            min-width: 20px;
+            display: inline-block;
+        }
+
+        .stat-value:focus {
+            outline: none;
+            box-shadow: none;
+        }
+
+        .stat-line:focus-within {
+            opacity: 1;
+            background: #0c0c0c;
+            border-color: #262626;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2), 0 0 0 1px #262626;
+        }
 
         /* Device selection */
         .device-selection {
@@ -371,11 +417,33 @@
             gap: 8px;
         }
 
-        .device-option:hover {
+        .device-option:hover,
+        .device-option.selected {
             background: #0c0c0c;
             border-color: #262626;
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .device-option.selected {
+            opacity: 1;
+            background: #0c0c0c;
+            border: 1px solid #262626;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+            transform: translateY(1px);
+        }
+
+        .device-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            color: #72767d;
+        }
+
+        .device-label i {
+            font-size: 1.2em;
+            color: #888;
         }
 
         /* Formatted stats */
@@ -403,8 +471,93 @@
         }
 
         /* Tutorial Overlay Styles */
+        .tutorial-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            display: none;
+        }
+
+        .tutorial-box {
+            position: fixed;
+            background: #000000;
+            border: 1px solid #1a1a1a;
+            border-radius: 0;
+            border-top-left-radius: 12px;
+            border-bottom-right-radius: 12px;
+            padding: 20px;
+            color: #dcddde;
+            max-width: 300px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            z-index: 1001;
+            animation: tutorialFadeIn 0.3s ease-out;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes tutorialFadeIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.95) translateY(10px);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
 
         /* Remove pointing-related styles */
+        .tutorial-box.pointing-right::after,
+        .tutorial-box.pointing-left::after,
+        .tutorial-box.pointing-down::after,
+        .tutorial-box.pointing-up::after {
+            display: none;
+        }
+
+        .highlight-element {
+            position: relative;
+            z-index: 1002;
+            box-shadow: 0 0 0 2px #dcddde;
+            border-radius: 8px;
+        }
+
+        .tutorial-box button {
+            padding: 8px 12px;
+            border: none;
+            background: #0c0c0c;
+            color: #dcddde;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 14px;
+        }
+
+        .tutorial-box button:hover {
+            background: #1a1a1a;
+        }
+
+        .tutorial-box .tutorial-prev,
+        .tutorial-box .tutorial-next,
+        .tutorial-box .tutorial-complete {
+            width: 36px;
+            height: 36px;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .tutorial-box .tutorial-skip {
+            font-size: 14px;
+            padding: 0 12px;
+        }
+
+        .tutorial-box i {
+            font-size: 16px;
+        }
 
         /* Error Popup Styles */
         .error-popup {
@@ -424,6 +577,12 @@
             transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
             min-width: 300px;
             max-width: 90vw;
+        }
+
+        .error-popup.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translate(-50%, -50%) scale(1);
         }
 
         .error-popup .error-content {
@@ -485,6 +644,18 @@
             justify-content: center;
         }
 
+        #scrollUpButton.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        #scrollUpButton.hide {
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+        }
+
         #scrollUpButton:hover {
             background: #0c0c0c;
             transform: translateY(0) scale(1.1);
@@ -511,6 +682,11 @@
             margin-top: 20px;
             border-radius: 16px;
             background: transparent;
+        }
+
+        .graphs-section.show {
+            display: block;
+            opacity: 1;
         }
 
         .graphs-section canvas {
@@ -574,6 +750,15 @@
             .device-option {
                 min-width: 80px;
                 padding: 10px;
+            }
+
+            .tutorial-box {
+                max-width: 90%;
+                padding: 15px;
+            }
+
+            .tutorial-box .tutorial-skip {
+                padding: 0 8px;
             }
 
             .result-item {
