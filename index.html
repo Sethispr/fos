@@ -1476,14 +1476,14 @@
             const xpr = parseFloat(document.getElementById('xpr_result').textContent) || 0;
             const sdi = parseFloat(document.getElementById('sdi').value) || 1;
 
-            const selectedDevice = document.querySelector('.device-option.selected') ? document.querySelector('.device-option.selected').getAttribute('data-value') : 'pc';
+            const selectedDevice = document.querySelector('.device-option.selected') ? document.querySelector('.device-option.selected').getAttribute('data-value') : 'console';
             let boostedOP = op;
 
             // Apply device boost
-            if (selectedDevice === 'pc') boostedOP *= 1.10; 
+            if (selectedDevice === 'pc') boostedOP *= 1.0; 
             if (selectedDevice === 'mobile') boostedOP *= 1.075;
             if (selectedDevice === 'tablet') boostedOP *= 1.05;
-            if (selectedDevice === 'console') boostedOP *= 1.0; 
+            if (selectedDevice === 'console') boostedOP *= 1.10; 
             
             // Determine Division
             let division = '';
