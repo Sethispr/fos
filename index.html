@@ -812,7 +812,7 @@
                 <label style="display: block; margin-bottom: 10px;">Primary Gaming Device</label>
                 <div class="device-options">
                     <button class="device-option" data-value="console">
-                        <i class="fas fa-desktop"></i> PC/Laptop
+                        <i class="fas fa-desktop"></i> Console
                     </button>
                     <button class="device-option" data-value="mobile">
                         <i class="fas fa-mobile-alt"></i> Mobile
@@ -821,7 +821,7 @@
                         <i class="fas fa-tablet-alt"></i> Tablet
                     </button>
                     <button class="device-option" data-value="pc">
-                        <i class="fas fa-gamepad"></i> Console
+                        <i class="fas fa-gamepad"></i> PC/Laptop
                     </button>
                 </div>
             </div>
@@ -1476,7 +1476,7 @@
             const xpr = parseFloat(document.getElementById('xpr_result').textContent) || 0;
             const sdi = parseFloat(document.getElementById('sdi').value) || 1;
 
-            const selectedDevice = document.querySelector('.device-option.selected') ? document.querySelector('.device-option.selected').getAttribute('data-value') : 'console';
+            const selectedDevice = document.querySelector('.device-option.selected') ? document.querySelector('.device-option.selected').getAttribute('data-value') : 'pc';
             let boostedOP = op;
 
             // Apply device boost
