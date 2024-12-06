@@ -4,7 +4,16 @@
     <meta name="description" content="Overall SA performance calculator, analyze your stats efficiently.">
     <meta name="keywords" content="performance calculator, stats tool, real-time calculations, OP stats, FOS, silent assassin roblox">
     <meta name="author" content="sethispr">
+    <meta property="og:title" content="fos">
+    <meta property="og:description" content="Overall SA performance calculator, analyze your stats efficiently.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://sethispr.github.io/fos/">
+    <meta property="og:image" content="https://sethispr.github.io/fos/favicon.ico">
+    <meta name="theme-color" content="#000000">
     <link rel="canonical" href="https://sethispr.github.io/fos/">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <title>fos</title>
     <link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
@@ -17,13 +26,13 @@
             padding: 20px;
             background: #000000; /* AMOLED black background */
             color: #dcddde; /* Light text color */
-            font-size: 16px;
+            font-size: 18px; /* Increased from 16px */
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             overflow-y: auto;
-            cursor: none; /* Hide default cursor */
+            cursor: default; /* Remove custom cursor */
             scrollbar-width: thin;
             scrollbar-color: #0c0c0c #000000;
         }
@@ -321,6 +330,7 @@
         .device-option {
             flex: 1;
             min-width: 100px;
+            font-size: 1.1rem; /* Increased from base */
             background: #000000;
             padding: 12px;
             border: 1px solid #1a1a1a;
@@ -542,22 +552,7 @@
 
         /* Custom Cursor Styles */
         .custom-cursor {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 20px;
-            height: 20px;
-            pointer-events: none;
-            border-radius: 50%;
-            background-color: rgba(220, 221, 222, 0.8);
-            transform: translate(-50%, -50%);
-            transition: transform 0.05s ease-out, background-color 0.2s ease;
-            z-index: 10000;
-        }
-
-        .custom-cursor.hovering {
-            transform: translate(-50%, -50%) scale(1.5);
-            background-color: rgba(220, 221, 222, 1);
+            display: none; /* Removed custom cursor */
         }
 
         /* Scroll Up Button Styles */
@@ -674,7 +669,7 @@
 
         @media (max-width: 480px) {
             body {
-                font-size: 14px;
+                font-size: 16px;
             }
 
             .input-group input {
@@ -685,9 +680,10 @@
                 gap: 10px;
             }
 
-            .device-option {
-                min-width: 80px;
-                padding: 10px;
+            .device-options {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
             }
 
             .tutorial-box {
@@ -815,7 +811,7 @@
             <div class="device-selection" style="margin-bottom: 20px;">
                 <label style="display: block; margin-bottom: 10px;">Primary Gaming Device</label>
                 <div class="device-options">
-                    <button class="device-option" data-value="pc">
+                    <button class="device-option" data-value="console">
                         <i class="fas fa-desktop"></i> PC/Laptop
                     </button>
                     <button class="device-option" data-value="mobile">
@@ -824,7 +820,7 @@
                     <button class="device-option" data-value="tablet">
                         <i class="fas fa-tablet-alt"></i> Tablet
                     </button>
-                    <button class="device-option" data-value="console">
+                    <button class="device-option" data-value="pc">
                         <i class="fas fa-gamepad"></i> Console
                     </button>
                 </div>
@@ -1484,10 +1480,11 @@
             let boostedOP = op;
 
             // Apply device boost
+            if (selectedDevice === 'pc') boostedOP *= 1.10; // Console boost
             if (selectedDevice === 'mobile') boostedOP *= 1.075;
             if (selectedDevice === 'tablet') boostedOP *= 1.05;
-            if (selectedDevice === 'console') boostedOP *= 1.10;
-
+            if (selectedDevice === 'console') boostedOP *= 1.0; // PC/Laptop (no boost)
+            
             // Determine Division
             let division = '';
             if (boostedOP >= 975) division = "Kugelblitz (S)";
