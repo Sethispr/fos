@@ -10,39 +10,40 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
     <link rel="icon" href="https://sethispr.github.io/fos/favicon.ico"/>
     <style>
+        /* Mobile-first styles */
         body {
             font-family: 'Lexend Deca', sans-serif;
             margin: 0;
             padding: 20px;
             background: #000000; /* AMOLED black background */
             color: #dcddde; /* Light text color */
-            font-size: 19px;
+            font-size: 16px;
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            overflow-y: auto; /* Change from hidden to auto */
+            overflow-y: auto;
             cursor: none; /* Hide default cursor */
+            scrollbar-width: thin;
+            scrollbar-color: #0c0c0c #000000;
         }
 
         .container {
-            resize: both; /* Keep main container resizable */
-            overflow: visible; /* Change from auto to visible */
+            width: 95%;
+            max-width: 100%;
+            resize: vertical; /* Allow only vertical resize on mobile */
+            overflow: visible;
             min-width: 300px;
             min-height: 400px;
-            max-width: 95vw;
-            max-height: 95vh;
             transition: all 0.3s ease;
             position: relative;
             backdrop-filter: blur(10px);
             border: 1px solid rgba(26, 26, 26, 0.2);
-            background: #000000; /* Changed from #0c0c0c to #000000 to match website background */
+            background: #000000;
             border-radius: 20px;
-            padding: 30px;
+            padding: 20px;
             box-shadow: 8px 8px 15px rgba(0, 0, 0, 0.6), -8px -8px 15px rgba(12, 12, 12, 0.1);
-            width: min(95%, 850px);
             margin: auto;
-            position: relative;
         }
 
         /* Remove container scrollbar-specific styles */
@@ -52,31 +53,30 @@
             display: none;
         }
 
-        /* Update body scrollbar styles */
-        body::-webkit-scrollbar {
+        /* General scrollbar styles */
+        ::-webkit-scrollbar {
             width: 12px;
             height: 12px;
-            display: block; /* Make scrollbar visible */
         }
 
-        body::-webkit-scrollbar-track {
+        ::-webkit-scrollbar-track {
             background: #000000;
             border-radius: 8px;
         }
 
-        body::-webkit-scrollbar-thumb {
+        ::-webkit-scrollbar-thumb {
             background: #0c0c0c;
             border-radius: 8px;
             border: 2px solid #000000;
             transition: background 0.3s ease;
         }
 
-        body::-webkit-scrollbar-thumb:hover {
+        ::-webkit-scrollbar-thumb:hover {
             background: #1a1a1a;
         }
 
         /* For Firefox */
-        body {
+        * {
             scrollbar-width: thin;
             scrollbar-color: #0c0c0c #000000;
         }
@@ -103,15 +103,16 @@
 
         .button-group {
             display: flex;
-            gap: 15px;
+            gap: 10px;
             justify-content: flex-end;
             margin-bottom: 15px;
+            flex-wrap: wrap;
         }
 
         /* Input-group styles */
         .calculator-section {
             resize: none; /* Remove resizing */
-            overflow: visible; /* Change to visible since we don't need resize overflow */
+            overflow: visible;
             min-height: 200px;
             margin: 20px 0;
             transition: all 0.3s ease;
@@ -119,9 +120,9 @@
 
         .calculator-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 20px;
-            padding: 20px;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            padding: 15px;
             transition: all 0.3s ease;
         }
 
@@ -134,12 +135,12 @@
         .input-group label {
             color: #72767d; /* Muted text color */
             font-size: 0.92rem;
-            font-weight: 600; /* Added line */
+            font-weight: 600;
         }
 
         .input-group input {
             font-size: 1rem;
-            padding: 12px;
+            padding: 10px;
             background: rgba(0, 0, 0, 0.3);
             color: #dcddde;
             border: 1px solid rgba(26, 26, 26, 0.4);
@@ -147,7 +148,7 @@
             transition: all 0.3s ease;
             border-radius: 8px;
             text-align: center;
-            font-weight: bold; /* Changed from 600 to bold */
+            font-weight: bold;
             backdrop-filter: blur(4px);
         }
 
@@ -156,22 +157,22 @@
             opacity: 1;
             background: rgba(12, 12, 12, 0.5);
             border-color: rgba(38, 38, 38, 0.6);
-            outline: none; /* Remove default outline */
+            outline: none;
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-            font-weight: bold; /* Ensure bold styling remains while focused */
+            font-weight: bold;
         }
 
         /* Results section */
         .results-section {
-            resize: none; /* Remove resizing */
-            overflow: visible; /* Change to visible since we don't need resize overflow */
+            resize: none;
+            overflow: visible;
             min-width: 250px;
             min-height: 200px;
             transition: all 0.3s ease;
             backdrop-filter: blur(8px);
-            background: #000000; /* Changed from #0c0c0c to #000000 */
+            background: #000000;
             padding: 20px;
-            border: 1px solid #1a1a1a; /* Updated border color to match theme */
+            border: 1px solid #1a1a1a;
             border-radius: 16px;
             margin-top: 20px;
         }
@@ -185,7 +186,7 @@
 
         .results-section .result-header h4 {
             margin: 0;
-            color: #72767d; /* Match the grey color used elsewhere */
+            color: #72767d;
             font-weight: normal;
         }
 
@@ -228,8 +229,8 @@
         }
 
         .result-label {
-            color: #72767d; /* Muted text color */
-            position: relative; /* For tooltip */
+            color: #72767d;
+            position: relative;
             cursor: pointer;
         }
 
@@ -256,9 +257,8 @@
             opacity: 1;
         }
 
-        /* Updated the result-value color to match the grey theme */
         .result-value {
-            color: #72767d; /* Same grey color used for labels */
+            color: #72767d;
             font-weight: 600;
         }
 
@@ -270,9 +270,9 @@
             background: #000000;
             opacity: 0.7;
             transition: all 0.3s ease;
-            border: 1px solid #1a1a1a; /* Updated border color to match theme */
-            position: relative; /* Add for proper hover effects */
-            overflow: visible; /* Ensure stat lines don't get cut off when selected */
+            border: 1px solid #1a1a1a;
+            position: relative;
+            overflow: visible;
         }
 
         .stat-line:hover {
@@ -283,23 +283,22 @@
         }
 
         .stat-value {
-            font-weight: 600; /* Keep existing font weight */
-            outline: none; /* Remove default outline */
-            border: none; /* Remove any borders */
-            background: transparent; /* Make background transparent */
+            font-weight: 600;
+            outline: none;
+            border: none;
+            background: transparent;
             transition: all 0.3s ease;
-            color: #dcddde; /* Add this line to make the input values white */
+            color: #dcddde;
             cursor: text;
             min-width: 20px;
             display: inline-block;
         }
 
         .stat-value:focus {
-            outline: none; /* Remove default outline on focus */
-            box-shadow: none; /* Remove any box shadows */
+            outline: none;
+            box-shadow: none;
         }
 
-        /* Update stat-line:focus-within to handle focus state of the entire line */
         .stat-line:focus-within {
             opacity: 1;
             background: #0c0c0c;
@@ -307,64 +306,9 @@
             box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2), 0 0 0 1px #262626;
         }
 
-        /* Mobile responsiveness */
-        @media (max-width: 768px) {
-            body {
-                padding: 15px;
-            }
-
-            .container {
-                resize: vertical; /* Only allow vertical resize on mobile */
-                width: 95%;
-            }
-            
-            .results-section,
-            .calculator-section {
-                resize: none; /* Remove resizing */
-                overflow: visible; /* Change to visible since we don't need resize overflow */
-            }
-
-            .calculator-grid {
-                gap: 15px;
-                padding: 15px;
-            }
-
-            .input-group input {
-                padding: 8px;
-                font-size: 0.9rem;
-            }
-
-            .results-section {
-                padding: 15px;
-            }
-
-            .container {
-                padding: 20px;
-            }
-
-            .graphs-section canvas {
-                width: 100%;
-                height: auto;
-            }
-        }
-
-        @media (max-width: 480px) {
-            body {
-                font-size: 16px;
-            }
-
-            .input-group input {
-                font-size: 0.85rem;
-            }
-
-            .calculator-grid {
-                gap: 8px;
-            }
-        }
-
-        /* Styled modern neuromorphic checkboxes */
+        /* Device selection */
         .device-selection {
-            margin-top: 30px; /* Add top margin */
+            margin-top: 30px;
             margin-bottom: 20px;
         }
 
@@ -379,12 +323,16 @@
             min-width: 100px;
             background: #000000;
             padding: 12px;
-            border: 1px solid #1a1a1a; /* Updated border color to match theme */
+            border: 1px solid #1a1a1a;
             border-radius: 8px;
             cursor: pointer;
             transition: all 0.3s ease;
             opacity: 0.7;
             backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
 
         .device-option:hover,
@@ -395,7 +343,6 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
 
-        /* Add selected state styling */
         .device-option.selected {
             opacity: 1;
             background: #0c0c0c;
@@ -409,7 +356,7 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            color: #72767d; /* Muted text color */
+            color: #72767d;
         }
 
         .device-label i {
@@ -417,14 +364,11 @@
             color: #888;
         }
 
-        /* Ensure the stats summary has proper line breaks */
-        #formattedStats {
-            white-space: pre-line;
-            word-wrap: break-word;
-            color: #72767d; /* Match the grey color used elsewhere */
+        /* Formatted stats */
+        .formatted-output {
+            margin-top: 20px;
         }
 
-        /* Update stats summary header */
         .stats-header {
             display: flex;
             justify-content: space-between;
@@ -434,81 +378,14 @@
 
         .stats-header h4 {
             margin: 0;
-            color: #72767d; /* Changed to match Primary Gaming Device label color */
-            font-weight: normal; /* Remove bold */
+            color: #72767d;
+            font-weight: normal;
         }
 
-        /* Update the device label styling to add more spacing */
-        .device-selection label {
-            display: block;
-            margin-bottom: 10px;
-            color: #72767d; /* Match the label color with other form labels */
-        }
-
-        /* Custom text selection style */
-        ::selection {
-            background: #0c0c0c;
-            color: #dcddde;
-        }
-
-        ::-moz-selection {
-            background: #0c0c0c;
-            color: #dcddde;
-        }
-
-        /* Custom scrollbar styling */
-        /* For Webkit browsers (Chrome, Safari) */
-        ::-webkit-scrollbar {
-            width: 12px;
-            height: 12px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: #000000;
-            border-radius: 8px;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #0c0c0c;
-            border-radius: 8px;
-            border: 2px solid #000000;
-            transition: background 0.3s ease;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: #1a1a1a;
-        }
-
-        /* For Firefox */
-        * {
-            scrollbar-width: thin;
-            scrollbar-color: #0c0c0c #000000;
-        }
-
-        /* Custom text input selection color */
-        input::selection {
-            background: #0c0c0c;
-            color: #dcddde;
-        }
-
-        input::-moz-selection {
-            background: #0c0c0c;
-            color: #dcddde;
-        }
-
-        /* Add smooth scrolling to the page */
-        html {
-            scroll-behavior: smooth;
-        }
-
-        /* Add smooth animations */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .container {
-            animation: fadeIn 0.5s ease-out;
+        .formatted-output #formattedStats {
+            white-space: pre-line;
+            word-wrap: break-word;
+            color: #72767d;
         }
 
         /* Tutorial Overlay Styles */
@@ -527,19 +404,18 @@
             position: fixed;
             background: #000000;
             border: 1px solid #1a1a1a;
-            border-radius: 0; /* Reset border radius */
-            border-top-left-radius: 12px; /* Only curve top-left */
-            border-bottom-right-radius: 12px; /* Only curve bottom-right */
+            border-radius: 0;
+            border-top-left-radius: 12px;
+            border-bottom-right-radius: 12px;
             padding: 20px;
             color: #dcddde;
             max-width: 300px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
             z-index: 1001;
             animation: tutorialFadeIn 0.3s ease-out;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* Smoother easing curve */
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* Add an animation for the tutorial box appearance */
         @keyframes tutorialFadeIn {
             0% {
                 opacity: 0;
@@ -551,7 +427,7 @@
             }
         }
 
-        /* Remove all pointing-related styles */
+        /* Remove pointing-related styles */
         .tutorial-box.pointing-right::after,
         .tutorial-box.pointing-left::after,
         .tutorial-box.pointing-down::after,
@@ -698,7 +574,7 @@
             opacity: 0;
             visibility: hidden;
             transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
-            z-index: 9999; /* Above other elements */
+            z-index: 9999;
             backdrop-filter: blur(4px);
             cursor: pointer;
             display: flex;
@@ -772,6 +648,95 @@
             z-index: 10000;
             white-space: nowrap;
         }
+
+        /* Mobile-first enhancements */
+        @media (min-width: 769px) {
+            .calculator-grid {
+                grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+                gap: 20px;
+                padding: 20px;
+            }
+
+            .button-group {
+                gap: 15px;
+            }
+
+            .input-group input {
+                padding: 12px;
+            }
+
+            .graphs-section canvas {
+                max-width: 600px;
+            }
+
+            /* Additional styles for larger screens */
+        }
+
+        @media (max-width: 480px) {
+            body {
+                font-size: 14px;
+            }
+
+            .input-group input {
+                font-size: 0.85rem;
+            }
+
+            .calculator-grid {
+                gap: 10px;
+            }
+
+            .device-option {
+                min-width: 80px;
+                padding: 10px;
+            }
+
+            .tutorial-box {
+                max-width: 90%;
+                padding: 15px;
+            }
+
+            .tutorial-box .tutorial-skip {
+                padding: 0 8px;
+            }
+
+            .result-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .result-value {
+                margin-top: 5px;
+            }
+
+            .button-group {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+
+        /* Graph Styling */
+        .graphs-section {
+            background: #000000;
+            border: none;
+            box-shadow: none;
+        }
+
+        /* Additional mobile-first adjustments can be added here */
+
+        /* Add smooth scrolling to the page */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Add smooth animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .container {
+            animation: fadeIn 0.5s ease-out;
+        }
     </style>
     <!-- Chart.js for Graphs -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -810,7 +775,7 @@
             <div class="results-section">
                 <div class="result-header">
                     <h4>Performance Stats</h4>
-                    <button id="toggleGraphButton"><i class="fas fa-chart-bar"></i> Show Graph</button>
+                    <button id="toggleGraphButton"><i class="fas fa-chart-pie"></i> Show Graph</button>
                 </div>
                 <div class="result-item">
                     <span class="result-label" data-tooltip="OP = 529 / 20 * √(TP + SP)">Overall Performance (OP)</span>
@@ -1043,15 +1008,17 @@
                 const graphSection = document.querySelector('.graphs-section');
                 if (!graphVisible) {
                     graphSection.classList.add('show');
-                    toggleGraphButton.innerHTML = '<i class="fas fa-chart-bar"></i> Hide Graph';
+                    toggleGraphButton.innerHTML = '<i class="fas fa-chart-pie"></i> Hide Graph';
                     graphVisible = true;
-                    // Force a redraw of the chart
-                    setTimeout(() => {
-                        updateGraphs();
-                    }, 100);
+                    
+                    // Scroll to graph section
+                    graphSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    
+                    // Initialize or update the graph
+                    updateGraphs();
                 } else {
                     graphSection.classList.remove('show');
-                    toggleGraphButton.innerHTML = '<i class="fas fa-chart-bar"></i> Show Graph';
+                    toggleGraphButton.innerHTML = '<i class="fas fa-chart-pie"></i> Show Graph';
                     graphVisible = false;
                 }
             });
@@ -1083,10 +1050,12 @@
                     }
                 } else {
                     // If it's the last stat field (epidemics), move to l_va input
-                    document.getElementById('l_va').focus();
-                    setCaretAtEnd(document.getElementById('l_va'));
+                    const l_va = document.getElementById('l_va');
+                    l_va.focus();
+                    l_va.select(); // Select all text instead of just focusing
                 }
             }
+            
             // Add backspace navigation
             if (e.key === 'Backspace' && e.target.textContent === '') {
                 e.preventDefault();
@@ -1103,31 +1072,34 @@
             }
         });
 
-        // Add backspace navigation for experience inputs
-        ['X_pb', 'l_vb', 'X_pa', 'l_va'].forEach((id, index, arr) => {
-            document.getElementById(id).addEventListener('keydown', (e) => {
-                if (e.key === 'Backspace' && e.target.value === '') {
-                    e.preventDefault();
-                    if (index < arr.length - 1) {
-                        document.getElementById(arr[index + 1]).focus();
-                        setCaretAtEnd(document.getElementById(arr[index + 1]));
-                    }
-                }
-            });
-        });
-
-        // Add enter key navigation for experience inputs
+        // Update experience input navigation
         ['l_va', 'X_pa', 'l_vb', 'X_pb'].forEach((id, index, arr) => {
             document.getElementById(id).addEventListener('keydown', (e) => {
                 if (e.key === 'Enter') {
                     e.preventDefault();
                     if (index < arr.length - 1) {
-                        document.getElementById(arr[index + 1]).focus();
-                        setCaretAtEnd(document.getElementById(arr[index + 1]));
+                        const nextInput = document.getElementById(arr[index + 1]);
+                        nextInput.focus();
+                        nextInput.select(); // Select all text
                     } else {
                         // Move to SDI if it's the last XP field
-                        document.getElementById('sdi').focus();
-                        setCaretAtEnd(document.getElementById('sdi'));
+                        const sdi = document.getElementById('sdi');
+                        sdi.focus();
+                        sdi.select(); // Select all text
+                    }
+                }
+            });
+        });
+
+        // Improve backspace navigation for experience inputs
+        ['X_pb', 'l_vb', 'X_pa', 'l_va'].forEach((id, index, arr) => {
+            document.getElementById(id).addEventListener('keydown', (e) => {
+                if (e.key === 'Backspace' && e.target.value === '') {
+                    e.preventDefault();
+                    if (index < arr.length - 1) {
+                        const prevInput = document.getElementById(arr[index + 1]);
+                        prevInput.focus();
+                        prevInput.select(); // Select all text
                     }
                 }
             });
@@ -1236,7 +1208,7 @@
             
             // Reset toggleGraphButton text if graph is visible
             if (graphVisible) {
-                toggleGraphButton.innerHTML = '<i class="fas fa-chart-bar"></i> Show Graph';
+                toggleGraphButton.innerHTML = '<i class="fas fa-chart-pie"></i> Show Graph';
                 graphVisible = false;
                 document.querySelector('.graphs-section').classList.remove('show');
             }
@@ -1470,7 +1442,9 @@
                 updateResult('xpr_result', x_pr);
 
                 updateFormattedStats();
-                updateGraphs();
+                if (graphVisible) {
+                    updateGraphs();
+                }
             } catch (error) {
                 console.error('Calculation error:', error);
                 ['op_result', 'tp_result', 'sp_result', 'rg_result', 'gos_result', 'ad_result', 'xpr_result'].forEach(id => {
@@ -1624,9 +1598,18 @@ Source: website`;
                 this.createOverlay();
                 this.showStep(0);
 
+                // Add keyboard navigation event listener
                 document.addEventListener('keydown', (e) => {
                     if (e.key === 'Escape') {
                         this.complete();
+                    } else if (e.key === 'ArrowRight') {
+                        if (this.currentStep < this.steps.length - 1) {
+                            this.nextStep();
+                        }
+                    } else if (e.key === 'ArrowLeft') {
+                        if (this.currentStep > 0) {
+                            this.previousStep();
+                        }
                     }
                 });
             }
@@ -1846,26 +1829,25 @@ Source: website`;
             const ctx = document.getElementById('performanceChart').getContext('2d');
 
             const data = {
-                labels: ['TP', 'SP', 'GO', 'AD', 'XPR'],
+                labels: ['Tactical Performance (TP)', 'Special Performance (SP)', 'Guard Objective Score (GO)', 'Average Damage (AD)', 'XP per Round (XPR)'],
                 datasets: [{
-                    label: 'Performance Metrics',
                     data: [tp, sp, go, ad, xpr],
                     backgroundColor: [
-                        'rgba(255, 99, 132, 0.6)',
-                        'rgba(54, 162, 235, 0.6)',
-                        'rgba(255, 206, 86, 0.6)',
                         'rgba(75, 192, 192, 0.6)',
+                        'rgba(255, 99, 132, 0.6)',
+                        'rgba(255, 206, 86, 0.6)',
+                        'rgba(54, 162, 235, 0.6)',
                         'rgba(153, 102, 255, 0.6)'
                     ],
                     borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
                         'rgba(75, 192, 192, 1)',
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(54, 162, 235, 1)',
                         'rgba(153, 102, 255, 1)'
                     ],
                     borderWidth: 1,
-                    fill: true
+                    hoverOffset: 4
                 }]
             };
 
@@ -1873,7 +1855,7 @@ Source: website`;
                 responsive: true,
                 plugins: {
                     legend: {
-                        display: true,
+                        position: 'right',
                         labels: {
                             color: '#72767d'
                         }
@@ -1882,26 +1864,22 @@ Source: website`;
                         enabled: true,
                         callbacks: {
                             label: function(context) {
-                                return `${context.label}: ${context.parsed.toFixed(2)}`;
+                                return `${context.label}: ${context.parsed}`;
                             }
                         }
                     }
                 },
                 scales: {
                     r: {
-                        grid: {
-                            color: '#262626'
-                        },
                         angleLines: {
-                            color: '#262626'
+                            color: '#72767d'
+                        },
+                        grid: {
+                            color: '#72767d'
                         },
                         ticks: {
                             color: '#72767d',
-                            backdropColor: 'transparent',
-                            beginAtZero: true
-                        },
-                        pointLabels: {
-                            color: '#72767d'
+                            backdropColor: 'transparent'
                         }
                     }
                 }
@@ -1912,7 +1890,7 @@ Source: website`;
                 performanceChart.destroy();
             }
 
-            // Create new chart
+            // Create new Polar Area chart
             performanceChart = new Chart(ctx, {
                 type: 'polarArea',
                 data: data,
