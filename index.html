@@ -1480,10 +1480,10 @@
             let boostedOP = op;
 
             // Apply device boost
-            if (selectedDevice === 'pc') boostedOP *= 1.10; // Console boost
+            if (selectedDevice === 'pc') boostedOP *= 1.10; 
             if (selectedDevice === 'mobile') boostedOP *= 1.075;
             if (selectedDevice === 'tablet') boostedOP *= 1.05;
-            if (selectedDevice === 'console') boostedOP *= 1.0; // PC/Laptop (no boost)
+            if (selectedDevice === 'console') boostedOP *= 1.0; 
             
             // Determine Division
             let division = '';
@@ -1497,7 +1497,7 @@
             else if (boostedOP >= 560) division = "Wood (D)";
             else division = "Ember (E)";
 
-            // Render formatted text with proper line breaks and no "verified"
+            // Render formatted text with proper line breaks
             const formattedText = 
 `OP = ${Math.round(boostedOP)}
 TP = ${Math.round(tp)}, SP = ${Math.round(sp)}
@@ -1543,7 +1543,7 @@ Source: website`;
         const tutorialSteps = [
             {
                 target: '.stat-line:first-child',
-                content: 'Start by entering your game statistics. The first field is for Rounds played.',
+                content: 'Start by entering your SA statistics. The first field is for Rounds played. (You can use the ENTER key to go to next field)',
                 position: 'right'
             },
             {
@@ -1568,12 +1568,12 @@ Source: website`;
             },
             {
                 target: '#formattedStats',
-                content: 'Find your complete stats summary here, ready to copy and share.',
+                content: 'Find your complete stats summary here, ready to copy and share to.',
                 position: 'right'
             },
             {
                 target: '.graphs-section',
-                content: 'View your performance through an interactive graph to better understand your stats.',
+                content: 'View your performance through a graph. (Will be improved soon)',
                 position: 'bottom'
             }
         ];
