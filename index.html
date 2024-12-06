@@ -18,6 +18,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
     <link rel="icon" href="https://sethispr.github.io/fos/assets/izzi.ico"/>
+    
     <style>
         /* Mobile-first styles */
         body {
@@ -26,13 +27,12 @@
             padding: 20px;
             background: #000000; /* AMOLED black background */
             color: #dcddde; /* Light text color */
-            font-size: 18px; /* Increased from 16px */
+            font-size: 16px;
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             overflow-y: auto;
-            cursor: default; /* Remove custom cursor */
             scrollbar-width: thin;
             scrollbar-color: #0c0c0c #000000;
         }
@@ -53,6 +53,7 @@
             padding: 20px;
             box-shadow: 8px 8px 15px rgba(0, 0, 0, 0.6), -8px -8px 15px rgba(12, 12, 12, 0.1);
             margin: auto;
+            animation: fadeIn 0.5s ease-out;
         }
 
         /* Remove container scrollbar-specific styles */
@@ -147,7 +148,7 @@
             font-weight: 600;
         }
 
-        .input-group input {
+        .input-group input[type="number"] {
             font-size: 1rem;
             padding: 10px;
             background: rgba(0, 0, 0, 0.3);
@@ -161,14 +162,77 @@
             backdrop-filter: blur(4px);
         }
 
-        .input-group input:hover,
-        .input-group input:focus {
+        .input-group input[type="number"]:hover,
+        .input-group input[type="number"]:focus {
             opacity: 1;
             background: rgba(12, 12, 12, 0.5);
             border-color: rgba(38, 38, 38, 0.6);
             outline: none;
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
             font-weight: bold;
+        }
+
+        /* Checkbox styling */
+        .input-group input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            accent-color: #dcddde;
+            cursor: pointer;
+        }
+
+        /* Modern toggle button styles */
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 30px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #1a1a1a;
+            transition: .3s;
+            border-radius: 30px;
+            border: 1px solid #262626;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 4px;
+            bottom: 3px;
+            background-color: #dcddde;
+            transition: .3s;
+            border-radius: 50%;
+        }
+
+        input:checked + .toggle-slider {
+            background-color: #0c0c0c;
+        }
+
+        input:checked + .toggle-slider:before {
+            transform: translateX(30px);
+        }
+
+        /* Update input-group for toggle alignment */
+        .input-group.toggle-group {
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
         }
 
         /* Results section */
@@ -330,7 +394,6 @@
         .device-option {
             flex: 1;
             min-width: 100px;
-            font-size: 1.1rem; /* Increased from base */
             background: #000000;
             padding: 12px;
             border: 1px solid #1a1a1a;
@@ -550,11 +613,6 @@
             font-size: 14px;
         }
 
-        /* Custom Cursor Styles */
-        .custom-cursor {
-            display: none; /* Removed custom cursor */
-        }
-
         /* Scroll Up Button Styles */
         #scrollUpButton {
             position: fixed;
@@ -656,7 +714,7 @@
                 gap: 15px;
             }
 
-            .input-group input {
+            .input-group input[type="number"] {
                 padding: 12px;
             }
 
@@ -669,10 +727,10 @@
 
         @media (max-width: 480px) {
             body {
-                font-size: 16px;
+                font-size: 14px;
             }
 
-            .input-group input {
+            .input-group input[type="number"] {
                 font-size: 0.85rem;
             }
 
@@ -680,10 +738,9 @@
                 gap: 10px;
             }
 
-            .device-options {
-                display: grid;
-                grid-template-columns: repeat(2, 1fr);
-                gap: 10px;
+            .device-option {
+                min-width: 80px;
+                padding: 10px;
             }
 
             .tutorial-box {
@@ -717,8 +774,6 @@
             box-shadow: none;
         }
 
-        /* Additional mobile-first adjustments can be added here */
-
         /* Add smooth scrolling to the page */
         html {
             scroll-behavior: smooth;
@@ -730,8 +785,16 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .container {
-            animation: fadeIn 0.5s ease-out;
+        /* Add focus styles for device options */
+        .device-option:focus {
+            outline: 2px solid #262626;
+            outline-offset: 2px;
+        }
+
+        /* Make sure input fields have visible focus states */
+        input:focus {
+            outline: 2px solid #262626;
+            outline-offset: 0;
         }
     </style>
     <!-- Chart.js for Graphs -->
@@ -767,6 +830,13 @@
                     <label for="sdi">SDI</label>
                     <input type="number" id="sdi" value="1" step="0.1" min="0">
                 </div>
+                <div class="input-group toggle-group">
+                    <label for="auto_penalty">Apply Round Penalty</label>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="auto_penalty" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
             </div>
             <div class="results-section">
                 <div class="result-header">
@@ -801,59 +871,65 @@
                     <span class="result-label" data-tooltip="XPR = X_T / max(1, R_ad)">XP per Round (XPR)</span>
                     <span class="result-value" id="xpr_result">-</span>
                 </div>
-            </div>
-            <!-- Graphs Section -->
-            <div class="graphs-section">
-                <canvas id="performanceChart"></canvas>
-            </div>
-        </div>
-        <div id="additionalSection" class="calculator-section">
-            <div class="device-selection" style="margin-bottom: 20px;">
-                <label style="display: block; margin-bottom: 10px;">Primary Gaming Device</label>
-                <div class="device-options">
-                    <button class="device-option" data-value="pc">
-                        <i class="fas fa-desktop"></i> PC/Laptop
-                    </button>
-                    <button class="device-option" data-value="mobile">
-                        <i class="fas fa-mobile-alt"></i> Mobile
-                    </button>
-                    <button class="device-option" data-value="tablet">
-                        <i class="fas fa-tablet-alt"></i> Tablet
-                    </button>
-                    <button class="device-option" data-value="console">
-                        <i class="fas fa-gamepad"></i> Console
-                    </button>
+                <div class="result-item">
+                    <span class="result-label" data-tooltip="Indicates whether the round penalty was applied based on your stats">Round Penalty Applied</span>
+                    <span class="result-value" id="round_penalty_applied">No</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label" data-tooltip="Amount of rounds penalty applied">Round Penalty (Rp)</span>
+                    <span class="result-value" id="round_penalty_value">-</span>
+                </div>
+                <!-- Graphs Section -->
+                <div class="graphs-section">
+                    <canvas id="performanceChart"></canvas>
                 </div>
             </div>
-            <div class="formatted-output">
-                <div class="stats-header">
-                    <h4>Stats Summary</h4>
-                    <button id="copyFormatted"><i class="fas fa-copy"></i> Copy</button>
+            <div id="additionalSection" class="calculator-section">
+                <div class="device-selection" style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 10px;">Primary Gaming Device</label>
+                    <div class="device-options">
+                        <button class="device-option" data-value="pc" tabindex="0">
+                            <i class="fas fa-desktop"></i> PC/Laptop
+                        </button>
+                        <button class="device-option" data-value="mobile" tabindex="0">
+                            <i class="fas fa-mobile-alt"></i> Mobile
+                        </button>
+                        <button class="device-option" data-value="tablet" tabindex="0">
+                            <i class="fas fa-tablet-alt"></i> Tablet
+                        </button>
+                        <button class="device-option" data-value="console" tabindex="0">
+                            <i class="fas fa-gamepad"></i> Console
+                        </button>
+                    </div>
                 </div>
-                <div id="formattedStats"></div>
+                <div class="formatted-output">
+                    <div class="stats-header">
+                        <h4>Stats Summary</h4>
+                        <button id="copyFormatted"><i class="fas fa-copy"></i> Copy</button>
+                    </div>
+                    <div id="formattedStats"></div>
+                </div>
+            </div>
+            <div class="github-link" style="display: none;"></div>
+        </div>
+        <!-- Scroll Up Button -->
+        <button id="scrollUpButton" aria-label="Scroll to top">
+            <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <polyline points="5 12 10 7 15 12" />
+                <line x1="10" y1="7" x2="10" y2="17" />
+            </svg>
+        </button>
+        <!-- Error Popup -->
+        <div class="error-popup" id="errorPopup">
+            <div class="error-content">
+                <i class="fas fa-exclamation-triangle error-icon"></i>
+                <div class="error-message" id="errorMessage">An error has occurred.</div>
+                <button class="close-error" id="closeError"><i class="fas fa-keyboard"></i> ESC</button>
             </div>
         </div>
-        <div class="github-link" style="display: none;"></div>
+        <!-- Tooltip -->
+        <div id="tooltip"></div>
     </div>
-    <!-- Scroll Up Button -->
-    <button id="scrollUpButton" aria-label="Scroll to top">
-        <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-            <polyline points="5 12 10 7 15 12" />
-            <line x1="10" y1="7" x2="10" y2="17" />
-        </svg>
-    </button>
-    <!-- Error Popup -->
-    <div class="error-popup" id="errorPopup">
-        <div class="error-content">
-            <i class="fas fa-exclamation-triangle error-icon"></i>
-            <div class="error-message" id="errorMessage">An error has occurred.</div>
-            <button class="close-error" id="closeError"><i class="fas fa-keyboard"></i> ESC</button>
-        </div>
-    </div>
-    <!-- Custom Cursor -->
-    <div class="custom-cursor" id="customCursor"></div>
-    <!-- Tooltip -->
-    <div id="tooltip"></div>
     <script>
         const FIXED_LABELS = [
             "Rounds played",
@@ -881,13 +957,18 @@
         const errorPopup = document.getElementById('errorPopup');
         const errorMessage = document.getElementById('errorMessage');
         const closeError = document.getElementById('closeError');
-        const customCursor = document.getElementById('customCursor');
         const scrollUpButton = document.getElementById('scrollUpButton');
         const tooltip = document.getElementById('tooltip');
         const toggleGraphButton = document.getElementById('toggleGraphButton');
+        const autoPenaltyCheckbox = document.getElementById('auto_penalty');
 
         let performanceChart; // Global Chart.js instance
         let graphVisible = false; // Track graph visibility
+
+        window.addEventListener('DOMContentLoaded', () => {
+            autoPenaltyCheckbox.checked = true;
+            calculateOP();
+        });
 
         window.addEventListener('load', () => {
             // Focus on first stat value (rounds played)
@@ -903,12 +984,7 @@
                 savedDeviceButton.classList.add('selected');
             }
             
-            // Set default rounds played to 224
-            const roundsPlayedValue = document.querySelector('.stat-line:first-child .stat-value');
-            if (roundsPlayedValue) {
-                roundsPlayedValue.textContent = '224';
-                calculateOP(); // Trigger initial calculation
-            }
+            calculateOP(); // Trigger initial calculation
 
             copyButton.disabled = false;
             addExperienceInputListeners();
@@ -939,7 +1015,81 @@
                         }
                     });
                 });
+
+                // Add keydown event for navigation
+                output.addEventListener('keydown', (e) => {
+                    if (e.target.classList.contains('stat-value')) {
+                        const currentLine = e.target.closest('.stat-line');
+                        
+                        if (e.key === 'ArrowDown') {
+                            e.preventDefault();
+                            // If it's the last stat (Epidemics), go to Level A
+                            if (!currentLine.nextElementSibling) {
+                                document.getElementById('l_va').focus();
+                                document.getElementById('l_va').select();
+                            } else {
+                                // Otherwise go to next stat
+                                const nextInput = currentLine.nextElementSibling.querySelector('.stat-value');
+                                if (nextInput) {
+                                    nextInput.focus();
+                                    setCaretAtEnd(nextInput);
+                                }
+                            }
+                        }
+                        
+                        if (e.key === 'ArrowUp') {
+                            e.preventDefault();
+                            if (currentLine.previousElementSibling) {
+                                const prevInput = currentLine.previousElementSibling.querySelector('.stat-value');
+                                if (prevInput) {
+                                    prevInput.focus();
+                                    setCaretAtEnd(prevInput);
+                                }
+                            }
+                        }
+                    }
+                });
+
+                // Update the document.addEventListener('keydown') section
+                document.addEventListener('keydown', function(e) {
+                    // Handle navigation from Level A to last stat field (Epidemics)
+                    if (e.target.id === 'l_va' && (e.key === 'ArrowUp' || e.key === 'ArrowLeft')) {
+                        e.preventDefault();
+                        const lastStatValue = document.querySelector('.stat-line:last-child .stat-value');
+                        if (lastStatValue) {
+                            lastStatValue.focus();
+                            setCaretAtEnd(lastStatValue);
+                        }
+                    }
+
+                    // Keep existing Level/XP field navigation logic
+                    const expFields = ['l_va', 'X_pa', 'l_vb', 'X_pb', 'sdi'];
+                    const currentFieldIndex = expFields.indexOf(e.target.id);
+                    
+                    if (currentFieldIndex !== -1) {
+                        if (e.key === 'ArrowRight') {
+                            e.preventDefault();
+                            if (currentFieldIndex < expFields.length - 1) {
+                                document.getElementById(expFields[currentFieldIndex + 1]).focus();
+                                document.getElementById(expFields[currentFieldIndex + 1]).select();
+                            } else if (currentFieldIndex === expFields.length - 1) {
+                                const firstDeviceBtn = document.querySelector('.device-option');
+                                if (firstDeviceBtn) firstDeviceBtn.focus();
+                            }
+                        } else if (e.key === 'ArrowLeft') {
+                            e.preventDefault();
+                            if (currentFieldIndex > 0) {
+                                document.getElementById(expFields[currentFieldIndex - 1]).focus();
+                                document.getElementById(expFields[currentFieldIndex - 1]).select();
+                            }
+                        }
+                    }
+                });
             }
+
+            autoPenaltyCheckbox.addEventListener('change', () => {
+                calculateOP();
+            });
 
             document.getElementById('showTutorial').addEventListener('click', () => {
                 localStorage.removeItem('tutorialComplete');
@@ -963,22 +1113,6 @@
                 if (e.key === 'Escape' && errorPopup.classList.contains('active')) {
                     hideErrorPopup();
                 }
-            });
-
-            // Update custom cursor position
-            document.addEventListener('mousemove', (e) => {
-                customCursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px) translate(-50%, -50%)`;
-            });
-
-            // Change cursor style on hover over interactive elements
-            const interactiveElements = document.querySelectorAll('button, a, .device-option, input');
-            interactiveElements.forEach(elem => {
-                elem.addEventListener('mouseenter', () => {
-                    customCursor.classList.add('hovering');
-                });
-                elem.addEventListener('mouseleave', () => {
-                    customCursor.classList.remove('hovering');
-                });
             });
 
             // Scroll Up Button Logic
@@ -1018,88 +1152,163 @@
                     graphVisible = false;
                 }
             });
-        });
 
-        // Add event listener for Level A input
-        document.getElementById('l_va').addEventListener('input', function() {
-            const levelA = parseFloat(this.value) || 0;
-            const levelBInput = document.getElementById('l_vb');
-            if (levelA > 0) {
-                // Set Level B to Level A + 1
-                levelBInput.value = (levelA + 1).toString();
-            }
-            // Trigger OP calculation
-            calculateOP();
-        });
-
-        output.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') {
-                e.preventDefault();
-                const currentLine = e.target.closest('.stat-line');
-                const nextLine = currentLine.nextElementSibling;
-                
-                if (nextLine) {
-                    const nextInput = nextLine.querySelector('.stat-value');
-                    if (nextInput) {
-                        nextInput.focus();
-                        setCaretAtEnd(nextInput);
-                    }
-                } else {
-                    // If it's the last stat field (epidemics), move to l_va input
-                    const l_va = document.getElementById('l_va');
-                    l_va.focus();
-                    l_va.select(); // Select all text instead of just focusing
-                }
-            }
-            
-            // Add backspace navigation
-            if (e.key === 'Backspace' && e.target.textContent === '') {
-                e.preventDefault();
-                const currentLine = e.target.closest('.stat-line');
-                const previousLine = currentLine.previousElementSibling;
-                
-                if (previousLine) {
-                    const previousInput = previousLine.querySelector('.stat-value');
-                    if (previousInput) {
-                        previousInput.focus();
-                        setCaretAtEnd(previousInput);
-                    }
-                }
-            }
-        });
-
-        // Update experience input navigation
-        ['l_va', 'X_pa', 'l_vb', 'X_pb'].forEach((id, index, arr) => {
-            document.getElementById(id).addEventListener('keydown', (e) => {
-                if (e.key === 'Enter') {
-                    e.preventDefault();
-                    if (index < arr.length - 1) {
-                        const nextInput = document.getElementById(arr[index + 1]);
-                        nextInput.focus();
-                        nextInput.select(); // Select all text
-                    } else {
-                        // Move to SDI if it's the last XP field
-                        const sdi = document.getElementById('sdi');
-                        sdi.focus();
-                        sdi.select(); // Select all text
-                    }
+            // Prevent up/down arrow keys from changing values in number inputs
+            const numberInputs = ['l_va', 'X_pa', 'l_vb', 'X_pb', 'sdi'];
+            numberInputs.forEach(id => {
+                const input = document.getElementById(id);
+                if (input) {
+                    input.addEventListener('keydown', (e) => {
+                        if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+                            e.preventDefault();
+                        }
+                    });
                 }
             });
         });
 
-        // Improve backspace navigation for experience inputs
-        ['X_pb', 'l_vb', 'X_pa', 'l_va'].forEach((id, index, arr) => {
-            document.getElementById(id).addEventListener('keydown', (e) => {
-                if (e.key === 'Backspace' && e.target.value === '') {
-                    e.preventDefault();
-                    if (index < arr.length - 1) {
-                        const prevInput = document.getElementById(arr[index + 1]);
-                        prevInput.focus();
-                        prevInput.select(); // Select all text
+        function calculateXPSum(level) {
+            let sum = 0;
+            for(let n = 1; n <= level; n++) {
+                sum += Math.floor((n-1) * (2.46 * Math.pow(1.02, n)) * 10) * 10;
+            }
+            return sum;
+        }
+
+        function calculateOP() {
+            try {
+                // Define updateResult at the start
+                const updateResult = (id, value, decimals = 3) => {
+                    const element = document.getElementById(id);
+                    try {
+                        if (isNaN(value) || !isFinite(value)) {
+                            element.textContent = '-';
+                            return;
+                        }
+                        element.textContent = decimals === 0 ? Math.round(value) : value.toFixed(decimals);
+                        element.classList.remove('error');
+                        element.removeAttribute('title');
+                    } catch (err) {
+                        element.textContent = '-';
+                        element.classList.add('error');
+                        element.setAttribute('title', err.message);
+                        showErrorPopup('Calculation error: ' + err.message);
+                    }
+                };
+
+                const l_va = parseFloat(document.getElementById('l_va').value) || 0;
+                const X_pa = parseFloat(document.getElementById('X_pa').value) || 0;
+                const l_vb = parseFloat(document.getElementById('l_vb').value) || 0;
+                const X_pb = parseFloat(document.getElementById('X_pb').value) || 0;
+                const S_di = parseFloat(document.getElementById('sdi').value) || 1;
+                const autoPenalty = autoPenaltyCheckbox.checked;
+
+                // Get all stat values first
+                const statValues = {};
+                document.querySelectorAll('#output .stat-line').forEach(line => {
+                    const label = line.querySelector('.stat-label').textContent;
+                    const value = parseInt(line.querySelector('.stat-value').textContent) || 0;
+                    statValues[label] = value;
+                });
+
+                let R = statValues['Rounds played'] || 0;
+                const T = statValues['Targets assassinated'] || 0;
+                const t = statValues['Target survivals'] || 0;
+
+                // Calculate rounds penalty if enabled
+                let roundPenaltyApplied = false;
+                let R_p = R;
+
+                if (autoPenalty && R > 0) {
+                    const condition = (T + t) / R < 0.12;
+                    if (condition) {
+                        R_p = R + 3 * (0.12 * R - (T + t));
+                        R_p = Math.floor(R_p);
+                        roundPenaltyApplied = true;
                     }
                 }
-            });
-        });
+
+                // Update Round Penalty Applied and Value
+                document.getElementById('round_penalty_applied').textContent = roundPenaltyApplied ? 'Yes' : 'No';
+                document.getElementById('round_penalty_value').textContent = roundPenaltyApplied ? R_p : '-';
+
+                // Replace R with R_p if penalty applied
+                if (roundPenaltyApplied) {
+                    R = R_p;
+                }
+
+                // Basic round calculations
+                const E = statValues['Escapes'] || 0;
+                const R_ad = R - E;
+                
+                // Calculate R_g with updated formula
+                const s = statValues['Infection survivals'] || 0;
+                const w = statValues['Free for all wins'] || 0;
+                const e_p = statValues['Epidemics'] || 0;
+                const R_g = Math.max(0, R_ad - E - t - e_p - s - w);
+                
+                // Calculate S_ma and S_mb
+                const S_ma = S_di < 1 ? 1 + ((2/3 * (S_di - 1) + 1)) - 1 : (2/3 * (S_di - 1) + 1);
+                const S_mb = S_di < 1 ? 1 + ((4/3 * (S_di - 1) + 1)) - 1 : (4/3 * (S_di - 1) + 1);
+
+                // Calculate GO (Guard Objective Score)
+                const S = statValues['Final shots'] || 0;
+                const P = statValues['Targets protected'] || 0;
+                const GO = 46 * ((S_di * 5 * S + S_ma * 3 * P) / Math.max(1, R_g));
+
+                // Calculate AD (Average Damage)
+                const D = statValues['Damage dealt'] || 0;
+                const AD = D / Math.max(1, (R_ad - (E + t + e_p)));
+
+                // Calculate XPR and XP totals
+                let XPR = 0;
+                let X_T = 0;
+                if (l_va || l_vb || X_pa || X_pb) {
+                    const X_Ta = X_pa + calculateXPSum(l_va);
+                    const X_Tb = X_pb + calculateXPSum(l_vb);
+                    X_T = X_Tb - X_Ta;
+                    XPR = X_T / Math.max(1, R_ad);
+                }
+
+                // Calculate SP (z in formula)
+                const F = statValues['Free for all kills'] || 0;
+                const i = statValues['Infecteds killed'] || 0;
+                const I = statValues['Infections'] || 0;
+                const SP = (13 / Math.max(1, R_ad)) * 
+                           (S_mb * (9 * F + 15 * i + 40 * w + 25 * I + 100 * e_p) + S_ma * 15 * s);
+
+                // Calculate TP (t_p in formula) with corrected formula
+                const TP = ((2 * R_ad * (86 * GO + S_mb * 32 * AD) + S_di * 59 * X_T) / (165 * R_ad));
+
+                // Calculate OP (o_p in formula)
+                const OP = (529 / 20) * Math.sqrt(TP + SP);
+
+                // Update results
+                updateResult('op_result', OP);
+                updateResult('tp_result', TP);
+                updateResult('sp_result', SP);
+                updateResult('rg_result', R_g, 0);
+                updateResult('gos_result', GO);
+                updateResult('ad_result', AD);
+                updateResult('xpr_result', XPR);
+
+                updateFormattedStats();
+                if (graphVisible) {
+                    updateGraphs();
+                }
+            } catch (error) {
+                console.error('Calculation error:', error);
+                ['op_result', 'tp_result', 'sp_result', 'rg_result', 'gos_result', 'ad_result', 'xpr_result'].forEach(id => {
+                    const element = document.getElementById(id);
+                    element.textContent = '-';
+                    element.classList.add('error');
+                    element.setAttribute('title', error.message || 'Invalid calculation');
+                });
+                document.getElementById('formattedStats').textContent = 'Calculating...';
+                showErrorPopup('Calculation error: ' + (error.message || 'Invalid calculation'));
+                updateGraphs();
+            }
+        }
 
         function cleanText(text) {
             const valueMap = new Map();
@@ -1136,7 +1345,6 @@
             const expInputs = ['l_va', 'X_pa', 'l_vb', 'X_pb', 'sdi'];
             expInputs.forEach(id => {
                 document.getElementById(id).addEventListener('input', () => {
-                    validateExperienceInputs();
                     validateNumericInputs(id);
                     calculateOP();
                 });
@@ -1151,10 +1359,6 @@
                 });
             });
         }
-
-        window.addEventListener('load', () => {
-            // Already handled above
-        });
 
         output.addEventListener('input', (e) => {
             if (e.target.classList.contains('stat-value')) {
@@ -1177,7 +1381,7 @@
         resetButton.addEventListener('click', () => {
             // Reset all stat values
             document.querySelectorAll('.stat-value').forEach(value => {
-                value.textContent = value.closest('.stat-line').querySelector('.stat-label').textContent === 'Rounds played' ? '224' : '';
+                value.textContent = value.closest('.stat-line').querySelector('.stat-label').textContent === 'Rounds played' ? '' : '';
                 value.classList.remove('error');
                 value.removeAttribute('title');
             });
@@ -1193,6 +1397,9 @@
             document.getElementById('sdi').value = '1';
             document.getElementById('sdi').classList.remove('error');
             document.getElementById('sdi').removeAttribute('title');
+
+            // Reset auto-penalty checkbox
+            autoPenaltyCheckbox.checked = true;
             
             // Reset device to PC/Laptop or last saved
             const savedDevice = localStorage.getItem('selectedDevice') || 'pc';
@@ -1208,6 +1415,10 @@
                 graphVisible = false;
                 document.querySelector('.graphs-section').classList.remove('show');
             }
+            
+            // Reset round penalty displays
+            document.getElementById('round_penalty_applied').textContent = 'No';
+            document.getElementById('round_penalty_value').textContent = '-';
             
             // Recalculate
             calculateOP();
@@ -1245,14 +1456,10 @@
             const l_va = parseFloat(document.getElementById('l_va').value);
             const l_vb = parseFloat(document.getElementById('l_vb').value);
 
-            if (!isNaN(l_vb) && !isNaN(l_va) && l_vb < l_va) {
-                showErrorPopup('Level B cannot be smaller than Level A.');
-                document.getElementById('l_vb').classList.add('error');
-                document.getElementById('l_vb').setAttribute('title', 'Level B must be greater than or equal to Level A');
-            } else {
-                document.getElementById('l_vb').classList.remove('error');
-                document.getElementById('l_vb').removeAttribute('title');
-            }
+            // Removed validation for level B against level A as per the plan
+            
+            document.getElementById('l_vb').classList.remove('error');
+            document.getElementById('l_vb').removeAttribute('title');
         }
 
         function validateNumericInputs(id) {
@@ -1314,104 +1521,7 @@
 
         function calculateOP() {
             try {
-                const l_va = parseFloat(document.getElementById('l_va').value) || 0;
-                const X_pa = parseFloat(document.getElementById('X_pa').value) || 0;
-                const l_vb = parseFloat(document.getElementById('l_vb').value) || 0;
-                const X_pb = parseFloat(document.getElementById('X_pb').value) || 0;
-                const S_di = parseFloat(document.getElementById('sdi').value) || 1;
-
-                // Get all stat values first
-                const statValues = {};
-                document.querySelectorAll('#output .stat-line').forEach(line => {
-                    const label = line.querySelector('.stat-label').textContent;
-                    const value = parseInt(line.querySelector('.stat-value').textContent) || 0;
-                    statValues[label] = value;
-                });
-
-                // Calculate basic stats even if XP/level data is missing
-                const R = statValues['Rounds played'] || 0;
-                const E = statValues['Escapes'] || 0;
-                const t = statValues['Target survivals'] || 0;
-                const e_p = statValues['Epidemics'] || 0;
-                const s = statValues['Infection survivals'] || 0;
-                const w = statValues['Free for all wins'] || 0;
-                const A = statValues['Targets assassinated'] || 0;
-
-                // Validate Targets assassinated >= Escapes
-                if (A < E) {
-                    showErrorPopup('Targets assassinated cannot be lower than Escapes.');
-                    document.querySelectorAll('#output .stat-line').forEach(line => {
-                        const label = line.querySelector('.stat-label').textContent;
-                        if (label === 'Targets assassinated' || label === 'Escapes') {
-                            line.querySelector('.stat-value').classList.add('error');
-                            line.querySelector('.stat-value').setAttribute('title', 'Cannot be lower than Escapes.');
-                        }
-                    });
-                    ['op_result', 'tp_result', 'sp_result', 'gos_result', 'ad_result', 'xpr_result'].forEach(id => {
-                        document.getElementById(id).textContent = '-';
-                    });
-                    updateFormattedStats();
-                    updateGraphs(); // Update graphs with reset values
-                    return;
-                } else {
-                    document.querySelectorAll('#output .stat-line').forEach(line => {
-                        const label = line.querySelector('.stat-label').textContent;
-                        if (label === 'Targets assassinated' || label === 'Escapes') {
-                            line.querySelector('.stat-value').classList.remove('error');
-                            line.querySelector('.stat-value').removeAttribute('title');
-                        }
-                    });
-                }
-
-                // Always calculate R_ad and R_g
-                const R_ad = Math.max(0, R - E);
-                const R_g = Math.max(0, R_ad - E - t - e_p - s - w);
-
-                // Update R_g result
-                document.getElementById('rg_result').textContent = R_g.toFixed(0);
-
-                // Only proceed with full calculations if we have necessary base data
-                if (R_ad <= 0) {
-                    ['op_result', 'tp_result', 'sp_result', 'gos_result', 'ad_result', 'xpr_result'].forEach(id => {
-                        document.getElementById(id).textContent = '-';
-                    });
-                    updateFormattedStats();
-                    updateGraphs(); // Update graphs with reset values
-                    return;
-                }
-
-                const S = statValues['Final shots'] || 0;
-                const P = statValues['Targets protected'] || 0;
-                const D = statValues['Damage dealt'] || 0;
-                const F = statValues['Free for all kills'] || 0;
-                const i = statValues['Infecteds killed'] || 0;
-                const I = statValues['Infections'] || 0;
-
-                // Calculate S_ma and S_mb
-                const S_ma = S_di < 1 ? 1 + ((2/3 * (S_di - 1) + 1)) - 1 : (2/3 * (S_di - 1) + 1);
-                const S_mb = S_di < 1 ? 1 + ((4/3 * (S_di - 1) + 1)) - 1 : (4/3 * (S_di - 1) + 1);
-
-                // Calculate g_os and D_avg even with partial data
-                const g_os = 46 * ((S_di * 5 * S + S_ma * 3 * P) / Math.max(1, R_g));
-                const D_avg = D / Math.max(1, (R_ad - (E + t + e_p)));
-
-                // Calculate XP related stats if XP data is available
-                let x_pr = 0;
-                if (l_va || l_vb || X_pa || X_pb) {
-                    const X_Ta = X_pa + calculateXPSum(l_va);
-                    const X_Tb = X_pb + calculateXPSum(l_vb);
-                    const X_T = Math.abs(X_Tb - X_Ta);
-                    x_pr = X_T / Math.max(1, R_ad);
-                }
-
-                // Calculate final stats
-                const z = (13 / Math.max(1, R_ad)) * 
-                    (S_mb * (9 * F + 15 * i + 40 * w + 25 * I + 100 * e_p) + S_ma * 15 * s);
-
-                const t_p = ((2 * R_ad * (86 * g_os + S_mb * 32 * D_avg) + S_di * 59 * x_pr * R_ad) / (165 * R_ad));
-                const o_p = (529 / 20) * Math.sqrt(t_p + z);
-
-                // Update results with proper error handling
+                // Define updateResult at the start
                 const updateResult = (id, value, decimals = 3) => {
                     const element = document.getElementById(id);
                     try {
@@ -1430,12 +1540,101 @@
                     }
                 };
 
-                updateResult('op_result', o_p);
-                updateResult('tp_result', t_p);
-                updateResult('sp_result', z);
-                updateResult('gos_result', g_os);
-                updateResult('ad_result', D_avg);
-                updateResult('xpr_result', x_pr);
+                const l_va = parseFloat(document.getElementById('l_va').value) || 0;
+                const X_pa = parseFloat(document.getElementById('X_pa').value) || 0;
+                const l_vb = parseFloat(document.getElementById('l_vb').value) || 0;
+                const X_pb = parseFloat(document.getElementById('X_pb').value) || 0;
+                const S_di = parseFloat(document.getElementById('sdi').value) || 1;
+                const autoPenalty = autoPenaltyCheckbox.checked;
+
+                // Get all stat values first
+                const statValues = {};
+                document.querySelectorAll('#output .stat-line').forEach(line => {
+                    const label = line.querySelector('.stat-label').textContent;
+                    const value = parseInt(line.querySelector('.stat-value').textContent) || 0;
+                    statValues[label] = value;
+                });
+
+                let R = statValues['Rounds played'] || 0;
+                const T = statValues['Targets assassinated'] || 0;
+                const t = statValues['Target survivals'] || 0;
+
+                // Calculate rounds penalty if enabled
+                let roundPenaltyApplied = false;
+                let R_p = R;
+
+                if (autoPenalty && R > 0) {
+                    const condition = (T + t) / R < 0.12;
+                    if (condition) {
+                        R_p = R + 3 * (0.12 * R - (T + t));
+                        R_p = Math.floor(R_p);
+                        roundPenaltyApplied = true;
+                    }
+                }
+
+                // Update Round Penalty Applied and Value
+                document.getElementById('round_penalty_applied').textContent = roundPenaltyApplied ? 'Yes' : 'No';
+                document.getElementById('round_penalty_value').textContent = roundPenaltyApplied ? R_p : '-';
+
+                // Replace R with R_p if penalty applied
+                if (roundPenaltyApplied) {
+                    R = R_p;
+                }
+
+                // Basic round calculations
+                const E = statValues['Escapes'] || 0;
+                const R_ad = R - E;
+                
+                // Calculate R_g with updated formula
+                const s = statValues['Infection survivals'] || 0;
+                const w = statValues['Free for all wins'] || 0;
+                const e_p = statValues['Epidemics'] || 0;
+                const R_g = Math.max(0, R_ad - E - t - e_p - s - w);
+                
+                // Calculate S_ma and S_mb
+                const S_ma = S_di < 1 ? 1 + ((2/3 * (S_di - 1) + 1)) - 1 : (2/3 * (S_di - 1) + 1);
+                const S_mb = S_di < 1 ? 1 + ((4/3 * (S_di - 1) + 1)) - 1 : (4/3 * (S_di - 1) + 1);
+
+                // Calculate GO (Guard Objective Score)
+                const S = statValues['Final shots'] || 0;
+                const P = statValues['Targets protected'] || 0;
+                const GO = 46 * ((S_di * 5 * S + S_ma * 3 * P) / Math.max(1, R_g));
+
+                // Calculate AD (Average Damage)
+                const D = statValues['Damage dealt'] || 0;
+                const AD = D / Math.max(1, (R_ad - (E + t + e_p)));
+
+                // Calculate XPR and XP totals
+                let XPR = 0;
+                let X_T = 0;
+                if (l_va || l_vb || X_pa || X_pb) {
+                    const X_Ta = X_pa + calculateXPSum(l_va);
+                    const X_Tb = X_pb + calculateXPSum(l_vb);
+                    X_T = X_Tb - X_Ta;
+                    XPR = X_T / Math.max(1, R_ad);
+                }
+
+                // Calculate SP (z in formula)
+                const F = statValues['Free for all kills'] || 0;
+                const i = statValues['Infecteds killed'] || 0;
+                const I = statValues['Infections'] || 0;
+                const SP = (13 / Math.max(1, R_ad)) * 
+                           (S_mb * (9 * F + 15 * i + 40 * w + 25 * I + 100 * e_p) + S_ma * 15 * s);
+
+                // Calculate TP (t_p in formula) with corrected formula
+                const TP = ((2 * R_ad * (86 * GO + S_mb * 32 * AD) + S_di * 59 * X_T) / (165 * R_ad));
+
+                // Calculate OP (o_p in formula)
+                const OP = (529 / 20) * Math.sqrt(TP + SP);
+
+                // Update results
+                updateResult('op_result', OP);
+                updateResult('tp_result', TP);
+                updateResult('sp_result', SP);
+                updateResult('rg_result', R_g, 0);
+                updateResult('gos_result', GO);
+                updateResult('ad_result', AD);
+                updateResult('xpr_result', XPR);
 
                 updateFormattedStats();
                 if (graphVisible) {
@@ -1451,7 +1650,7 @@
                 });
                 document.getElementById('formattedStats').textContent = 'Calculating...';
                 showErrorPopup('Calculation error: ' + (error.message || 'Invalid calculation'));
-                updateGraphs(); // Update graphs with reset values
+                updateGraphs();
             }
         }
 
@@ -1463,6 +1662,29 @@
                 const selectedDevice = this.getAttribute('data-value');
                 localStorage.setItem('selectedDevice', selectedDevice);
                 calculateOP();
+            });
+
+            // Add device selection navigation
+            button.addEventListener('keydown', function(e) {
+                if (e.key === 'ArrowRight') {
+                    e.preventDefault();
+                    const nextBtn = this.nextElementSibling;
+                    if (nextBtn) {
+                        nextBtn.focus();
+                    } else {
+                        // Loop to first button if at end
+                        this.parentElement.firstElementChild.focus();
+                    }
+                } else if (e.key === 'ArrowLeft') {
+                    e.preventDefault();
+                    const prevBtn = this.previousElementSibling;
+                    if (prevBtn) {
+                        prevBtn.focus();
+                    } else {
+                        // Loop to last button if at start
+                        this.parentElement.lastElementChild.focus();
+                    }
+                }
             });
         });
 
@@ -1480,11 +1702,10 @@
             let boostedOP = op;
 
             // Apply device boost
-            if (selectedDevice === 'pc') boostedOP *= 1.0; 
             if (selectedDevice === 'mobile') boostedOP *= 1.075;
             if (selectedDevice === 'tablet') boostedOP *= 1.05;
-            if (selectedDevice === 'console') boostedOP *= 1.10; 
-            
+            if (selectedDevice === 'console') boostedOP *= 1.10;
+
             // Determine Division
             let division = '';
             if (boostedOP >= 975) division = "Kugelblitz (S)";
@@ -1497,7 +1718,7 @@
             else if (boostedOP >= 560) division = "Wood (D)";
             else division = "Ember (E)";
 
-            // Render formatted text with proper line breaks
+            // Render formatted text with proper line breaks and no "verified"
             const formattedText = 
 `OP = ${Math.round(boostedOP)}
 TP = ${Math.round(tp)}, SP = ${Math.round(sp)}
@@ -1543,7 +1764,7 @@ Source: website`;
         const tutorialSteps = [
             {
                 target: '.stat-line:first-child',
-                content: 'Start by entering your SA statistics. The first field is for Rounds played. (You can use the ENTER key to go to next field)',
+                content: 'Start by entering your game statistics. The first field is for Rounds played.',
                 position: 'right'
             },
             {
@@ -1568,12 +1789,12 @@ Source: website`;
             },
             {
                 target: '#formattedStats',
-                content: 'Find your complete stats summary here, ready to copy and share to.',
+                content: 'Find your complete stats summary here, ready to copy and share.',
                 position: 'right'
             },
             {
                 target: '.graphs-section',
-                content: 'View your performance through a graph. (Will be improved soon)',
+                content: 'View your performance through an interactive graph to better understand your stats.',
                 position: 'bottom'
             }
         ];
@@ -1594,21 +1815,6 @@ Source: website`;
 
                 this.createOverlay();
                 this.showStep(0);
-
-                // Add keyboard navigation event listener
-                document.addEventListener('keydown', (e) => {
-                    if (e.key === 'Escape') {
-                        this.complete();
-                    } else if (e.key === 'ArrowRight') {
-                        if (this.currentStep < this.steps.length - 1) {
-                            this.nextStep();
-                        }
-                    } else if (e.key === 'ArrowLeft') {
-                        if (this.currentStep > 0) {
-                            this.previousStep();
-                        }
-                    }
-                });
             }
 
             createOverlay() {
@@ -1893,23 +2099,6 @@ Source: website`;
                 data: data,
                 options: options
             });
-        }
-
-        // Tooltip Functions (for custom tooltips if needed)
-        function showTooltip(event, text) {
-            tooltip.textContent = text;
-            tooltip.style.left = (event.pageX + 10) + 'px';
-            tooltip.style.top = (event.pageY + 10) + 'px';
-            tooltip.style.opacity = '1';
-        }
-
-        function moveTooltip(event) {
-            tooltip.style.left = (event.pageX + 10) + 'px';
-            tooltip.style.top = (event.pageY + 10) + 'px';
-        }
-
-        function hideTooltip() {
-            tooltip.style.opacity = '0';
         }
     </script>
 </body></html>
