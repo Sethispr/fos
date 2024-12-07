@@ -1,5 +1,4 @@
 <div align="center"><h1>FOS Silent Assassin OP Calculator</h1>
-
 [![Github Pages](https://img.shields.io/badge/github%20pages-121013?style=for-the-badge&logo=github&logoColor=white)](https://sethispr.github.io/fos/) 
 </div>
 A web-based application for calculating player performance metrics in the Silent Assassin Roblox game. Offers customizable inputs, keyboard shortcuts, easy to share stats, automatic calculations, and a simple radar chart visualization for performance insights.
@@ -28,9 +27,15 @@ Source: website
 
 <h3>Credits</h3> 
 TruBobu and Allen for all formulas used in the website as well as feedback https://www.desmos.com/calculator/m60vove8wv
+
 Notatophat for SA XP formula https://docs.google.com/spreadsheets/d/1b0m6LtxtIE4Da_YccIK9iOG00WG6GKjfatieohAVszA/edit
+
 ChartsJS https://www.chartjs.org/
+
 Minifyjs by Toptal and UnCSS https://github.com/uncss/uncss
+
 Google's Lexend Deca Font https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@300;400;500;700&display=swap
+
 Fonticons https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css
+
 Izzi Favicon https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQymtl663x__DkU0voVBEBHNiCYoalXUWQrFA&s
