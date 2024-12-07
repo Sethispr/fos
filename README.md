@@ -13,6 +13,7 @@ A web-based application for calculating player performance metrics in the Silent
 6. **Stats Summary**: Enjoy automatic calculations while you input values and easily share to the submissions channel by clicking the copy button.
 
 Feel free to experiment with different statistics. Find out how round penalties affect your submission by making either targets eliminated / escapes / target survivals very low.
+Current page speed insights https://pagespeed.web.dev/analysis/https-sethispr-github-io-fos/p2tlngdip7?form_factor=desktop
 
 ## Examples
 Here's an example of a generated stats summary
