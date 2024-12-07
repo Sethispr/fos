@@ -2,7 +2,7 @@
   
 [![Github Pages](https://img.shields.io/badge/github%20pages-121013?style=for-the-badge&logo=github&logoColor=white)](https://sethispr.github.io/fos/) 
 </div>
-A web-based application for calculating player performance metrics in the Silent Assassin Roblox game. Offers customizable inputs, keyboard shortcuts, easy to share stats, automatic calculations, and a simple radar chart visualization for performance insights.
+A web-based application for calculating player performance metrics in the Silent Assassin Roblox game https://www.roblox.com/games/1382113806/Silent-Assassin. Offers customizable inputs, keyboard shortcuts, easy to share stats, automatic calculations, and a simple radar chart visualization for performance insights.
 
 ## How to Use
 1. **Input Game Stats**: Start by typing your statistics into the form fields. You can clear all values by clicking the reset button. Up or Down arrow keys to navigate easily.
