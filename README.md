@@ -26,9 +26,9 @@ Division: Propane (C)
 Source: website
 ```
 
-<div align="center"><h3>Credits</h3> 
+<h3>Credits</h3> 
 TruBobu and Allen for all formulas used in the website as well as feedback https://www.desmos.com/calculator/m60vove8wv
-notatophat for sa xp formula https://docs.google.com/spreadsheets/d/1b0m6LtxtIE4Da_YccIK9iOG00WG6GKjfatieohAVszA/edit
+Notatophat for SA XP formula https://docs.google.com/spreadsheets/d/1b0m6LtxtIE4Da_YccIK9iOG00WG6GKjfatieohAVszA/edit
 ChartsJS https://www.chartjs.org/
 Minifyjs by Toptal and UnCSS https://github.com/uncss/uncss
 Google's Lexend Deca Font https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@300;400;500;700&display=swap
