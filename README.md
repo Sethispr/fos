@@ -1,7 +1,7 @@
-<div align="center"><h1>FOS Silent Assassin OP Calculator</h1>
+<div align="center"><h1>FOS Silent Assassin OP Calculator</h1></div>
   
 [![Github Pages](https://img.shields.io/badge/github%20pages-121013?style=for-the-badge&logo=github&logoColor=white)](https://sethispr.github.io/fos/) 
-</div>
+
 A web-based application for calculating player performance metrics in the Silent Assassin Roblox game https://www.roblox.com/games/1382113806/Silent-Assassin. Offers customizable inputs, keyboard shortcuts, easy to share stats, automatic calculations, and a simple radar chart visualization for performance insights.
 
 ## How to Use
