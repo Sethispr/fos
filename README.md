@@ -1,28 +1,5 @@
-<div align="center"><h1>FOS Silent Assassin OP Calculator</h1></div>
+<div align="center">
   
 [![Github Pages](https://img.shields.io/badge/github%20pages-121013?style=for-the-badge&logo=github&logoColor=white)](https://sethispr.github.io/fos/) 
 
-A web-based application for calculating player performance metrics in the Silent Assassin Roblox game https://www.roblox.com/games/1382113806/Silent-Assassin. Offers customizable inputs, keyboard shortcuts, easy to share stats, automatic calculations, and a simple radar chart visualization for performance insights.
-
-## How to Use
-1. **Input Game Stats**: Start by typing your statistics into the form fields. You can clear all values by clicking the reset button. Up or Down arrow keys to navigate easily.
-2. **Input Level and XP values**: Input level and current XP from first screenshot and the next. Simlpy use the left or right arrow keys to navigate.
-3. **Get SDI Value Manually**: https://docs.google.com/spreadsheets/d/1WYypxOpGDC7gItIJsTzPHxEVwynUPSPRrWu9dCJIsZY/edit?gid=0#gid=0 calculate the mean of the SDI if needed.
-4. **Select Primary Gaming Device**: Select whichever device that applies or the gaming device which you used the most during your submission.
-5. **Graph View**: Click the Show Graph button to see a circular radar chart to visualize stats and see which places are you lacking in. Hover to the variables to find out what formulas are being used.
-6. **Stats Summary**: Enjoy automatic calculations while you input values and easily share to the submissions channel by clicking the copy button.
-
-Feel free to experiment with different statistics. Find out how round penalties affect your submission by making either targets eliminated / escapes / target survivals very low.
-Current page speed insights https://pagespeed.web.dev/analysis/https-sethispr-github-io-fos/p2tlngdip7?form_factor=desktop
-
-## Examples
-Here's an example of a generated stats summary
-```
-OP = 700
-TP = 348, SP = 352
-[GO = 95], [AD = 351], [XPR = 317]
-SDI = 1.0000
-
-Division: Propane (C)
-Source: website
-```
+</div>
